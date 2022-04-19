@@ -1,5 +1,10 @@
+#include "../include/ppmreader.h"
+#include <iostream>
+
+
 int main()
 {
-    /* code */
+    PPM3Reader reader("./tests/fixtures/test.ppm");
+    std::cout << reader.getType() << std::endl;
     return 0;
 }

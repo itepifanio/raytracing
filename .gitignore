@@ -1,4 +1,6 @@
-# build
+
+# custom
+.vscode
 build/drivers
 build/src
 build/tests
