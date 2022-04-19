@@ -1,3 +1,11 @@
+# build
+build/drivers
+build/src
+build/tests
+include/doctest.LICENSE.txt
+bin/main-driver
+bin/test-driver
+
 # Prerequisites
 *.d
 
