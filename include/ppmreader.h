@@ -1,6 +1,7 @@
 #ifndef _PPMREADER_H_ 
 #define _PPMREADER_H_
 
+#include "pixel.h"
 #include <string>
 #include <vector>
 
@@ -10,16 +11,14 @@ class PPM3Reader {
         int rows;
         std::string type;
         int maxColor;
-        // TODO::Change from int to Pixel
-        std::vector<std::vector<int>> content;
-        // TODO::Move to a helpers hpp
-        void split(std::string &str, char delim, std::vector<std::string> &out);
+        std::vector<std::vector<Pixel*>> image;
     public:
         PPM3Reader(std::string file);
         std::string getType();
         int getColumns();
         int getRows();
         int getMaxColor();
+        std::vector<std::vector<Pixel*>> getImage();
 };
 
 #endif
