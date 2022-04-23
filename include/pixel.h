@@ -3,6 +3,7 @@
 
 class Pixel {
     public:
+        Pixel();
         Pixel(int r, int g, int b);
         int r;
         int g;

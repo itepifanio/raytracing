@@ -31,9 +31,9 @@ TEST_CASE("it can read ppm file") {
     tmp.push_back(&f);
     image.push_back(tmp);
 
-    for (int i = 0; i < image.size(); i++)
+    for (int i = 0; i < (int) image.size(); i++)
     {
-        for (int j = 0; j < image[i].size(); j++)
+        for (int j = 0; j < (int) image[i].size(); j++)
         {
             CHECK(reader.getImage()[i][j]->r == image[i][j]->r);
             CHECK(reader.getImage()[i][j]->g == image[i][j]->g);
