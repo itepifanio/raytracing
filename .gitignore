@@ -1,6 +1,6 @@
-
 # custom
 .vscode
+tmp.*
 build/drivers
 build/src
 build/tests

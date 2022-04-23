@@ -1,6 +1,9 @@
 #include <vector>
 #include <string>
 
+#ifndef _HELPERS_H_ 
+#define _HELPERS_H_
+
 void split(std::string &str, char delim, std::vector<std::string> &out)
 {
 	size_t start;
@@ -12,3 +15,5 @@ void split(std::string &str, char delim, std::vector<std::string> &out)
 		out.push_back(str.substr(start, end - start));
 	}
 }
+
+#endif
