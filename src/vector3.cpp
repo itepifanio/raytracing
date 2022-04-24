@@ -13,25 +13,14 @@ Vector3::Vector3(double e0, double e1, double e2)
     this->vector[1] = e1;
     this->vector[2] = e2;
 }
-/*
-double operator[](int i) 
-{
-    return this->vector[i];
-}
 
+/*
 double& operator[](int i)
 {
     return this->vector[i];
 }
 
-Vector3 operator+=( Vector3 &v)
-{
-    this->vector[0] += v.vector[0];
-    this->vector[1] += v.vector[1];
-    this->vector[2] += v.vector[2];
-    
-    return *this;
-}
+
 
 Vector3 operator*=( double t)
 {
@@ -42,6 +31,11 @@ Vector3 operator*=( double t)
     return *this;
 }
 
+double &operator[](int i)
+{
+    return this->vector[i];
+}
+
 
 Vector3& operator/=(const float& s)
 {
@@ -49,9 +43,29 @@ Vector3& operator/=(const float& s)
 }
 */
 
-Vector3 operator-(Vector3& in)
+Vector3& operator-=(Vector3& lhs,Vector3 const& rhs)
 {
-    return Vector3(-in.vector[0], -in.vector[1], -in.vector[2]);
+    lhs.vector[0] -= rhs.vector[0];
+    lhs.vector[1] -= rhs.vector[1];
+    lhs.vector[2] -= rhs.vector[2];
+    
+    return lhs;
+}
+
+Vector3 operator-(Vector3 const& lhs, Vector3 const& rhs)
+{
+    Vector3 temp=lhs;
+    temp-=rhs;
+    return temp;
+}
+
+inline Vector3& operator+=(Vector3& in, const Vector3& v)
+{
+    in.vector[0] += v.vector[0];
+    in.vector[1] += v.vector[1];
+    in.vector[2] += v.vector[2];
+    
+    return in;
 }
 
 double Vector3::length()

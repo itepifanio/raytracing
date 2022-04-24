@@ -7,3 +7,20 @@ TEST_CASE("it can neg vector") {
     CHECK(-v.vector[1] == -2);
     CHECK(-v.vector[2] == -3);
 }
+
+TEST_CASE("it can sub vectors") {
+    Vector3 a(1, 2, 3);
+    Vector3 b(3, 2, 1);
+    a -= b;
+    CHECK(a.vector[0] == -2);
+    CHECK(a.vector[1] == 0);
+    CHECK(a.vector[2] == 2);
+}
+/*
+TEST_CASE("it can access class as array") {
+    Vector3 v(1, 2, 3);
+    CHECK(v[0] == 1);
+    CHECK(v[1] == 2);
+    CHECK(v[2] == 3);
+}
+*/
