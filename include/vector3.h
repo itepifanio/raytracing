@@ -10,15 +10,18 @@ class Vector3 {
         Vector3();
         Vector3(double e0, double e1, double e2);
 
-        Vector3 operator-();
-        double operator[](int i);
-        double& operator[](int i);
+        /*
+        friend Vector3 operator-();
+        friend double operator[](int i);
+        friend double& operator[](int i);
 
-        Vector3& operator+=(const Vector3 &v);
+        friend Vector3& operator+=(Vector3 &v);
 
-        Vector3& operator*=(const double t);
+        friend Vector3& operator*=( double t);
 
-        Vector3& operator/=(const double t);
+        friend Vector3& operator/=(const float& s);
+        */
+       friend Vector3 operator-(Vector3& in);
 
         double length();
 
