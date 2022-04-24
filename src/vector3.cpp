@@ -43,6 +43,15 @@ Vector3& operator/=(const float& s)
 }
 */
 
+Vector3& operator*=(Vector3& lhs, double const& rhs)
+{
+    lhs.vector[0] *= rhs;
+    lhs.vector[1] *= rhs;
+    lhs.vector[2] *= rhs;
+    
+    return lhs;
+}
+
 Vector3& operator+=(Vector3& lhs,Vector3 const& rhs)
 {
     lhs.vector[0] += rhs.vector[0];

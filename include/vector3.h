@@ -21,6 +21,8 @@ public:
 
     friend Vector3& operator/=(const float& s);
     */
+    friend Vector3 &operator*=(Vector3 &lhs, double const &rhs);
+
     friend Vector3 &operator-=(Vector3 &lhs, Vector3 const &rhs);
 
     friend Vector3 &operator+=(Vector3 &lhs, Vector3 const &rhs);

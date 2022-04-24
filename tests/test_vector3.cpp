@@ -25,6 +25,15 @@ TEST_CASE("it can sum vectors") {
     CHECK(a.vector[1] == 4);
     CHECK(a.vector[2] == 4);
 }
+
+TEST_CASE("it can multiply vectors") {
+    Vector3 a(1, 2, 3);
+    double b = 2;
+    a *= b;
+    CHECK(a.vector[0] == 2.0);
+    CHECK(a.vector[1] == 4.0);
+    CHECK(a.vector[2] == 6.0);
+}
 /*
 TEST_CASE("it can access class as array") {
     Vector3 v(1, 2, 3);
