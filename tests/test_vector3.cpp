@@ -43,11 +43,10 @@ TEST_CASE("it can div vectors") {
     CHECK(a.vector[1] == 1.0);
     CHECK(a.vector[2] == 1.5);
 }
-/*
+
 TEST_CASE("it can access class as array") {
     Vector3 v(1, 2, 3);
     CHECK(v[0] == 1);
     CHECK(v[1] == 2);
     CHECK(v[2] == 3);
 }
-*/

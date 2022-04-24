@@ -14,40 +14,21 @@ Vector3::Vector3(double e0, double e1, double e2)
     this->vector[2] = e2;
 }
 
-/*
-double& operator[](int i)
+double& Vector3::operator[](int const k)
 {
-    return this->vector[i];
+    return this->vector[k];
 }
 
-
-
-Vector3 operator*=( double t)
+double Vector3::operator[](int const k) const
 {
-    this->vector[0] *= t;
-    this->vector[1] *= t;
-    this->vector[2] *= t;
-    
-    return *this;
+    return this->vector[k];
 }
-
-double &operator[](int i)
-{
-    return this->vector[i];
-}
-
-
-Vector3& operator/=(const float& s)
-{
-    return *this *= 1/t;
-}
-*/
 
 Vector3& operator/=(Vector3& lhs, double const& rhs)
 {
-    lhs *= 1/rhs;
+   lhs *= 1/rhs;
 
-    return lhs;
+    return lhs; 
 }
 
 Vector3& operator*=(Vector3& lhs, double const& rhs)
