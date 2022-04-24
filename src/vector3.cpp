@@ -43,6 +43,22 @@ Vector3& operator/=(const float& s)
 }
 */
 
+Vector3& operator+=(Vector3& lhs,Vector3 const& rhs)
+{
+    lhs.vector[0] += rhs.vector[0];
+    lhs.vector[1] += rhs.vector[1];
+    lhs.vector[2] += rhs.vector[2];
+    
+    return lhs;
+}
+
+Vector3 operator+(Vector3 const& lhs, Vector3 const& rhs)
+{
+    Vector3 temp=lhs;
+    temp+=rhs;
+    return temp;
+}
+
 Vector3& operator-=(Vector3& lhs,Vector3 const& rhs)
 {
     lhs.vector[0] -= rhs.vector[0];
@@ -57,15 +73,6 @@ Vector3 operator-(Vector3 const& lhs, Vector3 const& rhs)
     Vector3 temp=lhs;
     temp-=rhs;
     return temp;
-}
-
-inline Vector3& operator+=(Vector3& in, const Vector3& v)
-{
-    in.vector[0] += v.vector[0];
-    in.vector[1] += v.vector[1];
-    in.vector[2] += v.vector[2];
-    
-    return in;
 }
 
 double Vector3::length()

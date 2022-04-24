@@ -16,6 +16,15 @@ TEST_CASE("it can sub vectors") {
     CHECK(a.vector[1] == 0);
     CHECK(a.vector[2] == 2);
 }
+
+TEST_CASE("it can sum vectors") {
+    Vector3 a(1, 2, 3);
+    Vector3 b(3, 2, 1);
+    a += b;
+    CHECK(a.vector[0] == 4);
+    CHECK(a.vector[1] == 4);
+    CHECK(a.vector[2] == 4);
+}
 /*
 TEST_CASE("it can access class as array") {
     Vector3 v(1, 2, 3);
