@@ -34,6 +34,15 @@ TEST_CASE("it can multiply vectors") {
     CHECK(a.vector[1] == 4.0);
     CHECK(a.vector[2] == 6.0);
 }
+
+TEST_CASE("it can div vectors") {
+    Vector3 a(1, 2, 3);
+    double b = 2;
+    a /= b;
+    CHECK(a.vector[0] == 0.5);
+    CHECK(a.vector[1] == 1.0);
+    CHECK(a.vector[2] == 1.5);
+}
 /*
 TEST_CASE("it can access class as array") {
     Vector3 v(1, 2, 3);

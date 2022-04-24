@@ -43,6 +43,13 @@ Vector3& operator/=(const float& s)
 }
 */
 
+Vector3& operator/=(Vector3& lhs, double const& rhs)
+{
+    lhs *= 1/rhs;
+
+    return lhs;
+}
+
 Vector3& operator*=(Vector3& lhs, double const& rhs)
 {
     lhs.vector[0] *= rhs;
