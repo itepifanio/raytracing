@@ -6,6 +6,9 @@
 TEST_CASE("it doesnt create another instance of the api") {
     Background background;
     Film film;
-    Api::Instance().render();
-    Api api(background, film)::Instance;
+    Api::init(background, film);
+
+    Api &a = Api::getInstance();
+    Api &b = Api::getInstance();
+    CHECK_EQ(&a, &b);
 }

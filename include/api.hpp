@@ -4,26 +4,37 @@
 #include "../include/film.h"
 #include "../include/background.h"
 
-
 class Api
 {
-public:
-    static Api& Instance()
-    {
-        static Api api;
-        return api;
-    }
-    Api(Api const&) = delete;
-    Api(Background background, Film film) {
-        this->background = background;
-        this->film = film;
-    }
-    void operator=(Api const&) = delete;
-    void render() {
-        std::cout << "Render not implemented yet." << std::endl;
-    }
-private:
-	Api() {};
+    Film film;
     Background background;
-    Film fiml;
+
+    static Api &getInstanceImpl(Background *const background = nullptr, Film *const film = nullptr)
+    {
+        static Api instance{background, film};
+        return instance;
+    }
+
+    Api(Background *const background, Film *const film)
+    {
+        this->background = background ? std::move(*background) : Background{};
+        this->film = film ? std::move(*film) : Film{};
+
+        if (film == nullptr || background == nullptr) {
+            throw std::runtime_error{"Api not initialized"};
+        }
+    }
+
+public:
+    static Api &getInstance()
+    {
+        return getInstanceImpl();
+    }
+    
+    static void init(Background background, Film film)
+    {
+        getInstanceImpl(&background, &film);
+    }
+    Api(Api const &) = delete;
+    void operator=(Api const &) = delete;
 };
