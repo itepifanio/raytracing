@@ -12,3 +12,7 @@ TEST_CASE("it doesnt create another instance of the api") {
     Api &b = Api::getInstance();
     CHECK_EQ(&a, &b);
 }
+
+TEST_CASE("it can setup internal states using init_engine") {
+    // Not implemented yet
+}

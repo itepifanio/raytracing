@@ -3,11 +3,14 @@
 #include <iostream>
 #include "../include/film.h"
 #include "../include/background.h"
+#include "../include/rt3.h"
 
 class Api
 {
     Film film;
     Background background;
+    RunningOptions runningOptions;
+
 
     static Api &getInstanceImpl(Background *const background = nullptr, Film *const film = nullptr)
     {
@@ -28,13 +31,19 @@ class Api
 public:
     static Api &getInstance()
     {
-        return getInstanceImpl();
+        return this->getInstanceImpl();
+    }
+
+    static void Api initEngine(const RunningOptions &opt)
+    {
+        std::cout << "Not implemented yet" << std::endl;
     }
     
     static void init(Background background, Film film)
     {
-        getInstanceImpl(&background, &film);
+        this->getInstanceImpl(&background, &film);
     }
+
     Api(Api const &) = delete;
     void operator=(Api const &) = delete;
 };
