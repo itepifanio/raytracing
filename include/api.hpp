@@ -1,49 +1,27 @@
-#pragma once
-
 #include <iostream>
-#include "../include/film.h"
-#include "../include/background.h"
-#include "../include/rt3.h"
+#include "film.h"
+#include "background.h"
+
 
 class Api
 {
-    Film film;
-    Background background;
-    RunningOptions runningOptions;
-
-
-    static Api &getInstanceImpl(Background *const background = nullptr, Film *const film = nullptr)
-    {
-        static Api instance{background, film};
-        return instance;
-    }
-
-    Api(Background *const background, Film *const film)
-    {
-        this->background = background ? std::move(*background) : Background{};
-        this->film = film ? std::move(*film) : Film{};
-
-        if (film == nullptr || background == nullptr) {
-            throw std::runtime_error{"Api not initialized"};
-        }
-    }
-
 public:
-    static Api &getInstance()
+    static Api& Instance()
     {
-        return this->getInstanceImpl();
+        static Api api;
+        return api;
     }
-
-    static void Api initEngine(const RunningOptions &opt)
-    {
-        std::cout << "Not implemented yet" << std::endl;
+    Api(Api const&) = delete;
+    Api(Background background, Film film) {
+        this->background = background;
+        this->film = film;
     }
-    
-    static void init(Background background, Film film)
-    {
-        this->getInstanceImpl(&background, &film);
+    void operator=(Api const&) = delete;
+    void render() {
+        std::cout << "Render not implemented yet." << std::endl;
     }
-
-    Api(Api const &) = delete;
-    void operator=(Api const &) = delete;
+private:
+ Api() {};
+    Background background;
+    Film film;
 };
