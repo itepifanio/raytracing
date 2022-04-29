@@ -19,50 +19,59 @@ Film::Film(std::string type, std::string filename, std::string img_type,
     this->type = type;
     this->filename = filename;
     this-> img_type = img_type;
+
+    for(int i = 0 ; i < x_res; i++){
+        std::vector<Vector3> i_;
+        for(int j = 0 ; j < y_res; j++){
+            i_.push_back(Vector3::string_to_vector("0 0 0"));
+        }
+        this->img.push_back(i_);
+    } 
 }
 
-int Film::getXres()
+int Film::width()
 {
     return this->x_res;
 }
 
-int Film::getYres()
+int Film::height()
 {
     return this->y_res;
 }
 
-void Film::toPPM(std::string filename)
+void Film::setPixel(int i , int j, Vector3 pixel)
 {
-    std::ofstream file(filename);
-    int columns = 0;
-    int rows = 0;
+    this->img[i][j] = pixel;
+}
 
-    columns = this->image.size();
-    if (columns)
-    {
-        rows = this->image[0].size();
-    }
+void Film::toPPM()
+{
+    // std::cout << this->filename << std::endl;
+    std::ofstream file(this->filename);
+    // std::cout << this->filename << " aqui\n";
 
     if (file.is_open())
     {
         file << "P3\n";
-        file << rows << " " << columns << "\n";
+        file << this->x_res << " " << this->y_res << "\n";
         file << "255\n";
 
-        for (int i = 0; i < columns; i++)
+        for (int i = 0; i < this->x_res; i++)
         {
             std::string line = "";
-            for (int j = 0; j < rows; j++)
+            for (int j = 0; j < this->y_res; j++)
             {
-                Pixel *pixel = this->image[i][j];
-                line += std::to_string(pixel->r) + " "; 
-                line += std::to_string(pixel->g) + " "; 
-                line += std::to_string(pixel->b) + " ";
+                Vector3 pixel = this->img[i][j];
+                line += std::to_string(pixel[0]) + " "; 
+                line += std::to_string(pixel[1]) + " "; 
+                line += std::to_string(pixel[2]) + " ";
             }
             line += "\n";
             file << line;
         }
 
         file.close();
+    } else {
+        std::cout << "error\n";
     }
 }

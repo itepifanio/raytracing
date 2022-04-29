@@ -8,22 +8,20 @@
 class Api
 {
     private:
+    public:
         Background background;
         Film film;
-    public:
-        static Api& Instance()
-        {
-            static Api api;
-            return api;
-        }
+        // static Api& Instance()
+        // {
+        //     static Api api;
+        //     return api;
+        // }
         // Api(Api const&) = delete;
         Api();
         Api(Background background, Film film);
         void setBackground(Background Background);
         void setFilm(Film Film);
         void operator=(Api const&) = delete;
-        void render() {
-            std::cout << "Render not implemented yet." << std::endl;
-        }
+        void render();
 };
 #endif

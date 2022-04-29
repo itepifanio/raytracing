@@ -23,6 +23,25 @@ Pixel Background::fromCoord(int i, int j)
     return this->color;
 }
 
+Vector3 Background::interpolate(double x, double y){
+    double calculo_x = RGBtoFloat(bl[0])*(1-x)*(1-y) + RGBtoFloat(br[0])*x*(1-y) + RGBtoFloat(tl[0])*(1-x)*y + RGBtoFloat(tr[0])*x*y;
+    double calculo_y = RGBtoFloat(bl[1])*(1-x)*(1-y) + RGBtoFloat(br[1])*x*(1-y) + RGBtoFloat(tl[1])*(1-x)*y + RGBtoFloat(tr[1])*x*y;
+    double calculo_z = RGBtoFloat(bl[2])*(1-x)*(1-y) + RGBtoFloat(br[2])*x*(1-y) + RGBtoFloat(tl[2])*(1-x)*y + RGBtoFloat(tr[2])*x*y;
+
+    std::string v = std::to_string(FloattoRGB(calculo_x)) + " " + std::to_string(FloattoRGB(calculo_y)) + " " + std::to_string(FloattoRGB(calculo_z));
+    return Vector3::string_to_vector(v);
+}
+
+double Background::FloattoRGB(double value){
+    double value_ = float(value)*255.0;
+    return value_;
+}
+
+double Background::RGBtoFloat(int value){
+    double value_ = float(value)/255.0;
+    return value_;
+}
+
 void Background::setColor(Pixel pixel)
 {
     this->color = pixel;
@@ -32,19 +51,3 @@ Pixel Background::getColor()
 {
     return this->color;
 }
-
-// vec3 Background::interpolate(float x, float y){
-    
-//     float calculo_x = RGBtoFloat(bl.x)*(1-x)*(1-y) + RGBtoFloat(br.x)*x*(1-y) + RGBtoFloat(tl.x)*(1-x)*y + RGBtoFloat(tr.x)*x*y;
-//     float calculo_y = RGBtoFloat(bl.y)*(1-x)*(1-y) + RGBtoFloat(br.y)*x*(1-y) + RGBtoFloat(tl.y)*(1-x)*y + RGBtoFloat(tr.y)*x*y;
-//     float calculo_z = RGBtoFloat(bl.z)*(1-x)*(1-y) + RGBtoFloat(br.z)*x*(1-y) + RGBtoFloat(tl.z)*(1-x)*y + RGBtoFloat(tr.z)*x*y;
-
-//     std::string v = to_string(FloattoRGB(calculo_x)) + " " + to_string(FloattoRGB(calculo_y)) + " " + to_string(FloattoRGB(calculo_z));
-
-//     return vec3(v);
-// }
-
-// float Background::RGBtoFloat(int value){
-//     float value_ = float(value)/255.0;
-//     return value_;
-// }

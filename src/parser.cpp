@@ -2,6 +2,7 @@
 #include "../lib/tinyxml2/tinyxml2.cpp"
 
 #include "../include/paramset.h"
+#include "api.cpp"
 #include "pixel.cpp"
 #include "film.cpp"
 #include "background.cpp"
@@ -40,7 +41,7 @@ Background createBackground(const ParamSet &ps)
     return bg;
 }
 
-void parser(char * input_file)
+void parser(char * input_file, Film &film, Background &background)
 {
     XMLDocument doc;
     doc.LoadFile(input_file);
@@ -106,7 +107,7 @@ void parser(char * input_file)
                     }
                 }
 
-                Film film = createFilm(ps);
+                film = createFilm(ps);
                 // std::cout << film.getXres() << " " << film.getYres() << std::endl;
             }
             else if (strcmp(tag, "world_begin") == 0)
@@ -148,7 +149,7 @@ void parser(char * input_file)
                             ps.add<std::string>(key_, std::move(item_insert), 0);
                         }
 
-                        createBackground(ps);
+                        background = createBackground(ps);
                     }
                 }
             }

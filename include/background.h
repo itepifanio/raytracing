@@ -23,6 +23,9 @@ class Background {
         );
         Pixel fromCoord(int i, int j);
         void setColor(Pixel pixel);
+        Vector3 interpolate(double x, double y);
+        double RGBtoFloat(int value);
+        double FloattoRGB(double value);
         Pixel getColor();
 };
 
