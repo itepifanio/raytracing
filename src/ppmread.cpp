@@ -1,4 +1,4 @@
-#include "../include/ppmreader.h"
+#include "../include/ppmread.h"
 #include "../include/helpers.h"
 #include <iostream>
 #include <fstream>

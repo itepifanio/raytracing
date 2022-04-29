@@ -1,8 +1,13 @@
 #include <iostream>
+#include "../src/parser.cpp"
+// #include "../src/api.cpp"
+// #include "../src/background.cpp"
 
-
-int main()
+int main(int argc, char** argv)
 {
-    std::cout << "Main loop of raytracing" << std::endl;
+    Api api;
+
+    parser(argv[1], api.film, api.background);
+    api.render();
     return 0;
 }

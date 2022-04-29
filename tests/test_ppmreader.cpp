@@ -1,5 +1,5 @@
 #include "../include/doctest.h"
-#include "../include/ppmreader.h"
+#include "../include/ppmread.h"
 #include "../include/pixel.h"
 #include <vector>
 
