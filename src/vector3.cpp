@@ -7,11 +7,25 @@ Vector3::Vector3() {
     }
 }
 
-Vector3::Vector3(double e0, double e1, double e2)
+Vector3::Vector3(int e0, int e1, int e2)
 {
     this->vector[0] = e0;
     this->vector[1] = e1;
     this->vector[2] = e2;
+}
+
+Vector3 Vector3::string_to_vector(std::string str)
+{
+    std::istringstream iss(str);
+    std::vector<std::string> splited((std::istream_iterator<std::string>(iss)),
+                                     std::istream_iterator<std::string>());
+
+    int e0, e1, e2;
+    std::istringstream(splited[0]) >> e0;
+    std::istringstream(splited[1]) >> e1;
+    std::istringstream(splited[2]) >> e2;
+    
+    return Vector3(e0, e1, e2);
 }
 
 double& Vector3::operator[](int const k)

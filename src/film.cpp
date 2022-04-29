@@ -11,6 +11,26 @@ Film::Film(std::vector<std::vector<Pixel *>> image)
     this->image = image;
 }
 
+Film::Film(std::string type, std::string filename, std::string img_type, 
+    int x_res, int y_res
+) {
+    this->x_res = x_res;
+    this->y_res = y_res;
+    this->type = type;
+    this->filename = filename;
+    this-> img_type = img_type;
+}
+
+int Film::getXres()
+{
+    return this->x_res;
+}
+
+int Film::getYres()
+{
+    return this->y_res;
+}
+
 void Film::toPPM(std::string filename)
 {
     std::ofstream file(filename);

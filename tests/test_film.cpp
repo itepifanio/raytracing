@@ -1,6 +1,6 @@
 #include "../include/doctest.h"
 #include "../include/film.h"
-#include "../include/ppmreader.h"
+#include "../include/ppmread.h"
 #include "../include/pixel.h"
 #include <vector>
 

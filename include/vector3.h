@@ -3,6 +3,11 @@
 
 #include <cmath>
 #include <iostream>
+#include <string>
+#include <sstream>
+#include <algorithm>
+#include <vector>
+#include <iterator>
 
 class Vector3
 {
@@ -11,7 +16,9 @@ public:
     
     Vector3();
 
-    Vector3(double e0, double e1, double e2);
+    Vector3(int e0, int e1, int e2);
+
+    static Vector3 string_to_vector(std::string str);
 
     double operator[](int k) const;
 

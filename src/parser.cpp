@@ -1,9 +1,12 @@
 #include "../lib/tinyxml2/tinyxml2.h"
 #include "../lib/tinyxml2/tinyxml2.cpp"
-// #include "../include/rt3.h"
-// #include "../include/vector3.h"
+
 #include "../include/paramset.h"
-#include "../include/film.h"
+#include "pixel.cpp"
+#include "film.cpp"
+#include "background.cpp"
+#include "ppmread.cpp"
+#include "vector3.cpp"
 
 #include <string.h>
 #include <memory>
@@ -12,35 +15,32 @@
 using namespace tinyxml2;
 using namespace std;
 
-// Film createFilm(const ParamSet &ps)
-// {
-//     string type = ps.find_one<string>("type", "image");
-//     int x_res = ps.find_one<int>("x_res", 500);
-//     int y_res = ps.find_one<int>("y_res", 500);
-//     string filename = ps.find_one<string>("filename", "out.ppm");
-//     string img_type = ps.find_one<string>("img_type", "ppm");
+Film createFilm(const ParamSet &ps)
+{
+    string type = ps.find_one<string>("type", "image");
+    int x_res = ps.find_one<int>("x_res", 500);
+    int y_res = ps.find_one<int>("y_res", 500);
+    string filename = ps.find_one<string>("filename", "out.ppm");
+    string img_type = ps.find_one<string>("img_type", "ppm");
+    
+    Film film(type, filename, img_type, x_res, y_res);
+    return film;
+}
 
-//     Film film(type, x_res, y_res, filename, img_type);
-//     return film;
-// }
+Background createBackground(const ParamSet &ps)
+{
+    string type = ps.find_one<string>("type", "colors");
+    Vector3 color = Vector3::string_to_vector(ps.find_one<string>("color", "0 0 0"));
+    Vector3 bl = Vector3::string_to_vector(ps.find_one<string>("bl", "0 0 0"));
+    Vector3 br = Vector3::string_to_vector(ps.find_one<string>("br", "0 0 0"));
+    Vector3 tl = Vector3::string_to_vector(ps.find_one<string>("tl", "0 0 0"));
+    Vector3 tr = Vector3::string_to_vector(ps.find_one<string>("tr", "0 0 0"));
 
+    Background bg(type, color, bl, br, tl, tr);
+    return bg;
+}
 
-// Background createBackground(const ParamSet &ps)
-// {
-//     string type = ps.find_one<string>("type", "colors");
-//     string mapping = ps.find_one<string>("mapping", "scree");
-//     string filename = ps.find_one<string>("filename", "none");
-//     string color = ps.find_one<string>("color", "0 0 0");
-//     string bl = ps.find_one<string>("bl", "0 0 0");
-//     string br = ps.find_one<string>("br", "0 0 0");
-//     string tl = ps.find_one<string>("tl", "0 0 0");
-//     string tr = ps.find_one<string>("tr", "0 0 0");
-
-//     Background bg(type, vec3(color), vec3(bl), vec3(br), vec3(tl), vec3(tr));
-//     return bg;
-// }
-
-void parser(char * input_file )
+void parser(char * input_file)
 {
     XMLDocument doc;
     doc.LoadFile(input_file);
@@ -63,42 +63,8 @@ void parser(char * input_file )
                 // Read each attribs from XML
                 for (auto att = e->FirstAttribute(); att != NULL; att = att->Next())
                 {
-                    // Get the key of attribute
-                    std::string key_ = att->Name();
-
-                    // Inform the number of elements that it's going to be in the array.
-                    int size_elements = 1;
-
-                    if (key_ == "fovy")
-                    {
-                        // Get the value of the attribute that are being interated
-                        int v_ = att->IntValue();
-
-                        // Create the vector
-                        auto item_insert = make_unique<int[]>(size_elements);
-
-                        // Copy item to the vector
-                        item_insert[0] = v_;
-
-                        //Add element to the ParamSet
-                        ps.add<int>(key_, std::move(item_insert), 0);
-                    }
-                    else
-                    {
-                        // Get the value of the attribute that are being interated
-                        std::string v_ = att->Value();
-                        // Create the vector
-                        auto item_insert = make_unique<std::string[]>(size_elements);
-
-                        // Copy item to the vector
-                        item_insert[0] = v_;
-
-                        //Add element to the ParamSet
-                        ps.add<std::string>(key_, std::move(item_insert), 0);
-                    }
+                    // createCamera(ps);
                 }
-
-                // rth.configureCamera(createCamera(ps));
             }
             else if (strcmp(tag, "film") == 0)
             {
@@ -140,7 +106,8 @@ void parser(char * input_file )
                     }
                 }
 
-                // rth.configureFilm(createFilm(ps));
+                Film film = createFilm(ps);
+                // std::cout << film.getXres() << " " << film.getYres() << std::endl;
             }
             else if (strcmp(tag, "world_begin") == 0)
             {
@@ -181,7 +148,7 @@ void parser(char * input_file )
                             ps.add<std::string>(key_, std::move(item_insert), 0);
                         }
 
-                        // rth.configureBackground(createBackground(ps));
+                        createBackground(ps);
                     }
                 }
             }

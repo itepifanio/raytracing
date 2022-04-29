@@ -1,5 +1,5 @@
-#ifndef _PPMREADER_H_ 
-#define _PPMREADER_H_
+#ifndef _PPMREAD_H_ 
+#define _PPMREAD_H_
 
 #include "pixel.h"
 #include <string>
