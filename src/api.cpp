@@ -18,6 +18,7 @@ void Api::setFilm(Film Film) {
 }
 
 void Api::render() {
+    /*
     auto w = this->film.width();
     auto h = this->film.height();
 
@@ -31,4 +32,5 @@ void Api::render() {
         }
     }
     this->film.toPPM();
+    */
 }
