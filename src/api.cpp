@@ -1,14 +1,5 @@
 #include "../include/api.h"
 
-Api::Api() {
-    this->background = Background();
-    this->film = Film();
-}
-
-Api::Api(Background background, Film film) {
-    this->background = background;
-    this->film = film;
-}
 
 void Api::setBackground(Background Background) {
     this->background = background;

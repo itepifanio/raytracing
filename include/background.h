@@ -8,25 +8,13 @@
 
 class Background {
     private:
-        Pixel color;
         std::string type;
-        Vector3 color_s;
-        Vector3 bl;
-        Vector3 br;
-        Vector3 tl;
-        Vector3 tr;
-
     public:
-        Background();
-        Background(std::string type, Vector3 color_s, Vector3 bl,
-            Vector3 br, Vector3 tl, Vector3 tr
-        );
-        Pixel fromCoord(int i, int j);
-        void setColor(Pixel pixel);
-        Vector3 interpolate(double x, double y);
-        double RGBtoFloat(int value);
-        double FloattoRGB(double value);
-        Pixel getColor();
+        Background(std::string type, Pixel corners[4]);
+        Pixel bottomLeft;
+        Pixel bottomRight;
+        Pixel topLeft;
+        Pixel topRight;
 };
 
 #endif

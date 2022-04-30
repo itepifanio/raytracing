@@ -8,6 +8,8 @@ class Pixel {
         int r;
         int g;
         int b;
+        friend bool operator==(const Pixel& lhs, const Pixel& rhs);
+        friend bool operator!=(const Pixel& lhs, const Pixel& rhs);
 };
 
 #endif

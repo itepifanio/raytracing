@@ -17,9 +17,8 @@ class Api
         //     return api;
         // }
         // Api(Api const&) = delete;
-        Api();
         Api(Background background, Film film);
-        void setBackground(Background Background);
+        void setBackground(Background background);
         void setFilm(Film Film);
         void operator=(Api const&) = delete;
         void render();
