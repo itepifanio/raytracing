@@ -5,11 +5,11 @@
 
 int main(int argc, char** argv)
 {
-    Api api;
+    //Api api;
 
-    XmlParser parser;
+    //XmlParser parser;
 
     //parser.parser(argv[1], api.film, api.background);
-    api.render();
+    //api.render();
     return 0;
 }

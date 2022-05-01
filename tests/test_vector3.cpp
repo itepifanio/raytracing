@@ -1,8 +1,21 @@
 #include "../include/doctest.h"
 #include "../include/vector3.h"
+#include "../include/pixel.h"
 
 TEST_CASE("it can init vector3 with pixel") {
-    // TODO::
+    Pixel p(1,2,3);
+    Vector3 v(p);
+    CHECK(v[0] == 1);
+    CHECK(v[1] == 2);
+    CHECK(v[2] == 3);
+}
+
+TEST_CASE("it can mult vector") {
+    Vector3 a(1, 2, 3);
+    Vector3 c = a * 2;
+    CHECK(c.vector[0] == 2.0);
+    CHECK(c.vector[1] == 4.0);
+    CHECK(c.vector[2] == 6.0);
 }
 
 TEST_CASE("it can neg vector") {

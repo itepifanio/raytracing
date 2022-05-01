@@ -38,8 +38,8 @@ public:
         Vector3 br = Vector3::string_to_vector(ps.find_one<string>("br", "0 0 0"));
         Vector3 tl = Vector3::string_to_vector(ps.find_one<string>("tl", "0 0 0"));
         Vector3 tr = Vector3::string_to_vector(ps.find_one<string>("tr", "0 0 0"));
-
-        Background bg(type, color, bl, br, tl, tr);
+        Pixel corners[4] = {bl.toPixel(), tl.toPixel(), tr.toPixel(), br.toPixel()};
+        Background bg(type, corners);
         return bg;
     }
 
