@@ -73,6 +73,11 @@ Vector3 operator*(Vector3 const &lhs, double const rhs)
     return v;
 }
 
+Vector3 operator*( double const rhs, Vector3 const &lhs)
+{
+    return lhs * rhs;
+}
+
 Vector3 &operator+=(Vector3 &lhs, Vector3 const &rhs)
 {
     lhs.vector[0] += rhs.vector[0];

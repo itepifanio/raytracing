@@ -1,6 +1,11 @@
 #ifndef _PIXEL_H_ 
 #define _PIXEL_H_
 
+/*
+Used to define a small piece of an image. 
+The pixel holds the r, g, b structure.
+*/
+
 class Pixel {
     public:
         Pixel();

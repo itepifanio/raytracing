@@ -32,6 +32,7 @@ public:
 
     Background createBackground(const ParamSet &ps)
     {
+        /*
         string type = ps.find_one<string>("type", "colors");
         Vector3 color = Vector3::string_to_vector(ps.find_one<string>("color", "0 0 0"));
         Vector3 bl = Vector3::string_to_vector(ps.find_one<string>("bl", "0 0 0"));
@@ -41,6 +42,7 @@ public:
         Pixel corners[4] = {bl.toPixel(), tl.toPixel(), tr.toPixel(), br.toPixel()};
         Background bg(type, corners);
         return bg;
+        */
     }
 
     /*

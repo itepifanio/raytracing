@@ -10,6 +10,10 @@
 #include <vector>
 #include <iterator>
 
+/*
+Used to calculate the pixel or points
+*/
+
 class Vector3
 {
 public:
@@ -40,6 +44,8 @@ public:
     friend Vector3 operator+(Vector3 const &lhs, Vector3 const &rhs);
 
     friend Vector3 operator*(Vector3 const &lhs, double const rhs);
+
+     friend Vector3 operator*(double const rhs, Vector3 const &lhs);
 
     double length();
 

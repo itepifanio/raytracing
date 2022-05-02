@@ -3,6 +3,7 @@
 
 #include "pixel.h"
 #include "vector3.h"
+#include "point.h"
 #include <string>
 #include <vector>
 
@@ -11,12 +12,12 @@ class Background {
         std::string type;
         std::vector<std::vector<Pixel*>> image;
     public:
-        Background(std::string type, Pixel corners[4]);
-        Pixel bottomLeft;
-        Pixel bottomRight;
-        Pixel topLeft;
-        Pixel topRight;
-        Pixel interpolate(double x, double y);
+        Background(std::string type, Point points[4]);
+        Point bottomLeft;
+        Point bottomRight;
+        Point topLeft;
+        Point topRight;
+        double interpolate(double x, double y);
         void interpolateAll();
         void toPPM(std::string filename);
         //Pixel operator[](int k) const;
