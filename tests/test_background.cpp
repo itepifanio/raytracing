@@ -23,18 +23,18 @@ TEST_CASE("it can interpolate") {
 */
 
 TEST_CASE("it can interpolate background") {
-    Point a(0, 0, 40);
-    Point b(0, 200, 80);
-    Point c(200, 0, 200);
-    Point d(200, 200, 255);
+    //using values from wikipedia example
+    //https://en.wikipedia.org/wiki/Bilinear_interpolation#Example
+    Point a(21, 14, 162);
+    Point b(20, 14, 91);
+    Point c(20, 15, 210);
+    Point d(21, 15, 95);
     Point corners[4];
     corners[0] = a;
     corners[1] = b;
     corners[2] = c;
     corners[3] = d;
     Background background("image", corners);
-    double result = background.interpolate(2, 3);
-    CHECK(result == 2.0);
-    background.interpolateAll();
-    background.toPPM("batata.ppm");
+    double result = background.interpolate(20.2, 14.5);
+    CHECK(int(result) == int(146.1));
 }

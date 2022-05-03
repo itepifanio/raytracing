@@ -15,10 +15,10 @@ Background::Background(std::string type, Point points[4]) {
     this->bottomRight = points[3];
 
     // init background image with 200x200 pixels and white pixels
-    for (int i = 0; i < 512; i++)
+    for (int i = 0; i < 27*3; i++)
     {
         std::vector<Pixel*> tmp;
-        for (int j = 0; j < 512; j++)
+        for (int j = 0; j < 27*3; j++)
         {
             Pixel *p = new Pixel(255, 255, 255);
             tmp.push_back(p);
@@ -27,47 +27,17 @@ Background::Background(std::string type, Point points[4]) {
     }
 }
 
-int getG(int index, int imageSize, int gridSize)
-{
-    double a = index / float(imageSize) * gridSize;
-    int b = int(a);
-    return a - b;
-}
-
 void Background::interpolateAll()
 {
-    int gridSizeX = 9, gridSizeY = 9; 
-
     std::vector<std::vector<Pixel*>> result;
-    for (int i = 0; i < (int) this->image.size()/3; i++)
+    for (int i = 0; i < (int) this->image.size(); i++)
     {
         std::vector<Pixel*> tmp;
-        for (int j = 0; j < (int)this->image[0].size()/3; j++)
+        for (int j = 0; j < (int)this->image[0].size(); j++)
         {
-            /*
-            auto gx = i / float(this->image.size()) * gridSizeX; // be careful to interpolate boundaries 
-            auto gy = j / float(this->image.size()) * gridSizeY; // be careful to interpolate boundaries 
-            int gxi = int(gx); 
-            int gyi = int(gy); 
-
-            double r = this->interpolate(gx - gxi, gy - gyi);
-            double g = this->interpolate(0.2*i+0.2, 0.2*i+0.2);
-            double b = this->interpolate(0.2*i+0.4, 0.2*i+0.4);;
-            Pixel *p = new Pixel(int(r), int(g), int(b)); // = this->interpolate(gx - gxi, gy - gyi);
-            tmp.push_back(p);
-            */
-            double r = this->interpolate(
-                getG(3*i, (int)this->image.size(), gridSizeX), 
-                getG(3*j, (int)this->image.size(), gridSizeY)
-            );
-            double g = this->interpolate(
-                getG(3*i+1, (int)this->image.size(), gridSizeX), 
-                getG(3*j+1, (int)this->image.size(), gridSizeY)
-            );
-            double b = this->interpolate(
-                getG(3*i+2, (int)this->image.size(), gridSizeX), 
-                getG(3*j+2, (int)this->image.size(), gridSizeY)
-            );
+            double r = this->interpolate(3*i, 3*j);
+            double g = this->interpolate(3*i+1, 3*i+1);
+            double b = this->interpolate(3*i+2, 3*j+2);
             Pixel *p = new Pixel(int(r), int(g), int(b));
             tmp.push_back(p);
         }
@@ -119,11 +89,18 @@ void Background::toPPM(std::string filename)
 
 double Background::interpolate(double x, double y)
 {
-    auto z00 = this->bottomLeft.value;
-    auto z10 = this->topLeft.value;
-    auto z01 = this->topRight.value;
-    auto z11 = this->bottomRight.value;
+    //https://en.wikipedia.org/wiki/Bilinear_interpolation#Example
+    double halfFirtPoint = ((this->topRight.j - y)/(this->topRight.j - this->topLeft.j))*this->topLeft.value;
+    double anotherHalfFirstPoint = ((y - this->topLeft.j)/(this->topRight.j - this->topLeft.j))*this->topRight.value;
+    double firstPoint = halfFirtPoint + anotherHalfFirstPoint;
 
-    return z00*(1-x)*(1-y) + z10*x*(1-y) + z01*(1-x)*y + z11*x*y;
+    double halfSecondPoint = ((this->bottomRight.j - y)/(this->bottomRight.j-this->bottomLeft.j))*this->bottomLeft.value;
+    double secondHalfPoint = ((y - bottomLeft.j)/(this->bottomRight.j - this->bottomLeft.j))*this->bottomRight.value;
+    double secondPoint = halfSecondPoint + secondHalfPoint;
+
+    double halfFinalPoint = ((this->bottomLeft.i - x)/(this->bottomLeft.i - this->topLeft.i))*firstPoint;
+    double secondHalfFinalPoint = ((x - this->topLeft.i)/(this->bottomLeft.i - this->topLeft.i))*secondPoint;
+
+    return halfFinalPoint + secondHalfFinalPoint;
 }
 
