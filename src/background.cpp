@@ -7,7 +7,9 @@
 #include <fstream>
 #include <sstream>
 
-Background::Background(std::string type, Point points[4]) {
+Background::Background(int width, int height, std::string type, Point points[4]) {
+    this->height = height;
+    this->width = width;
     this->type = type;
     this->bottomLeft = points[0];
     this->topLeft = points[1];
@@ -15,10 +17,10 @@ Background::Background(std::string type, Point points[4]) {
     this->bottomRight = points[3];
 
     // init background image with 200x200 pixels and white pixels
-    for (int i = 0; i < 27*3; i++)
+    for (int i = 0; i < this->height; i++)
     {
         std::vector<Pixel*> tmp;
-        for (int j = 0; j < 27*3; j++)
+        for (int j = 0; j < this->width; j++)
         {
             Pixel *p = new Pixel(255, 255, 255);
             tmp.push_back(p);
@@ -35,9 +37,9 @@ void Background::interpolateAll()
         std::vector<Pixel*> tmp;
         for (int j = 0; j < (int)this->image[0].size(); j++)
         {
-            double r = this->interpolate(3*i, 3*j);
-            double g = this->interpolate(3*i+1, 3*i+1);
-            double b = this->interpolate(3*i+2, 3*j+2);
+            double r = this->interpolate(i, j);
+            double g = this->interpolate(i, j);
+            double b = this->interpolate(i, j);
             Pixel *p = new Pixel(int(r), int(g), int(b));
             tmp.push_back(p);
         }
@@ -89,18 +91,23 @@ void Background::toPPM(std::string filename)
 
 double Background::interpolate(double x, double y)
 {
-    //https://en.wikipedia.org/wiki/Bilinear_interpolation#Example
-    double halfFirtPoint = ((this->topRight.j - y)/(this->topRight.j - this->topLeft.j))*this->topLeft.value;
-    double anotherHalfFirstPoint = ((y - this->topLeft.j)/(this->topRight.j - this->topLeft.j))*this->topRight.value;
-    double firstPoint = halfFirtPoint + anotherHalfFirstPoint;
+    //https://www.omnicalculator.com/math/bilinear-interpolation#:~:text=Bilinear%20interpolation%20formula,-The%20general%20idea&text=Start%20by%20performing%20two%20linear,point%20(x%2C%20y)%20
+    auto q11 = this->bottomLeft;
+    auto q12 = this->topLeft;
+    auto q22 = this->topRight;
+    auto q21 = this->bottomRight;
+    double x1 = q11.i;
+    double y1 = q11.j;
+    double y2 = q21.j;
+    double x2 = q12.i;
+    std::cout << "x1 " << x1 << " x2 " << x2 << " y1 " << y1 << " y2 " << y2 << std::endl;
+    double r1 = (((x2 - x)/(x2-x1))*q11.value) + (((x-x1)/(x2-x1))*q21.value);
+    std::cout << "R1 " << r1 << std::endl;
+    double r2 = (((x2-x)/(x2-x1))*q12.value) + (((x-x1)/(x2-x1))*q22.value);
+    std::cout << "R2 " << r2 << std::endl;
+    double p = (((y2 - y)/(y2 - y1))*r1) + (((y-y1)/(y2-y1))*r2);
+    std::cout << "P " << p << std::endl;
 
-    double halfSecondPoint = ((this->bottomRight.j - y)/(this->bottomRight.j-this->bottomLeft.j))*this->bottomLeft.value;
-    double secondHalfPoint = ((y - bottomLeft.j)/(this->bottomRight.j - this->bottomLeft.j))*this->bottomRight.value;
-    double secondPoint = halfSecondPoint + secondHalfPoint;
-
-    double halfFinalPoint = ((this->bottomLeft.i - x)/(this->bottomLeft.i - this->topLeft.i))*firstPoint;
-    double secondHalfFinalPoint = ((x - this->topLeft.i)/(this->bottomLeft.i - this->topLeft.i))*secondPoint;
-
-    return halfFinalPoint + secondHalfFinalPoint;
+    return p;
 }
 

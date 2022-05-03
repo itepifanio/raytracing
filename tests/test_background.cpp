@@ -25,16 +25,16 @@ TEST_CASE("it can interpolate") {
 TEST_CASE("it can interpolate background") {
     //using values from wikipedia example
     //https://en.wikipedia.org/wiki/Bilinear_interpolation#Example
-    Point a(21, 14, 162);
-    Point b(20, 14, 91);
-    Point c(20, 15, 210);
-    Point d(21, 15, 95);
+    Point q11(0, 1, 12);
+    Point q12(4, 1, 0);
+    Point q22(4, 3, 8);
+    Point q21(0, 3, -4);
     Point corners[4];
-    corners[0] = a;
-    corners[1] = b;
-    corners[2] = c;
-    corners[3] = d;
-    Background background("image", corners);
-    double result = background.interpolate(20.2, 14.5);
-    CHECK(int(result) == int(146.1));
+    corners[0] = q11;
+    corners[1] = q12;
+    corners[2] = q22;
+    corners[3] = q21;
+    Background background(4, 4, "image", corners);
+    double result = background.interpolate(1, 2);
+    CHECK(int(result) == 5);
 }
