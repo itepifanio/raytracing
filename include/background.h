@@ -15,6 +15,9 @@ class Background {
         int width;
     public:
         Background(int width, int height, std::string type, Point points[4]);
+        // TODO::Vamos precisar de um construtor mais simples também, 
+        // que vai inicializar a imagem com uma única cor
+        //Background(int width, int height, int color);
         Point bottomLeft;
         Point bottomRight;
         Point topLeft;

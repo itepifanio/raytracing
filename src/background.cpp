@@ -62,9 +62,6 @@ void Background::toPPM(std::string filename)
         rows = this->image[0].size();
     }
 
-    std::cout << "toPPM::columns: " << columns << std::endl;
-    std::cout << "toPPM::rows: " << rows << std::endl;
-
     if (file.is_open())
     {
         file << "P3\n";
@@ -100,13 +97,10 @@ double Background::interpolate(double x, double y)
     double y1 = q11.j;
     double y2 = q21.j;
     double x2 = q12.i;
-    std::cout << "x1 " << x1 << " x2 " << x2 << " y1 " << y1 << " y2 " << y2 << std::endl;
+
     double r1 = (((x2 - x)/(x2-x1))*q11.value) + (((x-x1)/(x2-x1))*q21.value);
-    std::cout << "R1 " << r1 << std::endl;
     double r2 = (((x2-x)/(x2-x1))*q12.value) + (((x-x1)/(x2-x1))*q22.value);
-    std::cout << "R2 " << r2 << std::endl;
     double p = (((y2 - y)/(y2 - y1))*r1) + (((y-y1)/(y2-y1))*r2);
-    std::cout << "P " << p << std::endl;
 
     return p;
 }
