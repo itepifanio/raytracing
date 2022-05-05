@@ -5,22 +5,17 @@
 #include "../include/point.h"
 #include <vector>
 
-/*
-TEST_CASE("it can interpolate") {
-    Pixel red(255, 0, 0);
-    Pixel blue(0, 255, 0);
-    Pixel green(0, 0, 255);
-    Pixel black(0, 0, 0);
-    Pixel corners[4];
-    corners[0] = red;
-    corners[1] = blue;
-    corners[2] = green;
-    corners[3] = black;
-
-    Background background("image", corners);
-    background.interpolate(10, 10);
+TEST_CASE("it can init background with a single color") {
+    int size = 200;
+    Background black(size, size, 0);
+    for(int i = 0; i < size; i++) {
+        for(int j = 0; j < size; j++) {
+            CHECK(black[i][j]->r == 0);
+            CHECK(black[i][j]->g == 0);
+            CHECK(black[i][j]->b == 0);
+        }
+    }
 }
-*/
 
 TEST_CASE("it can interpolate background") {
     //using values from wikipedia example
