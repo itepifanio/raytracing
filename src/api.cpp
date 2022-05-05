@@ -1,14 +1,16 @@
 #include "../include/api.h"
 
-
-void Api::setBackground(Background Background) {
-    this->background = background;
-}
-void Api::setFilm(Film Film) {
-    this->film = film;
+Api::Api(RunningOptions options)
+{
+    this->options = options;
 }
 
-void Api::render() {
+void Api::parser()
+{
+}
+
+void Api::render()
+{
     /*
     auto w = this->film.width();
     auto h = this->film.height();
