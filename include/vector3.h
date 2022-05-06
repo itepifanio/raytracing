@@ -2,6 +2,7 @@
 #define VECTOR3_H
 
 #include "pixel.h"
+#include "point.h"
 #include <cmath>
 #include <iostream>
 #include <string>
@@ -45,11 +46,13 @@ public:
 
     friend Vector3 operator*(Vector3 const &lhs, double const rhs);
 
-     friend Vector3 operator*(double const rhs, Vector3 const &lhs);
+    friend Vector3 operator*(double const rhs, Vector3 const &lhs);
 
     double length();
 
     Pixel toPixel();
+
+    Point toPoint();
 
     double length_squared();
 };

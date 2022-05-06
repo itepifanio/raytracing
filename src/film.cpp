@@ -1,10 +1,22 @@
 #include "../include/film.h"
+#include "../include/ppmread.h"
 #include <iostream>
 #include <fstream>
 #include <sstream>
 #include <vector>
 
 Film::Film() {}
+
+Film::Film(int xRes, int yRes, std::string type, std::string ppmFile)
+{
+    PPM3Reader reader(ppmFile);
+    this->xRes = xRes;
+    this->yRes = yRes;
+    this->imageWidth = reader.getColumns();
+    this->imageHeight = reader.getRows();
+    this->type = type;
+    this->image = reader.getImage();
+}
 
 Film::Film(std::vector<std::vector<Pixel *>> image)
 {
@@ -35,8 +47,8 @@ void Film::toPPM(std::string filename)
             for (int j = 0; j < rows; j++)
             {
                 Pixel *pixel = this->image[i][j];
-                line += std::to_string(pixel->r) + " "; 
-                line += std::to_string(pixel->g) + " "; 
+                line += std::to_string(pixel->r) + " ";
+                line += std::to_string(pixel->g) + " ";
                 line += std::to_string(pixel->b) + " ";
             }
             line += "\n";
@@ -45,4 +57,29 @@ void Film::toPPM(std::string filename)
 
         file.close();
     }
+}
+
+int Film::getImageHeight()
+{
+    return this->imageHeight;
+}
+
+int Film::getImageWidth() 
+{
+    return this->imageWidth;
+}
+
+int Film::getXRes()
+{
+    return this->xRes;
+}
+
+int Film::getYRes()
+{
+    return this->yRes;
+}
+
+std::string Film::getType()
+{
+    return this->type;
 }

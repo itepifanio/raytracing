@@ -7,16 +7,19 @@
 #include <fstream>
 #include <sstream>
 
-Background::Background(int width, int height, int color)
+Background::Background() {}
+
+Background::Background(int width, int height, std::string type, Pixel color)
 {
     this->height = height;
     this->width = width;
+    this->type = type;
     for (int i = 0; i < this->height; i++)
     {
         std::vector<Pixel *> tmp;
         for (int j = 0; j < this->width; j++)
         {
-            Pixel *p = new Pixel(color, color, color);
+            Pixel *p = new Pixel(color.r, color.g, color.b);
             tmp.push_back(p);
         }
         this->image.push_back(tmp);

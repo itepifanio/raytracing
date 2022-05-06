@@ -4,6 +4,15 @@
 #include "../include/pixel.h"
 #include <vector>
 
+TEST_CASE("it can init film with ppm file") {
+    Film film(200, 100, "image", "./tests/fixtures/test.ppm");
+    CHECK_EQ(film.getImageWidth(), 3);
+    CHECK_EQ(film.getImageHeight(), 2);
+    CHECK_EQ(film.getXRes(), 200);
+    CHECK_EQ(film.getYRes(), 100);
+    CHECK_EQ(film.getType(), "image");
+}
+
 TEST_CASE("it can parse image to ppm file") {
     std::vector<std::vector<Pixel*>> image;
 

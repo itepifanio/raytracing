@@ -1,4 +1,5 @@
 #include "../include/vector3.h"
+#include "../include/point.h"
 
 Vector3::Vector3()
 {
@@ -120,6 +121,13 @@ Pixel Vector3::toPixel()
     Pixel pixel(this->vector[0], this->vector[1], this->vector[2]);
 
     return pixel;
+}
+
+Point Vector3::toPoint()
+{
+    Point point(this->vector[0], this->vector[1], this->vector[2]);
+
+    return point;
 }
 
 double Vector3::length_squared()

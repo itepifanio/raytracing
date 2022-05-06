@@ -14,8 +14,9 @@ class Background {
         int height;
         int width;
     public:
+        Background();
         Background(int width, int height, std::string type, Point points[4]);
-        Background(int width, int height, int color);
+        Background(int width, int height, std::string type, Pixel color);
         Point bottomLeft;
         Point bottomRight;
         Point topLeft;

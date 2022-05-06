@@ -9,12 +9,14 @@
 class Api
 {
     private:
-        void parser();
+        void parser(std::string xmlFile);
+        void render();
         RunningOptions options;
-        //Background background;
-        //Film film;
+        Background background;
+        Film film;
     public:
         Api(RunningOptions options);
-        void render();
+        void run();
+        Background getBackground();
 };
 #endif

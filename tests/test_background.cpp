@@ -7,7 +7,7 @@
 
 TEST_CASE("it can init background with a single color") {
     int size = 200;
-    Background black(size, size, 0);
+    Background black(size, size, "image", Pixel(0, 0, 0));
     for(int i = 0; i < size; i++) {
         for(int j = 0; j < size; j++) {
             CHECK(black[i][j]->r == 0);
