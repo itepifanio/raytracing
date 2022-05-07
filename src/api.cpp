@@ -28,19 +28,21 @@ Background createBackground(Film film, const ParamSet &ps)
     Vector3 br = Vector3::string_to_vector(ps.find_one<string>("br", "0 0 0"));
     Vector3 tl = Vector3::string_to_vector(ps.find_one<string>("tl", "0 0 0"));
     Vector3 tr = Vector3::string_to_vector(ps.find_one<string>("tr", "0 0 0"));
+    std::cout << "bottom left r:" << bl.vector[0] << std::endl;
 
     if (color.vector[0] != -1 && color.vector[1] != -1 && color.vector[2] != -1)
     {
+        std::cout << "starting background not -1 -1 -1" << std::endl;
         Background bg(film.getImageWidth(), film.getImageHeight(), type, color.toPixel());
         return bg;
     }
-    
+
     Point points[4];
     points[0] = bl.toPoint();
     points[1] = tl.toPoint();
     points[2] = tr.toPoint();
     points[3] = br.toPoint();
-
+    
     Background bg(film.getImageWidth(), film.getImageHeight(), type, points);
 
     return bg;
@@ -49,13 +51,11 @@ Background createBackground(Film film, const ParamSet &ps)
 void Api::parser(std::string xmlFile)
 {
     XMLDocument doc;
-
+    std::cout << "casting string " << xmlFile << " to char*" << std::endl;
     // cast string to char*
-    char xmlCharFile[xmlFile.length()];
-    for (int i = 0; i < sizeof(xmlFile); i++)
-    {
-        xmlCharFile[i] = xmlFile[i];
-    }
+    const char *xmlCharFile = xmlFile.c_str();
+
+    std::cout << "xml trying to opening file: " << xmlCharFile << std::endl;
     doc.LoadFile(xmlCharFile);
 
     // Verift if there isn't no mistake in open file.
@@ -67,7 +67,7 @@ void Api::parser(std::string xmlFile)
         for (XMLElement *e = attr->FirstChildElement(); e != NULL; e = e->NextSiblingElement())
         {
             const char *tag = e->Value();
-
+            std::cout << "xml loop on tag: " << tag << std::endl;
             // Compare each possible type
             if (strcmp(tag, "camera") == 0)
             {
@@ -80,6 +80,7 @@ void Api::parser(std::string xmlFile)
             }
             else if (strcmp(tag, "film") == 0)
             {
+                std::cout << "xml on film" << std::endl;
                 ParamSet ps;
                 for (auto att = e->FirstAttribute(); att != NULL; att = att->Next())
                 {
@@ -117,12 +118,13 @@ void Api::parser(std::string xmlFile)
                         ps.add<std::string>(key_, std::move(item_insert), 0);
                     }
                 }
-
+                std::cout << "starting to create film" << std::endl;
                 this->film = createFilm(ps);
                 // std::cout << film.getXres() << " " << film.getYres() << std::endl;
             }
             else if (strcmp(tag, "world_begin") == 0)
             {
+                std::cout << "xml on world_begin" << std::endl;
                 for (auto attr_world = e; strcmp(tag, "world_end") != 0; attr_world = attr_world->NextSiblingElement())
                 {
                     tag = attr_world->Value();
@@ -132,6 +134,7 @@ void Api::parser(std::string xmlFile)
 
                     if (strcmp(tag, "background") == 0)
                     {
+                        std::cout << "xml on background" << std::endl;
                         ParamSet ps;
                         for (auto att = e->FirstAttribute(); att != NULL; att = att->Next())
                         {
@@ -152,7 +155,14 @@ void Api::parser(std::string xmlFile)
                             // Add element to the ParamSet
                             ps.add<std::string>(key_, std::move(item_insert), 0);
                         }
-
+                        
+                        /*
+                        std::cout << "printing params: " << std::endl;
+                        for (auto const &pair : ps.params)
+                        {
+                            std::cout << "{" << pair.first << ": " << *pair.second.get() << "}\n";
+                        }
+                        */
                         this->background = createBackground(this->film, ps);
                     }
                 }
@@ -161,7 +171,7 @@ void Api::parser(std::string xmlFile)
     }
     else
     {
-        printf("Erro!\n");
+        printf("Couldn't open the file!\n");
     }
 }
 
@@ -173,6 +183,7 @@ void Api::render()
 void Api::run()
 {
     this->parser(this->options.getSceneFile());
+    this->background.interpolateAll();
 }
 
 Background Api::getBackground()

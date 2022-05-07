@@ -14,6 +14,7 @@ Background::Background(int width, int height, std::string type, Pixel color)
     this->height = height;
     this->width = width;
     this->type = type;
+    std::cout << "initing background " << width << ", " << height << std::endl;
     for (int i = 0; i < this->height; i++)
     {
         std::vector<Pixel *> tmp;
@@ -33,6 +34,7 @@ std::vector<Pixel*> Background::operator[](int const k) const
 
 Background::Background(int width, int height, std::string type, Point points[4])
 {
+    std::cout << "Background::points[4]" << std::endl;
     this->height = height;
     this->width = width;
     this->type = type;
@@ -41,21 +43,25 @@ Background::Background(int width, int height, std::string type, Point points[4])
     this->topRight = points[2];
     this->bottomRight = points[3];
 
+    std::cout << "starting to create image background" << std::endl;
+    std::cout << "Background::background (width: " << width << ", height:" << height << ")" << std::endl;
     // init background image with white pixels
-    for (int i = 0; i < this->height; i++)
+    for (int i = 0; i < width; i++)
     {
         std::vector<Pixel *> tmp;
-        for (int j = 0; j < this->width; j++)
+        for (int j = 0; j < height; j++)
         {
             Pixel *p = new Pixel(255, 255, 255);
             tmp.push_back(p);
         }
         this->image.push_back(tmp);
     }
+    std::cout << "Finishing Background::points[4]" << std::endl;
 }
 
 void Background::interpolateAll()
 {
+    std::cout << "Starting Background::interpolateAll()" << std::endl;
     std::vector<std::vector<Pixel *>> result;
     for (int i = 0; i < (int)this->image.size(); i++)
     {

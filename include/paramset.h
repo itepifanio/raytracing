@@ -23,6 +23,7 @@ public:
     // Find and return a single item from the ParamSet.
     template <typename T>
     const T &find_one(const string &target_key, const T &d) const;
+    unordered_map<string, shared_ptr<void>> getParams();
 };
 
 #include "paramset.inl"

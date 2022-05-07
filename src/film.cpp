@@ -12,6 +12,7 @@ Film::Film(int xRes, int yRes, std::string type, std::string ppmFile)
     PPM3Reader reader(ppmFile);
     this->xRes = xRes;
     this->yRes = yRes;
+    std::cout << "Film::background (width: " << reader.getColumns() << ", height:" << reader.getRows() << ")" << std::endl;
     this->imageWidth = reader.getColumns();
     this->imageHeight = reader.getRows();
     this->type = type;
