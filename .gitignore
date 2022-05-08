@@ -1,6 +1,8 @@
 # custom
 .vscode
-tmp.*
+*.ppm
+simple_bkg
+interpolated_bkg.png
 build/drivers
 build/src
 build/tests

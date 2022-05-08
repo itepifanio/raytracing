@@ -21,14 +21,15 @@ TEST_CASE("it can interpolate background") {
     //using values from wikipedia example
     //https://en.wikipedia.org/wiki/Bilinear_interpolation#Example
     Point q11(0, 1, 12);
-    Point q12(4, 1, 0);
+    Point q12(0, 3, -4);
+    Point q21(4, 1, 0);
     Point q22(4, 3, 8);
-    Point q21(0, 3, -4);
+    
     Point corners[4];
     corners[0] = q11;
     corners[1] = q12;
-    corners[2] = q22;
-    corners[3] = q21;
+    corners[2] = q21;
+    corners[3] = q22;
     Background background(4, 4, "image", corners);
     double result = background.interpolate(1, 2);
     CHECK(int(result) == 5);
