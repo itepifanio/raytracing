@@ -9,7 +9,7 @@ class Camera{
     public:
         Camera();
         virtual ~Camera();
-        virtual Ray generate_ray(int x, int y);
+        virtual Ray generate_ray(int x, int y) = 0;
         std::tuple<float, float, float, float> getScreenWindow();
         
 };
