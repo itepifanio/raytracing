@@ -1,4 +1,5 @@
 #include "../include/film.h"
+#include "../include/ppmread.h"
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -6,72 +7,30 @@
 
 Film::Film() {}
 
-Film::Film(std::vector<std::vector<Pixel *>> image)
+Film::Film(int xRes, int yRes, std::string type, std::string filenameOutput)
 {
-    this->image = image;
-}
-
-Film::Film(std::string type, std::string filename, std::string img_type, 
-    int x_res, int y_res
-) {
-    this->x_res = x_res;
-    this->y_res = y_res;
+    this->filenameOutput = filenameOutput;
+    this->xRes = xRes;
+    this->yRes = yRes;
     this->type = type;
-    this->filename = filename;
-    this-> img_type = img_type;
-
-    for(int i = 0 ; i < x_res; i++){
-        std::vector<Vector3> i_;
-        for(int j = 0 ; j < y_res; j++){
-            i_.push_back(Vector3::string_to_vector("0 0 0"));
-        }
-        this->img.push_back(i_);
-    } 
 }
 
-int Film::width()
+int Film::getXRes()
 {
-    return this->x_res;
+    return this->xRes;
 }
 
-int Film::height()
+int Film::getYRes()
 {
-    return this->y_res;
+    return this->yRes;
 }
 
-void Film::setPixel(int i , int j, Vector3 pixel)
+std::string Film::getType()
 {
-    this->img[i][j] = pixel;
+    return this->type;
 }
 
-void Film::toPPM()
+std::string Film::getFilenameOutput()
 {
-    // std::cout << this->filename << std::endl;
-    std::ofstream file(this->filename);
-    // std::cout << this->filename << " aqui\n";
-
-    if (file.is_open())
-    {
-        file << "P3\n";
-        file << this->x_res << " " << this->y_res << "\n";
-        file << "255\n";
-
-        for (int i = 0; i < this->x_res; i++)
-        {
-            std::string line = "";
-            for (int j = 0; j < this->y_res; j++)
-            {
-                Vector3 pixel = this->img[i][j];
-                line += std::to_string(pixel[0]) + " "; 
-                line += std::to_string(pixel[1]) + " "; 
-                line += std::to_string(pixel[2]) + " ";
-            }
-            line += "\n";
-            file << line;
-        }
-
-        file.close();
-    } else {
-        std::cout << "error\n";
-    }
+    return this->filenameOutput;
 }

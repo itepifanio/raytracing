@@ -8,3 +8,13 @@ Pixel::Pixel(int r, int g, int b)
     this->g = g;
     this->b = b;
 }
+
+bool operator==(const Pixel& lhs, const Pixel& rhs)
+{
+    return lhs.r == rhs.r && lhs.b == rhs.b && lhs.g == rhs.g;
+}
+
+bool operator!=(const Pixel& lhs, const Pixel& rhs)
+{
+    return ! (lhs == rhs);
+}

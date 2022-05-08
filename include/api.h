@@ -3,25 +3,20 @@
 
 #include <iostream>
 #include "film.h"
+#include "rt3.h"
 #include "background.h"
 
 class Api
 {
     private:
-    public:
+        void parser(std::string xmlFile);
+        void render();
+        RunningOptions options;
         Background background;
         Film film;
-        // static Api& Instance()
-        // {
-        //     static Api api;
-        //     return api;
-        // }
-        // Api(Api const&) = delete;
-        Api();
-        Api(Background background, Film film);
-        void setBackground(Background Background);
-        void setFilm(Film Film);
-        void operator=(Api const&) = delete;
-        void render();
+    public:
+        Api(RunningOptions options);
+        void run();
+        Background getBackground();
 };
 #endif

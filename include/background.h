@@ -3,30 +3,28 @@
 
 #include "pixel.h"
 #include "vector3.h"
+#include "point.h"
 #include <string>
 #include <vector>
 
 class Background {
     private:
-        Pixel color;
         std::string type;
-        Vector3 color_s;
-        Vector3 bl;
-        Vector3 br;
-        Vector3 tl;
-        Vector3 tr;
-
+        std::vector<std::vector<Pixel*>> image;
+        int height;
+        int width;
     public:
         Background();
-        Background(std::string type, Vector3 color_s, Vector3 bl,
-            Vector3 br, Vector3 tl, Vector3 tr
-        );
-        Pixel fromCoord(int i, int j);
-        void setColor(Pixel pixel);
-        Vector3 interpolate(double x, double y);
-        double RGBtoFloat(int value);
-        double FloattoRGB(double value);
-        Pixel getColor();
+        Background(int width, int height, std::string type, Point points[4]);
+        Background(int width, int height, std::string type, Pixel color);
+        Point bottomLeft;
+        Point bottomRight;
+        Point topLeft;
+        Point topRight;
+        double interpolate(double x, double y);
+        void interpolateAll();
+        void toPPM(std::string filename);
+        std::vector<Pixel*> operator[](int k) const;
 };
 
 #endif
