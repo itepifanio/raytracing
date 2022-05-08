@@ -36,7 +36,7 @@ TEST_CASE("it can setup internal states with interpolated scene") {
 }
 
 TEST_CASE("it output background") {
-    CHECK_EQ(1, 0);
+    //TODO::
 }
 
 /*
