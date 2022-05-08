@@ -2,7 +2,7 @@
 
 ## Executing
 
-`make && ./bin/main-driver`
+`make && ./bin/main-driver <filepath>`
 
 ## Testing
 
