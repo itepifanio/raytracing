@@ -1,5 +1,4 @@
 #include "../include/doctest.h"
-#include "../include/vector3.h"
 #include "../include/math/vectors.inl"
 
 TEST_CASE("it can cross two vectors") {

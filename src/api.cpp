@@ -1,16 +1,13 @@
 #include "../include/api.h"
-#include "../include/tinyxml2.h"
-#include "../include/paramset.h"
-#include "../include/math/vectors.inl"
 
-using namespace tinyxml2;
+// using namespace tinyxml2;
 
 Api::Api(RunningOptions options)
 {
     this->options = options;
 }
 
-Film createFilm(const ParamSet &ps)
+void Api::createFilm(const ParamSet &ps)
 {
     std::string type = ps.find_one<string>("type", "image");
     int xRes = ps.find_one<int>("x_res", 500);
@@ -18,10 +15,10 @@ Film createFilm(const ParamSet &ps)
     std::string filename = ps.find_one<string>("filename", "out.ppm");
 
     Film film(type, xRes, yRes, filename);
-    return film;
+    this->film = film;
 }
 
-Background createBackground(Film film, const ParamSet &ps)
+void Api::createBackground(const ParamSet &ps)
 {
     std::string type = ps.find_one<string>("type", "colors");
     Vector3 color = Vector3::string_to_vector(ps.find_one<string>("color", "-1 -1 -1"));
@@ -32,8 +29,8 @@ Background createBackground(Film film, const ParamSet &ps)
 
     if (color.vector[0] != -1 && color.vector[1] != -1 && color.vector[2] != -1)
     {
-        Background bg(film.getXRes(), film.getYRes(), type, color.toPixel());
-        return bg;
+        Background bg(this->film.getXRes(), this->film.getYRes(), type, color.toPixel());
+        this->background = bg;
     }
 
     Point points[4];
@@ -41,15 +38,15 @@ Background createBackground(Film film, const ParamSet &ps)
     points[1] = tl.toPoint();
     points[2] = tr.toPoint();
     points[3] = br.toPoint();
-    
-    Background bg(film.getXRes(), film.getYRes(), type, points);
+
+    Background bg(this->film.getXRes(), this->film.getYRes(), type, points);
 
     bg.interpolateAll();
 
-    return bg;
+    this->background = bg;
 }
 
-Lookat createLookat(const ParamSet &ps)
+void Api::createLookat(const ParamSet &ps)
 {
     
     Vector3 look_from = Vector3::string_to_vector(ps.find_one<string>("look_from", "0 0 0"));
@@ -57,17 +54,19 @@ Lookat createLookat(const ParamSet &ps)
     Vector3 vup = Vector3::string_to_vector(ps.find_one<string>("up", "0 0 0"));
     
     Lookat lookat(look_from, look_at, vup);
-    return lookat;
+    this->lookat = lookat;
 }
 
-Camera createCamera(const ParamSet &ps)
+void Api::createCamera(const ParamSet &ps)
 {
     std::string type = ps.find_one<string>("type", "orthographic");
-    // std::tuple<float, float, float, float> screenWindow = 
-    this->camera = Camera.make(type, this->lookat)
+    std::tuple<float, float, float, float> screenWindow = Camera::string_to_tuple(
+        ps.find_one<string>("type", "-1.555 1.555 -1 1")
+    );
+    this->camera = Camera::make(type, this->lookat, screenWindow);
 }
 
-ParamSet getParams(XMLElement *e, int size_elements = 1)
+ParamSet Api::getParams(XMLElement *e, int size_elements)
 {
     ParamSet ps;
     // Read each attribs from XML
@@ -128,15 +127,15 @@ void Api::parser(std::string xmlFile)
             // Compare each possible type
             if (strcmp(tag, "lookat") == 0)
             {
-                this->lookat = createLookat(getParams(e));
+                this->createLookat(this->getParams(e));
             }
             else if (strcmp(tag, "camera") == 0)
             {
-                createCamera(getParams(e));
+                this->createCamera(this->getParams(e));
             }
             else if (strcmp(tag, "film") == 0)
             {
-                this->film = createFilm(getParams(e));
+                this->createFilm(this->getParams(e));
             }
             else if (strcmp(tag, "world_begin") == 0)
             {
@@ -148,7 +147,7 @@ void Api::parser(std::string xmlFile)
                     e = attr_world;
                     if (strcmp(tag, "background") == 0)
                     {
-                        this->background = createBackground(this->film, getParams(e));
+                        this->createBackground(this->getParams(e));
                     }
                 }
             }

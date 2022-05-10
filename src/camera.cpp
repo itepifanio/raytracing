@@ -1,6 +1,7 @@
 #include "../include/camera.h"
 #include "../include/ortographicCamera.h"
 #include "../include/perspectiveCamera.h"
+#include "../include/math/vectors.inl"
 
 Camera::Camera() {}
 
@@ -29,19 +30,19 @@ Camera* Camera::make(
 )
 {
     Vector3 gaze(
-        look_at[0] - look_from[0],
-        look_at[1] - look_from[1],
-        look_at[2] - look_from[2]
+        lookat.look_at[0] - lookat.look_from[0],
+        lookat.look_at[1] - lookat.look_from[1],
+        lookat.look_at[2] - lookat.look_from[2]
     );
 
     Vector3 w = normalize(gaze);
-    Vector3 u = normalize(cross(vup, w));
+    Vector3 u = normalize(cross(lookat.vup, w));
     Vector3 v = normalize(cross(w, u));
-    Point e = look_from.toPoint();
+    Point e = lookat.look_from.toPoint();
 
     if(type == "orthographic") {
         return new OrtographicCamera(e, u, v, w, screenWindow);
-    } else f (type == "perspective") {
+    } else if (type == "perspective") {
         return new PerspectiveCamera(e, u, v, w, screenWindow);
     }
 
@@ -52,16 +53,17 @@ Camera* Camera::make(
 
 std::tuple<float, float, float, float> Camera::string_to_tuple(std::string tuple)
 {
-    std::istringstream iss(str);
+    std::istringstream iss(tuple);
     std::vector<std::string> splited(
         (std::istream_iterator<std::string>(iss)),
         std::istream_iterator<std::string>()
     );
 
-    float e0, e1, e2;
+    float e0, e1, e2, e3;
     std::istringstream(splited[0]) >> e0;
     std::istringstream(splited[1]) >> e1;
     std::istringstream(splited[2]) >> e2;
+    std::istringstream(splited[3]) >> e3;
 
-    return std::make_tuple(e0, e1, e2);
+    return std::make_tuple(e0, e1, e2, e3);
 }

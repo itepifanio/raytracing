@@ -3,6 +3,8 @@
 #include "../include/point.h"
 #include "../include/vector3.h"
 
+PerspectiveCamera::PerspectiveCamera(){}
+
 PerspectiveCamera::PerspectiveCamera(
     Point e, Vector3 u, Vector3 v, Vector3 w,
     std::tuple<float, float, float, float> screenWindow

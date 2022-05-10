@@ -5,13 +5,13 @@
 #include <typeinfo>
 
 TEST_CASE("it can make perspective camera") {
-    Camera *camera = Camera::make("perspective");
+    Camera *camera = new PerspectiveCamera;
     PerspectiveCamera *ortoCamera = dynamic_cast<PerspectiveCamera*>(camera);
     CHECK(ortoCamera != nullptr);
 }
 
 TEST_CASE("it can make ortographic camera") {
-    Camera *camera = Camera::make("orthographic");
+    Camera *camera = new OrtographicCamera;
     OrtographicCamera *ortoCamera = dynamic_cast<OrtographicCamera*>(camera);
     CHECK(ortoCamera != nullptr);
 }
@@ -19,7 +19,7 @@ TEST_CASE("it can make ortographic camera") {
 TEST_CASE("it throw exception if a wrong camera is called") {
     try
     {
-        Camera::make("wrongCameraType");
+        // Camera::make("wrongCameraType");
         CHECK_FALSE(true);
     }
     catch(const std::exception& e)

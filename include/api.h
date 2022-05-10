@@ -7,21 +7,33 @@
 #include "background.h"
 #include "lookat.h"
 #include "camera.h"
+#include "paramset.h"
+#include "tinyxml2.h"
+
+using namespace tinyxml2;
 
 class Api
 {
     private:
         void parser(std::string xmlFile);
+
+        ParamSet getParams(XMLElement *e, int size_elements = 1);
+        void createFilm(const ParamSet &ps);
+        void createBackground(const ParamSet &ps);
+        void createLookat(const ParamSet &ps);
+        void createCamera(const ParamSet &ps);
         void render();
+
         RunningOptions options;
         Background background;
         Film film;
         Lookat lookat;
-        Camera camera;
+        Camera * camera;
 
     public:
         Api(RunningOptions options);
         void run();
         Background getBackground();
+        
 };
 #endif
