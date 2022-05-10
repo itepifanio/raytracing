@@ -4,8 +4,8 @@
 #include "camera.h"
 #include "ray.h"
 
-class PerspectiveCamera : public Camera{
-    public:
+class PerspectiveCamera : public Camera {
+    public: 
         PerspectiveCamera(
             std::tuple<float, float, float, float> screenWindow = std::make_tuple(-1.555, 1.555, -1, 1)
         );
