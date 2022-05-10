@@ -7,7 +7,8 @@
 class OrtographicCamera : public Camera{
     public:
         OrtographicCamera(
-            std::tuple<float, float, float, float> screenWindow = std::make_tuple(-1.555, 1.555, -1, 1)
+            Point e, Vector3 u, Vector3 v, Vector3 w,
+            std::tuple<float, float, float, float> screenWindow
         );
         Ray generate_ray(int x, int y);
 };

@@ -49,25 +49,63 @@ Background createBackground(Film film, const ParamSet &ps)
     return bg;
 }
 
-Camera createCamera(const ParamSet &ps)
+Lookat createLookat(const ParamSet &ps)
 {
+    
     Vector3 look_from = Vector3::string_to_vector(ps.find_one<string>("look_from", "0 0 0"));
     Vector3 look_at = Vector3::string_to_vector(ps.find_one<string>("look_at", "0 0 0"));
     Vector3 vup = Vector3::string_to_vector(ps.find_one<string>("up", "0 0 0"));
     
-    Vector3 gaze(
-        look_at[0] - look_from[0],
-        look_at[1] - look_from[1],
-        look_at[2] - look_from[2]
-    );
+    Lookat lookat(look_from, look_at, vup);
+    return lookat;
+}
 
-    Vector3 w = normalize(gaze);
-    Vector3 u = normalize(cross(vup, w));
-    Vector3 v = normalize(cross(w, u));
-    Point e = look_from.toPoint();
+Camera createCamera(const ParamSet &ps)
+{
+    std::string type = ps.find_one<string>("type", "orthographic");
+    // std::tuple<float, float, float, float> screenWindow = 
+    this->camera = Camera.make(type, this->lookat)
+}
 
-    Camera camera(e, u, v, w);
-    return camera;
+ParamSet getParams(XMLElement *e, int size_elements = 1)
+{
+    ParamSet ps;
+    // Read each attribs from XML
+    for (auto att = e->FirstAttribute(); att != NULL; att = att->Next())
+    {
+        // Get the key of attribute
+        std::string key_ = att->Name();
+
+        if (key_ == "x_res" || key_ == "y_res")
+        {
+            // Get the value of the attribute that are being interated
+            int v_ = att->IntValue();
+
+            // Create the vector
+            auto item_insert = make_unique<int[]>(size_elements);
+
+            // Copy item to the vector
+            item_insert[0] = v_;
+
+            // Add element to the ParamSet
+            ps.add<int>(key_, std::move(item_insert), 0);
+        }
+        else
+        {
+            // Get the value of the attribute that are being interated
+            std::string v_ = att->Value();
+            // Create the vector
+            auto item_insert = make_unique<std::string[]>(size_elements);
+
+            // Copy item to the vector
+            item_insert[0] = v_;
+
+            // Add element to the ParamSet
+            ps.add<std::string>(key_, std::move(item_insert), 0);
+        }
+    }
+
+    return ps;
 }
 
 void Api::parser(std::string xmlFile)
@@ -90,74 +128,15 @@ void Api::parser(std::string xmlFile)
             // Compare each possible type
             if (strcmp(tag, "lookat") == 0)
             {
-                ParamSet ps;
-                // Read each attribs from XML
-                for (auto att = e->FirstAttribute(); att != NULL; att = att->Next())
-                {
-                    std::string key_ = att->Name();
-
-                    std::string v_ = att->Value();
-                    // Create the vector
-                    auto item_insert = make_unique<std::string[]>(1);
-
-                    // Copy item to the vector
-                    item_insert[0] = v_;
-
-                    // Add element to the ParamSet
-                    ps.add<std::string>(key_, std::move(item_insert), 0);
-                }
-                this->camera = createCamera(ps);
+                this->lookat = createLookat(getParams(e));
             }
             else if (strcmp(tag, "camera") == 0)
             {
-                ParamSet ps;
-                // Read each attribs from XML
-                for (auto att = e->FirstAttribute(); att != NULL; att = att->Next())
-                {
-                    // createCamera(ps);
-                }
+                createCamera(getParams(e));
             }
             else if (strcmp(tag, "film") == 0)
             {
-                ParamSet ps;
-                for (auto att = e->FirstAttribute(); att != NULL; att = att->Next())
-                {
-                    // Get the key of attribute
-                    std::string key_ = att->Name();
-
-                    // Inform the number of elements that it's going to be in the array.
-                    int size_elements = 1;
-
-                    if (key_ == "x_res" || key_ == "y_res")
-                    {
-                        // Get the value of the attribute that are being interated
-                        int v_ = att->IntValue();
-
-                        // Create the vector
-                        auto item_insert = make_unique<int[]>(size_elements);
-
-                        // Copy item to the vector
-                        item_insert[0] = v_;
-
-                        // Add element to the ParamSet
-                        ps.add<int>(key_, std::move(item_insert), 0);
-                    }
-                    else
-                    {
-                        // Get the value of the attribute that are being interated
-                        std::string v_ = att->Value();
-                        // Create the vector
-                        auto item_insert = make_unique<std::string[]>(size_elements);
-
-                        // Copy item to the vector
-                        item_insert[0] = v_;
-
-                        // Add element to the ParamSet
-                        ps.add<std::string>(key_, std::move(item_insert), 0);
-                    }
-                }
-                this->film = createFilm(ps);
-                // std::cout << film.getXres() << " " << film.getYres() << std::endl;
+                this->film = createFilm(getParams(e));
             }
             else if (strcmp(tag, "world_begin") == 0)
             {
@@ -167,31 +146,9 @@ void Api::parser(std::string xmlFile)
 
                     // Evitar inconsistência de dados.
                     e = attr_world;
-
                     if (strcmp(tag, "background") == 0)
                     {
-                        ParamSet ps;
-                        for (auto att = e->FirstAttribute(); att != NULL; att = att->Next())
-                        {
-                            // Get the key of attribute
-                            std::string key_ = att->Name();
-
-                            // Inform the number of elements that it's going to be in the array.
-                            int size_elements = 1;
-
-                            // Get the value of the attribute that are being interated
-                            std::string v_ = att->Value();
-                            // Create the vector
-                            auto item_insert = make_unique<std::string[]>(size_elements);
-
-                            // Copy item to the vector
-                            item_insert[0] = v_;
-
-                            // Add element to the ParamSet
-                            ps.add<std::string>(key_, std::move(item_insert), 0);
-                        }
-
-                        this->background = createBackground(this->film, ps);
+                        this->background = createBackground(this->film, getParams(e));
                     }
                 }
             }

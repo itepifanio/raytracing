@@ -5,6 +5,7 @@
 #include "film.h"
 #include "rt3.h"
 #include "background.h"
+#include "lookat.h"
 #include "camera.h"
 
 class Api
@@ -15,6 +16,7 @@ class Api
         RunningOptions options;
         Background background;
         Film film;
+        Lookat lookat;
         Camera camera;
 
     public:
