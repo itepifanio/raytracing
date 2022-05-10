@@ -19,7 +19,7 @@ TEST_CASE("it can make ortographic camera") {
 TEST_CASE("it throw exception if a wrong camera is called") {
     try
     {
-        Camera *camera = Camera::make("wrongCameraType");
+        Camera::make("wrongCameraType");
         CHECK_FALSE(true);
     }
     catch(const std::exception& e)
