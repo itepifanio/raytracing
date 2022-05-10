@@ -4,6 +4,14 @@
 
 Camera::Camera() {}
 
+Camera::Camera(Point e, Vector3 u, Vector3 v, Vector3 w) 
+{
+    this->e = e;
+    this->u = u;
+    this->v = v;
+    this->w = w;
+}
+
 Camera::~Camera() {}
 
 std::tuple<float, float, float, float> Camera::getScreenWindow()

@@ -1,6 +1,7 @@
 #include "../include/api.h"
 #include "../include/tinyxml2.h"
 #include "../include/paramset.h"
+#include "../include/math/vectors.inl"
 
 using namespace tinyxml2;
 
@@ -16,7 +17,7 @@ Film createFilm(const ParamSet &ps)
     int yRes = ps.find_one<int>("y_res", 500);
     std::string filename = ps.find_one<string>("filename", "out.ppm");
 
-    Film film(xRes, yRes, type, filename);
+    Film film(type, xRes, yRes, filename);
     return film;
 }
 
@@ -48,6 +49,27 @@ Background createBackground(Film film, const ParamSet &ps)
     return bg;
 }
 
+Camera createCamera(const ParamSet &ps)
+{
+    Vector3 look_from = Vector3::string_to_vector(ps.find_one<string>("look_from", "0 0 0"));
+    Vector3 look_at = Vector3::string_to_vector(ps.find_one<string>("look_at", "0 0 0"));
+    Vector3 vup = Vector3::string_to_vector(ps.find_one<string>("up", "0 0 0"));
+    
+    Vector3 gaze(
+        look_at[0] - look_from[0],
+        look_at[1] - look_from[1],
+        look_at[2] - look_from[2]
+    );
+
+    Vector3 w = normalize(gaze);
+    Vector3 u = normalize(cross(vup, w));
+    Vector3 v = normalize(cross(w, u));
+    Point e = look_from.toPoint();
+
+    Camera camera(e, u, v, w);
+    return camera;
+}
+
 void Api::parser(std::string xmlFile)
 {
     XMLDocument doc;
@@ -66,7 +88,27 @@ void Api::parser(std::string xmlFile)
         {
             const char *tag = e->Value();
             // Compare each possible type
-            if (strcmp(tag, "camera") == 0)
+            if (strcmp(tag, "lookat") == 0)
+            {
+                ParamSet ps;
+                // Read each attribs from XML
+                for (auto att = e->FirstAttribute(); att != NULL; att = att->Next())
+                {
+                    std::string key_ = att->Name();
+
+                    std::string v_ = att->Value();
+                    // Create the vector
+                    auto item_insert = make_unique<std::string[]>(1);
+
+                    // Copy item to the vector
+                    item_insert[0] = v_;
+
+                    // Add element to the ParamSet
+                    ps.add<std::string>(key_, std::move(item_insert), 0);
+                }
+                this->camera = createCamera(ps);
+            }
+            else if (strcmp(tag, "camera") == 0)
             {
                 ParamSet ps;
                 // Read each attribs from XML

@@ -13,7 +13,7 @@ class Film {
         std::string type;
     public:
         Film();
-        Film(int xRes, int yRes, std::string type, std::string filenameOutput);
+        Film(std::string type, int xRes, int yRes, std::string filenameOutput);
         int getXRes();
         int getYRes();
         std::string getType();

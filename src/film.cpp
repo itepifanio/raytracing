@@ -7,12 +7,12 @@
 
 Film::Film() {}
 
-Film::Film(int xRes, int yRes, std::string type, std::string filenameOutput)
+Film::Film(std::string type, int xRes, int yRes, std::string filenameOutput)
 {
-    this->filenameOutput = filenameOutput;
+    this->type = type;
     this->xRes = xRes;
     this->yRes = yRes;
-    this->type = type;
+    this->filenameOutput = filenameOutput;
 }
 
 int Film::getXRes()
