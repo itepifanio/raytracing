@@ -1,7 +1,11 @@
 <RT3>
-    <camera type="orthographic" />
-    <film type="image" x_res="200" y_res="100" filename="simple_bkg.ppm" img_type="ppm" />
+    <lookat look_from="0 7 0" look_at="0 0 0" up="0 0 1" />
+    <camera type="orthographic" screen_window="-5.3 5.3 -4 4"/>
+    <film type="image" x_res="2800" y_res="1800" crop_window="0 1 0 1"
+    filename="../images/gcodex_matte_ortho.png"
+    img_type="png" gamma_corrected="yes" />
     <world_begin/>
-        <background type="colors" mapping="screen" color="153 204 255"/>
+        <background type="colors" color="0.14 0.19 0.26" />
+        <!-- Here goes the rest of the file, including scene definition. -->
     <world_end/>
-</RT3>
+</RT3

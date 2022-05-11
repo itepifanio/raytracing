@@ -5,7 +5,7 @@
 
 class RunningOptions {
     private:
-        std::string help = "Usage: rt3 [<options>] <input_scene_file>";
+        std::string help;
         std::string inputSceneFile;
         //int cropwindows[4]; // x0, x1, y0, y1
         //bool quick = false;
@@ -13,6 +13,7 @@ class RunningOptions {
     public:
         RunningOptions();
         RunningOptions(std::string inputSceneFile);
+        ~RunningOptions();
         std::string getSceneFile();
 };
 

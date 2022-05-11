@@ -10,7 +10,7 @@ TEST_CASE("it can init film") {
     std::string type = "image";
     std::string filenameOutput = "./tests/fixtures/test.ppm";
     
-    Film film(xRes, yRes, type, filenameOutput);
+    Film film(type, xRes, yRes, filenameOutput);
     
     CHECK_EQ(film.getXRes(), xRes);
     CHECK_EQ(film.getYRes(), yRes);
