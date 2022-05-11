@@ -24,8 +24,9 @@ class Camera {
         std::tuple<float, float, float, float> getScreenWindow();
         static Camera* make(
             std::string type, Lookat lookat,
-            std::tuple<float, float, float, float> screenWindow
+            std::tuple<float, float, float, float> screenWindow = std::make_tuple(-1.555, 1.555, -1, 1)
         );
+        static Camera* make(std::string type);
         static std::tuple<float, float, float, float> string_to_tuple(std::string tuple);
 };
 

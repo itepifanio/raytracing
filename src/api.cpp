@@ -1,7 +1,5 @@
 #include "../include/api.h"
 
-// using namespace tinyxml2;
-
 Api::Api(RunningOptions options)
 {
     this->options = options;
@@ -61,7 +59,7 @@ void Api::createCamera(const ParamSet &ps)
 {
     std::string type = ps.find_one<string>("type", "orthographic");
     std::tuple<float, float, float, float> screenWindow = Camera::string_to_tuple(
-        ps.find_one<string>("type", "-1.555 1.555 -1 1")
+        ps.find_one<string>("screen_window", "-1.555 1.555 -1 1")
     );
     this->camera = Camera::make(type, this->lookat, screenWindow);
 }

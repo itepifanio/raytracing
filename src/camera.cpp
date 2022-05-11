@@ -3,7 +3,10 @@
 #include "../include/perspectiveCamera.h"
 #include "../include/math/vectors.inl"
 
-Camera::Camera() {}
+Camera::Camera() 
+{
+    this->screenWindow = std::make_tuple(-1.555, 1.555, -1, 1);
+}
 
 Camera::Camera(
     Point e, Vector3 u, Vector3 v, Vector3 w,
@@ -44,6 +47,19 @@ Camera* Camera::make(
         return new OrtographicCamera(e, u, v, w, screenWindow);
     } else if (type == "perspective") {
         return new PerspectiveCamera(e, u, v, w, screenWindow);
+    }
+
+    std::string cameraException = "Camera type " + type + " is not configured.";
+
+    throw std::invalid_argument(cameraException);
+}
+
+Camera* Camera::make(std::string type)
+{
+    if(type == "orthographic") {
+        return new OrtographicCamera;
+    } else if (type == "perspective") {
+        return new PerspectiveCamera;
     }
 
     std::string cameraException = "Camera type " + type + " is not configured.";
