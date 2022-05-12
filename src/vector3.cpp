@@ -76,12 +76,7 @@ Vector3 operator*(Vector3 const &lhs, double const rhs)
 
 Vector3 operator/(Vector3 const &lhs, double const rhs)
 {
-    std::cout << "rhs: " << rhs << std::endl;
     double r = 1/rhs;
-    std::cout << "r: " << r << std::endl;
-    std::cout << "v[0]: " << lhs[0] << std::endl;
-    std::cout << "v[1]: " << lhs[1] << std::endl;
-    std::cout << "v[2]: " << lhs[2] << std::endl;
     Vector3 v;
     v.vector[0] = lhs.vector[0]*r;
     v.vector[1] = lhs.vector[1]*r;

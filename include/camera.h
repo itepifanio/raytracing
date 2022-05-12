@@ -33,7 +33,7 @@ class Camera {
             std::tuple<double, double, double, double> screenWindow = std::make_tuple(-1.555, 1.555, -1, 1)
         );
         static std::tuple<double, double, double, double> string_to_tuple(std::string tuple);
-        static Camera* make(std::string type);
+        std::tuple<double, double> getUVPos(int i, int j);
 
         Film film;
 };
