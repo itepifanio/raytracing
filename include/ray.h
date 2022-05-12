@@ -10,7 +10,7 @@ public:
     Ray(const Point &origin, const Vector3 &direction);
     Point getOrigin();
     Vector3 getDirection();
-    Point operator()(float t);
+    Point operator()(double t);
 private:
     Point origin;
     Vector3 direction;

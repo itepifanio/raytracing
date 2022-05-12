@@ -12,7 +12,7 @@ class Camera {
         // left, right, bottom, top
         Point e;
         Vector3 u, v, w;
-        std::tuple<float, float, float, float> screenWindow;
+        std::tuple<double, double, double, double> screenWindow;
     public:
         Camera();
         Point getE();
@@ -21,16 +21,16 @@ class Camera {
         Vector3 getW();
         Camera(
             Point e, Vector3 u, Vector3 v, Vector3 w,
-            std::tuple<float, float, float, float> screenWindow = std::make_tuple(-1.555, 1.555, -1, 1)
+            std::tuple<double, double, double, double> screenWindow = std::make_tuple(-1.555, 1.555, -1, 1)
         );
         virtual ~Camera();
         virtual Ray generate_ray(int x, int y) = 0;
-        std::tuple<float, float, float, float> getScreenWindow();
+        std::tuple<double, double, double, double> getScreenWindow();
         static Camera* make(
             std::string type, Lookat lookat,
-            std::tuple<float, float, float, float> screenWindow = std::make_tuple(-1.555, 1.555, -1, 1)
+            std::tuple<double, double, double, double> screenWindow = std::make_tuple(-1.555, 1.555, -1, 1)
         );
-        static std::tuple<float, float, float, float> string_to_tuple(std::string tuple);
+        static std::tuple<double, double, double, double> string_to_tuple(std::string tuple);
 };
 
 #endif
