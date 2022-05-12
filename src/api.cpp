@@ -172,8 +172,3 @@ Background Api::getBackground()
 {
     return this->background;
 }
-
-Film Api::getCamera()
-{
-    return this->camera;
-}
