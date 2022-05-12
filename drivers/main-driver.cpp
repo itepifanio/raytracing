@@ -20,6 +20,7 @@ int main(int argc, char **argv)
             Api api(options);
             api.run();
 
+            /*
             auto w = api.getCamera().film.getXRes();
             auto h = api.getCamera().film.getYRes();
 
@@ -35,6 +36,7 @@ int main(int argc, char **argv)
                     //camera.film.add(Point2{i, j}, color);
                 }
             }
+            */
         }
         else
         {
