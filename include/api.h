@@ -26,7 +26,6 @@ class Api
 
         RunningOptions options;
         Background background;
-        Film film;
         Lookat lookat;
         Camera * camera;
 
