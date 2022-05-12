@@ -57,10 +57,10 @@ TEST_CASE("it can make perspective camera") {
 
     CHECK_EQ(persCamera->getE(), resultE);
     CHECK_EQ(persCamera->getW().toPoint(), resultW.toPoint());
-    
-    CHECK_EQ(persCamera->getU().toPoint().i, resultV.toPoint().i);
-    CHECK_EQ(persCamera->getU().toPoint().j, resultV.toPoint().j);
-    CHECK_EQ(persCamera->getU().toPoint().value, resultV.toPoint().value);
+
+    CHECK_EQ(persCamera->getU().toPoint().i, resultU.toPoint().i);
+    CHECK_EQ(persCamera->getU().toPoint().j, resultU.toPoint().j);
+    CHECK_EQ(persCamera->getU().toPoint().value, resultU.toPoint().value);
 
     // o último valor tá dando diferente
     CHECK_EQ(persCamera->getV().toPoint().i, resultV.toPoint().i);

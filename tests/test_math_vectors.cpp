@@ -26,7 +26,7 @@ TEST_CASE("it can normalize vectors") {
 
 TEST_CASE("it can normalize vectors special case 01") {
     Vector3 v(0.964764, 0, 0);
-    Vector3 result(1, 0, 0);
+    Vector3 result(0.999997181, 0, 0);
 
     CHECK_EQ(result.toPoint().i, normalize(v).toPoint().i);
     CHECK_EQ(result.toPoint().j, normalize(v).toPoint().j);

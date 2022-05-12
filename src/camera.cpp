@@ -30,11 +30,7 @@ Camera *Camera::make(
     std::string type, Lookat lookat,
     std::tuple<double, double, double, double> screenWindow)
 {
-    Vector3 gaze(
-        lookat.look_at[0] - lookat.look_from[0],
-        lookat.look_at[1] - lookat.look_from[1],
-        lookat.look_at[2] - lookat.look_from[2]
-    );
+    Vector3 gaze = lookat.look_at - lookat.look_from;
 
     Vector3 w = normalize(gaze);
     Vector3 u = normalize(cross(lookat.vup, w));

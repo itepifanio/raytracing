@@ -24,7 +24,7 @@ public:
 
     Vector3(Pixel pixel);
 
-    Vector3(int e0, int e1, int e2);
+    Vector3(double e0, double e1, double e2);
 
     static Vector3 string_to_vector(std::string str);
 

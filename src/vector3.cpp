@@ -16,7 +16,7 @@ Vector3::Vector3(Pixel pixel)
     this->vector[2] = pixel.b;
 }
 
-Vector3::Vector3(int e0, int e1, int e2)
+Vector3::Vector3(double e0, double e1, double e2)
 {
     this->vector[0] = e0;
     this->vector[1] = e1;
@@ -29,7 +29,7 @@ Vector3 Vector3::string_to_vector(std::string str)
     std::vector<std::string> splited((std::istream_iterator<std::string>(iss)),
                                      std::istream_iterator<std::string>());
 
-    int e0, e1, e2;
+    double e0, e1, e2;
     std::istringstream(splited[0]) >> e0;
     std::istringstream(splited[1]) >> e1;
     std::istringstream(splited[2]) >> e2;
@@ -129,7 +129,7 @@ Vector3 operator-(Vector3 const &lhs, Vector3 const &rhs)
 
 double Vector3::length()
 {
-    return sqrt(length_squared());
+    return sqrt(this->length_squared());
 }
 
 Pixel Vector3::toPixel()
