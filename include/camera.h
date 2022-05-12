@@ -26,6 +26,7 @@ class Camera {
         );
         virtual ~Camera();
         virtual Ray generate_ray(int x, int y) = 0;
+        virtual void print(Ray ray) = 0;
         std::tuple<double, double, double, double> getScreenWindow();
 
         static Camera* make(

@@ -32,5 +32,6 @@ class Api
         Api(RunningOptions options);
         void run();
         Background getBackground();
+        Camera * getCamera();
 };
 #endif

@@ -12,6 +12,7 @@ class OrtographicCamera : public Camera{
             std::tuple<double, double, double, double> screenWindow
         );
         Ray generate_ray(int x, int y);
+        void print(Ray ray);
 };
 
 #endif

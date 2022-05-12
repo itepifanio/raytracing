@@ -19,24 +19,35 @@ int main(int argc, char **argv)
             RunningOptions options(sceneFile);
             Api api(options);
             api.run();
+            
+            Background background = api.getBackground();
+            Camera * camera = api.getCamera();
 
-            /*
-            auto w = api.getCamera().film.getXRes();
-            auto h = api.getCamera().film.getYRes();
-
-            for (int j = h - 1; j >= 0; j--)
+            auto w = camera->film.getXRes();
+            auto h = camera->film.getYRes();
+            std::cout << "Ray's Origin                         Ray's Direction\n";
+            for (int j = h - 1; j >= h-3; j--)
             {
-                for (int i = 0; i < w; i++)
+                for (int i = 0; i < w; i+=700)
                 {
-                    Ray r2 = camera.generate_ray(i, j);
-                    std::cout << "Ray1: " << r1 << ", Ray2: " << r2 << std::endl;
-                    std::cout << "Point at t=2, ray(2) = " << r1(2.f) << std::endl;
+                    std::cout << "i=" << i << " j=" << j;
+                    Ray r2 = camera->generate_ray(i, j);
+                    std::cout << std::endl;
+                    camera->print(r2);
                     
-                    //auto color = background.sample(float(i) / float(w), float(j) / float(h), r1);
-                    //camera.film.add(Point2{i, j}, color);
                 }
             }
-            */
+            for (int j = 2; j >= 0; j--)
+            {
+                for (int i = 0; i < w; i+=700)
+                {
+                    std::cout << "i=" << i << " j=" << j;
+                    Ray r2 = camera->generate_ray(i, j);
+                    std::cout << std::endl;
+                    camera->print(r2);
+                    
+                }
+            }
         }
         else
         {
