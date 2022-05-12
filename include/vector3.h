@@ -24,7 +24,7 @@ public:
 
     Vector3(Pixel pixel);
 
-    Vector3(int e0, int e1, int e2);
+    Vector3(double e0, double e1, double e2);
 
     static Vector3 string_to_vector(std::string str);
 
@@ -47,6 +47,8 @@ public:
     friend Vector3 operator*(Vector3 const &lhs, double const rhs);
 
     friend Vector3 operator*(double const rhs, Vector3 const &lhs);
+
+    friend Vector3 operator/(Vector3 const &lhs, double const rhs);
 
     double length();
 

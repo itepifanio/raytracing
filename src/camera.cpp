@@ -10,7 +10,7 @@ Camera::Camera()
 
 Camera::Camera(
     Point e, Vector3 u, Vector3 v, Vector3 w,
-    std::tuple<float, float, float, float> screenWindow)
+    std::tuple<double, double, double, double> screenWindow)
 {
     this->e = e;
     this->u = u;
@@ -21,20 +21,16 @@ Camera::Camera(
 
 Camera::~Camera() {}
 
-std::tuple<float, float, float, float> Camera::getScreenWindow()
+std::tuple<double, double, double, double> Camera::getScreenWindow()
 {
     return this->screenWindow;
 }
 
 Camera *Camera::make(
     std::string type, Lookat lookat,
-    std::tuple<float, float, float, float> screenWindow)
+    std::tuple<double, double, double, double> screenWindow)
 {
-    Vector3 gaze(
-        lookat.look_at[0] - lookat.look_from[0],
-        lookat.look_at[1] - lookat.look_from[1],
-        lookat.look_at[2] - lookat.look_from[2]
-    );
+    Vector3 gaze = lookat.look_at - lookat.look_from;
 
     Vector3 w = normalize(gaze);
     Vector3 u = normalize(cross(lookat.vup, w));
@@ -56,14 +52,14 @@ Camera *Camera::make(
     throw std::invalid_argument(cameraException);
 }
 
-std::tuple<float, float, float, float> Camera::string_to_tuple(std::string tuple)
+std::tuple<double, double, double, double> Camera::string_to_tuple(std::string tuple)
 {
     std::istringstream iss(tuple);
     std::vector<std::string> splited(
         (std::istream_iterator<std::string>(iss)),
         std::istream_iterator<std::string>());
 
-    float e0, e1, e2, e3;
+    double e0, e1, e2, e3;
     std::istringstream(splited[0]) >> e0;
     std::istringstream(splited[1]) >> e1;
     std::istringstream(splited[2]) >> e2;
