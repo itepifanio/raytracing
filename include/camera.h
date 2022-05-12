@@ -5,6 +5,7 @@
 #include "vector3.h"
 #include "ray.h"
 #include "lookat.h"
+#include "film.h"
 
 class Camera {
     protected:
@@ -26,11 +27,15 @@ class Camera {
         virtual ~Camera();
         virtual Ray generate_ray(int x, int y) = 0;
         std::tuple<double, double, double, double> getScreenWindow();
+
         static Camera* make(
             std::string type, Lookat lookat,
             std::tuple<double, double, double, double> screenWindow = std::make_tuple(-1.555, 1.555, -1, 1)
         );
         static std::tuple<double, double, double, double> string_to_tuple(std::string tuple);
+        static Camera* make(std::string type);
+
+        Film film;
 };
 
 #endif

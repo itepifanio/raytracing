@@ -18,6 +18,7 @@ TEST_CASE("it can setup internal states with interpolated scene") {
     CHECK(options.getSceneFile() == sceneFile);
     Api api(options);
     api.run();
+
     CHECK_EQ(api.getBackground().bottomLeft.i, 0);
     CHECK_EQ(api.getBackground().bottomLeft.j, 0);
     CHECK_EQ(api.getBackground().bottomLeft.value, 51);
