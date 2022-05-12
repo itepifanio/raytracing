@@ -172,3 +172,8 @@ Background Api::getBackground()
 {
     return this->background;
 }
+
+Camera * Api::getCamera()
+{
+    return this->camera;
+}

@@ -28,11 +28,10 @@ class Api
         Background background;
         Lookat lookat;
         Camera * camera;
-
     public:
         Api(RunningOptions options);
         void run();
         Background getBackground();
-        
+        Camera * getCamera();
 };
 #endif

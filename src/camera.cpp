@@ -34,7 +34,7 @@ Camera *Camera::make(
 
     Vector3 w = normalize(gaze);
     Vector3 u = normalize(cross(lookat.vup, w));
-    Vector3 v = normalize(cross(w, u));
+    Vector3 v = normalize(cross(u, w));
 
     Point e = lookat.look_from.toPoint();
 
@@ -66,6 +66,25 @@ std::tuple<double, double, double, double> Camera::string_to_tuple(std::string t
     std::istringstream(splited[3]) >> e3;
 
     return std::make_tuple(e0, e1, e2, e3);
+}
+
+/*
+Map image space to screen space
+i,j are position from the image space
+imageWidth, imageHeight are the number of pixels of the image
+*/
+std::tuple<double, double> Camera::getUVPos(int i, int j)
+{
+    auto screenWindows = this->getScreenWindow();
+    double left = std::get<0>(screenWindows);
+    double right = std::get<1>(screenWindows);
+    double bottom = std::get<2>(screenWindows);
+    double top = std::get<3>(screenWindows);
+
+    double u = left + (right - left)*(i + 0.5)/this->film.getXRes();
+    double v = bottom + (top - bottom)*(j + 0.5)/this->film.getYRes();
+
+    return std::make_tuple(u, v);
 }
 
 Point Camera::getE()
