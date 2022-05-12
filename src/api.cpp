@@ -58,7 +58,7 @@ void Api::createLookat(const ParamSet &ps)
 void Api::createCamera(const ParamSet &ps)
 {
     std::string type = ps.find_one<string>("type", "orthographic");
-    std::tuple<float, float, float, float> screenWindow = Camera::string_to_tuple(
+    std::tuple<double, double, double, double> screenWindow = Camera::string_to_tuple(
         ps.find_one<string>("screen_window", "-1.555 1.555 -1 1")
     );
     this->camera = Camera::make(type, this->lookat, screenWindow);

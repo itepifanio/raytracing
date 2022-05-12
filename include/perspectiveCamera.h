@@ -9,7 +9,7 @@ class PerspectiveCamera : public Camera {
         PerspectiveCamera();
         PerspectiveCamera(
             Point e, Vector3 u, Vector3 v, Vector3 w,
-            std::tuple<float, float, float, float> screenWindow
+            std::tuple<double, double, double, double> screenWindow
         );
         Ray generate_ray(int x, int y);
 };
