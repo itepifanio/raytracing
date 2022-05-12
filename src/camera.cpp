@@ -39,6 +39,7 @@ Camera *Camera::make(
     Vector3 w = normalize(gaze);
     Vector3 u = normalize(cross(lookat.vup, w));
     Vector3 v = normalize(cross(w, u));
+
     Point e = lookat.look_from.toPoint();
 
     if (type == "orthographic")
