@@ -13,7 +13,7 @@ void Api::createFilm(const ParamSet &ps)
     std::string filename = ps.find_one<string>("filename", "out.ppm");
 
     Film film(type, xRes, yRes, filename);
-    this->film = film;
+    this->camera->film = film;
 }
 
 void Api::createBackground(const ParamSet &ps)
@@ -27,7 +27,7 @@ void Api::createBackground(const ParamSet &ps)
 
     if (color.vector[0] != -1 && color.vector[1] != -1 && color.vector[2] != -1)
     {
-        Background bg(this->film.getXRes(), this->film.getYRes(), type, color.toPixel());
+        Background bg(this->camera->film.getXRes(), this->camera->film.getYRes(), type, color.toPixel());
         this->background = bg;
     }
 
@@ -37,7 +37,7 @@ void Api::createBackground(const ParamSet &ps)
     points[2] = tr.toPoint();
     points[3] = br.toPoint();
 
-    Background bg(this->film.getXRes(), this->film.getYRes(), type, points);
+    Background bg(this->camera->film.getXRes(), this->camera->film.getYRes(), type, points);
 
     bg.interpolateAll();
 
@@ -153,7 +153,7 @@ void Api::parser(std::string xmlFile)
     }
     else
     {
-        printf("Couldn't open the file!\n");
+        throw std::invalid_argument(("Couldn't open the file!\n"));
     }
 }
 
@@ -165,7 +165,7 @@ void Api::render()
 void Api::run()
 {
     this->parser(this->options.getSceneFile());
-    this->background.toPPM(this->film.getFilenameOutput());
+    this->background.toPPM(this->camera->film.getFilenameOutput());
 }
 
 Background Api::getBackground()
