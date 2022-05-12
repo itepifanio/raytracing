@@ -12,5 +12,5 @@ inline Vector3 cross(Vector3 u, Vector3 v) {
 }
 
 inline Vector3 normalize(Vector3 v) {
-    return v /= v.length();
+    return v / v.length();
 }

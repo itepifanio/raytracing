@@ -74,6 +74,22 @@ Vector3 operator*(Vector3 const &lhs, double const rhs)
     return v;
 }
 
+Vector3 operator/(Vector3 const &lhs, double const rhs)
+{
+    std::cout << "rhs: " << rhs << std::endl;
+    double r = 1/rhs;
+    std::cout << "r: " << r << std::endl;
+    std::cout << "v[0]: " << lhs[0] << std::endl;
+    std::cout << "v[1]: " << lhs[1] << std::endl;
+    std::cout << "v[2]: " << lhs[2] << std::endl;
+    Vector3 v;
+    v.vector[0] = lhs.vector[0]*r;
+    v.vector[1] = lhs.vector[1]*r;
+    v.vector[2] = lhs.vector[2]*r;
+
+    return v;
+}
+
 Vector3 operator*( double const rhs, Vector3 const &lhs)
 {
     return lhs * rhs;
@@ -113,7 +129,7 @@ Vector3 operator-(Vector3 const &lhs, Vector3 const &rhs)
 
 double Vector3::length()
 {
-    return std::sqrt(length_squared());
+    return sqrt(length_squared());
 }
 
 Pixel Vector3::toPixel()

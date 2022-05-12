@@ -48,6 +48,8 @@ public:
 
     friend Vector3 operator*(double const rhs, Vector3 const &lhs);
 
+    friend Vector3 operator/(Vector3 const &lhs, double const rhs);
+
     double length();
 
     Pixel toPixel();

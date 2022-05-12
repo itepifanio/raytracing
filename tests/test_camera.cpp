@@ -36,9 +36,9 @@ TEST_CASE("it can make orthographic camera") {
 }*/
 
 TEST_CASE("it can make perspective camera") {
-    std::tuple<float, float, float, float> screenWindow = std::make_tuple(-1.555, 1.555, -1, 1);
+    std::tuple<float, float, float, float> screenWindow = std::make_tuple(-1.556, 1.556, -1, 1);
     std::cout << "Perspective" << std::endl;
-    //TODO::Professor não deu os valores de look
+
     Vector3 lookfrom(0, 4.0, -11.0);
     Vector3 lookat(0, 1, 0);
     Vector3 vup(0, 1, 0);
