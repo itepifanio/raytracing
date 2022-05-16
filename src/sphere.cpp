@@ -9,7 +9,7 @@ Sphere::~Sphere()
 {
 }
 
-bool Sphere::intersectP(const Ray &r)
+bool Sphere::intersectP(const Ray &r) const
 {
     // TODO::implement
     return false;

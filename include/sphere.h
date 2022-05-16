@@ -9,7 +9,7 @@ class Sphere : public Primitive {
     public:
         Sphere(int r);
         ~Sphere();
-        bool intersectP(const Ray &r);
+        bool intersectP(const Ray &r) const;
 };
 
 #endif
