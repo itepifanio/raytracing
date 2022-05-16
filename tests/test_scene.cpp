@@ -2,7 +2,7 @@
 #include "../include/scene.h"
 
 TEST_CASE("it can init scene") {
-    Sphere scene;
+    Scene scene;
     // TODO::Check properties
 }
 

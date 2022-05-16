@@ -4,9 +4,12 @@
 #include "primitive.h"
 
 class Sphere : public Primitive {
+    private:
+        int r;
     public:
-        void rayIntersection();
-
+        Sphere(int r);
+        ~Sphere();
+        bool intersectP(const Ray &r);
 };
 
 #endif

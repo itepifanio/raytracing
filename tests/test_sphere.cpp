@@ -2,7 +2,11 @@
 #include "../include/sphere.h"
 
 TEST_CASE("it can init sphere") {
-    int ray = 5;
-    Sphere sphere(ray);
+    int r = 5;
+    Sphere sphere(r);
     CHECK_EQ(sphere.getRay(), ray);
+}
+
+TEST_CASE("it can intersect point p ") {
+    //TODO:: to implement
 }
