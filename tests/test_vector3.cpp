@@ -67,3 +67,10 @@ TEST_CASE("it can access class as array") {
     CHECK(v[1] == 2);
     CHECK(v[2] == 3);
 }
+
+TEST_CASE("it can calculate dot product") {
+    Vector3 v1(7, 3, 5);
+    Vector3 v2(-8, 4, 2);
+    double v3 = v1 * v2;
+    CHECK_EQ(v3, 114.0);
+}
