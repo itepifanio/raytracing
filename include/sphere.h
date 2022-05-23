@@ -6,8 +6,9 @@
 class Sphere : public Primitive {
     private:
         int r;
+        Point center;
     public:
-        Sphere(int r);
+        Sphere(int r, Point center);
         ~Sphere();
         bool intersectP(const Ray &r) const;
 };

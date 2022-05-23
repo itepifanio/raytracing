@@ -1,15 +1,17 @@
+#pragma once
+
 #include <limits>
 #include <utility>
 #include <math.h>
 
-double bhaskaraDelta(double a, double b, double c)
+double deltaBhaskara(double a, double b, double c)
 {
     return (b*b) - (4*a*c);
 }
 
 std::pair<int, int> bhaskara(double a, double b, double c)
 {
-    double delta = bhaskaraDelta(a, b, c);
+    double delta = deltaBhaskara(a, b, c);
 
     if(delta == 0) {
         double root = (-b)/(2*a);
