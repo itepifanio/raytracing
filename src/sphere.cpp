@@ -1,10 +1,17 @@
 #include "../include/sphere.h"
 #include "../include/math/formula.inl"
 
-Sphere::Sphere(int r, Point center)
+Sphere::Sphere(double r, Point center)
 {
     this->r = r;
     this->center = center;
+}
+
+
+Sphere::Sphere(double r, Vector3 center_vector)
+{
+    this->r = r;
+    this->center_vector = center_vector;
 }
 
 Sphere::~Sphere()

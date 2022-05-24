@@ -64,6 +64,16 @@ void Api::createCamera(const ParamSet &ps)
     this->camera = Camera::make(type, this->lookat, screenWindow);
 }
 
+void Api::addSphere(const ParamSet &ps)
+{
+    std::string type = ps.find_one<string>("type", "sphere");
+    double radius = ps.find_one<double>("radius", 0.0);
+    Vector3 center = Vector3::string_to_vector(ps.find_one<string>("center", "0 0 0"));
+
+    Primitive * s = new Sphere(radius, center);
+    this->primitives.push_back(s);
+}
+
 ParamSet Api::getParams(XMLElement *e, int size_elements)
 {
     ParamSet ps;
@@ -146,6 +156,10 @@ void Api::parser(std::string xmlFile)
                     if (strcmp(tag, "background") == 0)
                     {
                         this->createBackground(this->getParams(e));
+                    }
+                    else if(strcmp(tag, "object") == 0)
+                    {
+                        this->addSphere(this->getParams(e));
                     }
                 }
             }

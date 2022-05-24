@@ -2,13 +2,17 @@
 #define _SPHERE_H_
 
 #include "primitive.h"
+#include "vector3.h"
+
 
 class Sphere : public Primitive {
     private:
-        int r;
+        double r;
         Point center;
+        Vector3 center_vector;
     public:
-        Sphere(int r, Point center);
+        Sphere(double r, Point center);
+        Sphere(double r, Vector3 center_vector);
         ~Sphere();
         bool intersectP(const Ray &r) const;
 };

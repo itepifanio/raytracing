@@ -8,6 +8,7 @@
 #include "lookat.h"
 #include "camera.h"
 #include "paramset.h"
+#include "sphere.h"
 #include "tinyxml2.h"
 
 using namespace tinyxml2;
@@ -22,12 +23,15 @@ class Api
         void createBackground(const ParamSet &ps);
         void createLookat(const ParamSet &ps);
         void createCamera(const ParamSet &ps);
+        void addSphere(const ParamSet &ps);
         void render();
 
         RunningOptions options;
         Background background;
         Lookat lookat;
         Camera * camera;
+        std::vector<Primitive*> primitives;
+
     public:
         Api(RunningOptions options);
         void run();
