@@ -11,10 +11,11 @@
 #include <vector>
 #include <iterator>
 
+class Point; // avoiding cyclic definition by prototyping the class 'Point'
+
 /*
 Used to calculate the pixel or points
 */
-
 class Vector3
 {
 public:
@@ -47,6 +48,8 @@ public:
     friend Vector3 operator*(Vector3 const &lhs, double const rhs);
 
     friend Vector3 operator*(double const rhs, Vector3 const &lhs);
+
+    friend double operator*(Vector3 const &rhs, Vector3 const &lhs);
 
     friend Vector3 operator/(Vector3 const &lhs, double const rhs);
 

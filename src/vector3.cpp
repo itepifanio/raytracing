@@ -74,6 +74,12 @@ Vector3 operator*(Vector3 const &lhs, double const rhs)
     return v;
 }
 
+double operator*(Vector3 const &rhs, Vector3 const &lhs)
+{
+    Vector3 v;
+    return (rhs[0] * lhs[0]) + (rhs[1] * lhs[1]) + (rhs[2] * lhs[2]);
+}
+
 Vector3 operator/(Vector3 const &lhs, double const rhs)
 {
     double r = 1/rhs;
