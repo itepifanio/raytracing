@@ -64,13 +64,21 @@ void Api::createCamera(const ParamSet &ps)
     this->camera = Camera::make(type, this->lookat, screenWindow);
 }
 
+void Api::createMaterial(const ParamSet &ps)
+{
+    std::string type = ps.find_one<string>("type", "flat");
+    Vector3 color = Vector3::string_to_vector(ps.find_one<string>("color", "0 0 0"));
+    this->material = Material::make(type, color);
+}
+
+
 void Api::addSphere(const ParamSet &ps)
 {
     std::string type = ps.find_one<string>("type", "sphere");
     double radius = ps.find_one<double>("radius", 0.0);
     Vector3 center = Vector3::string_to_vector(ps.find_one<string>("center", "0 0 0"));
 
-    Primitive * s = new Sphere(radius, center);
+    Primitive * s = new Sphere(radius, center, this->material);
     this->primitives.push_back(s);
 }
 

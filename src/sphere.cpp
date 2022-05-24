@@ -8,10 +8,11 @@ Sphere::Sphere(double r, Point center)
 }
 
 
-Sphere::Sphere(double r, Vector3 center_vector)
+Sphere::Sphere(double r, Vector3 center_vector, Material * material)
 {
     this->r = r;
     this->center_vector = center_vector;
+    this->material = material;
 }
 
 Sphere::~Sphere()

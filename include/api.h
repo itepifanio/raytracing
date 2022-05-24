@@ -9,6 +9,7 @@
 #include "camera.h"
 #include "paramset.h"
 #include "sphere.h"
+#include "material.h"
 #include "tinyxml2.h"
 
 using namespace tinyxml2;
@@ -23,6 +24,7 @@ class Api
         void createBackground(const ParamSet &ps);
         void createLookat(const ParamSet &ps);
         void createCamera(const ParamSet &ps);
+        void createMaterial(const ParamSet &ps);
         void addSphere(const ParamSet &ps);
         void render();
 
@@ -30,6 +32,7 @@ class Api
         Background background;
         Lookat lookat;
         Camera * camera;
+        Material * material;
         std::vector<Primitive*> primitives;
 
     public:
