@@ -11,11 +11,21 @@ Material::~Material() {}
 
 Material* Material::make(std::string type, Pixel color) 
 {
-    if(type == "flat")
+    if(type.compare("flat") == 0)
     {
         return new FlatMaterial(type, color);
     }
 
     std::string materialException = "Material type " + type + " is not configured.";
     throw std::invalid_argument(materialException);
+}
+
+std::string Material::getType()
+{
+    return this->type;
+}
+
+Pixel Material::getColor()
+{
+    return this->color;
 }
