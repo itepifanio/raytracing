@@ -13,7 +13,7 @@ class Sphere : public Primitive {
         Material * material;
     public:
         Sphere(double r, Point center);
-        Sphere(double r, Vector3 center_vector);
+        Sphere(double r, Vector3 center_vector, Material *material);
         ~Sphere();
         bool intersectP(const Ray &r) const;
 };

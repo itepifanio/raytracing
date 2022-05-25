@@ -11,7 +11,7 @@ Material::~Material() {}
 
 Material* Material::make(std::string type, Pixel color) 
 {
-    if(strcmp(type, "flat") == 0)
+    if(type == "flat")
     {
         return new FlatMaterial(type, color);
     }

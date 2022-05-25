@@ -2,6 +2,8 @@
 #define _MATERIAL_H_
 
 #include "pixel.h"
+#include <string>
+#include <iostream>
 
 class Material {
     private: 
@@ -9,7 +11,7 @@ class Material {
         Pixel color;
     public:
         Material(std::string type, Pixel color);
-        virtual ~Material() {};
+        virtual ~Material();
         static Material* make(std::string type, Pixel color);
 };
 
