@@ -38,11 +38,11 @@ Camera *Camera::make(
 
     Point e = lookat.look_from.toPoint();
 
-    if (type == "orthographic")
+    if (type.compare("orthographic") == 0)
     {
         return new OrtographicCamera(e, u, v, w, screenWindow);
     }
-    else if (type == "perspective")
+    else if (type.compare("perspective") == 0)
     {
         return new PerspectiveCamera(e, u, v, w, screenWindow);
     }
