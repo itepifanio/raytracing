@@ -29,7 +29,7 @@ Background::Background(int width, int height, std::string type, Pixel color)
     }
 }
 
-std::vector<Pixel*> Background::operator[](int const k) const
+std::vector<Pixel *> Background::operator[](int const k) const
 {
     return this->image[k];
 }
@@ -59,50 +59,17 @@ Background::Background(int width, int height, std::string type, Point points[4])
 
 void Background::interpolateAll()
 {
-    for (int i = 0; i < this->width; i++)
+    for (int j = this->height - 1; j >= 0; j--)
     {
-        //std::cout << "i " << i << std::endl;
-        int h =  this->height;
-        std::vector<Pixel*> tmp(h);
+        std::vector<Pixel *> tmp(this->height);
         this->image.push_back(tmp);
-        for (int j = 0; j < this->height; j++)
+        for (int i = 0; i < this->width; i++)
         {
-            //std::cout << "j " << j << std::endl;
-            Vector3 v = this->interpolate(double(i)/double(this->width), double(j)/double(this->height));
+            Vector3 v = this->interpolate(double(i) / double(this->width), double(j) / double(this->height));
             Pixel *p = new Pixel(v[0], v[1], v[2]);
-            //std::cout << "( " << i <<  ", " << j << "): " << p->b << " " << p->g << " " << p->r <<  std::endl;
             this->image[i][j] = p;
         }
-        
     }
-    
-    /*
-    for (int i = 0; i < (int)(this->width/3); i++)
-    {
-        //std::vector<Pixel *> tmp;
-        for (int j = 0; j < (int)(this->height/3); j++)
-        {
-            auto p = this->image[i][j];
-            std::cout << "( " << i <<  ", " << j << "): " << p->b << " " << p->g << " " << p->r <<  std::endl;
-        }
-    }
-    */
-    /*
-    std::vector<std::vector<Pixel *>> result;
-    
-    for (int i = 0; i < this->width; i++)
-    {
-        std::vector<Pixel *> tmp;
-        for (int j = 0; j < this->height; j++)
-        {
-            Pixel p = this->interpolate(double(i)/double(this->width), double(j)/double(this->height)).toPixel();
-            tmp.push_back(&p);
-        }
-        result.push_back(tmp);
-    }
-
-    this->image = result;
-    */
 }
 
 void Background::toPPM(std::string filename)
@@ -115,15 +82,14 @@ void Background::toPPM(std::string filename)
         file << this->width << " " << this->height << "\n";
         file << "255\n";
 
-        for (int i = 0; i < this->width; i++)
+        for (int j = this->height - 1; j >= 0; j--)
         {
             std::string line = "";
-            for (int j = 0; j < this->height; j++)
+            for (int i = 0; i < this->width; i++)
             {
-                
                 Pixel *pixel = this->image[i][j];
                 auto p = pixel;
-                //std::cout << "( " << i <<  ", " << j << "): " << p->b << " " << p->g << " " << p->r <<  std::endl;
+                // std::cout << "( " << i <<  ", " << j << "): " << p->b << " " << p->g << " " << p->r <<  std::endl;
                 line += std::to_string(pixel->r) + " ";
                 line += std::to_string(pixel->g) + " ";
                 line += std::to_string(pixel->b) + "\n";
@@ -148,6 +114,6 @@ Vector3 Background::interpolate(double x, double y)
     auto val_br = this->bottomRight.toVector3();
 
     return (
-        val_bl * (tr[0] - x) * (tl[1] - y) + val_br * (x - bl[0]) * (tr[1] - y) + val_tl * (br[0] - x) * (y - br[1]) + val_tr * (x - bl[0]) * (y - br[1])) / ((br[0] - bl[0]) * (tr[1] - br[1])
-    );
+               val_bl * (tr[0] - x) * (tl[1] - y) + val_br * (x - bl[0]) * (tr[1] - y) + val_tl * (br[0] - x) * (y - br[1]) + val_tr * (x - bl[0]) * (y - br[1])) /
+           ((br[0] - bl[0]) * (tr[1] - br[1]));
 }

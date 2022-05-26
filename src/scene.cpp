@@ -51,5 +51,5 @@ void Scene::render()
         }
     }
 
-    //this->background.toPPM("scene.ppm");
+    this->background.toPPM("scene.ppm");
 }
