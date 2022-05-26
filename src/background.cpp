@@ -59,23 +59,23 @@ Background::Background(int width, int height, std::string type, Point points[4])
 
 void Background::interpolateAll()
 {
-    std::vector<std::vector<Pixel *>> result;
-
-    for (int i = 0; i < (int)(this->width/3); i++)
+    for (int i = 0; i < this->width; i++)
     {
         //std::cout << "i " << i << std::endl;
-        std::vector<Pixel *> tmp;
-        for (int j = 0; j < (int)(this->height/3); j++)
+        int h =  this->height;
+        std::vector<Pixel*> tmp(h);
+        this->image.push_back(tmp);
+        for (int j = 0; j < this->height; j++)
         {
             //std::cout << "j " << j << std::endl;
-            Pixel p = this->interpolate(double(i) / double(this->width), double(j) / double(this->height)).toPixel();
-            std::cout << "( " << i <<  ", " << j << "): " << p.b << " " << p.g << " " << p.r <<  std::endl;
-            //tmp.push_back(&p);
+            Vector3 v = this->interpolate(double(i)/double(this->width), double(j)/double(this->height));
+            Pixel *p = new Pixel(v[0], v[1], v[2]);
+            //std::cout << "( " << i <<  ", " << j << "): " << p->b << " " << p->g << " " << p->r <<  std::endl;
+            this->image[i][j] = p;
         }
-        //result.push_back(tmp);
+        
     }
-
-    //this->image = result;
+    
     /*
     for (int i = 0; i < (int)(this->width/3); i++)
     {
@@ -120,12 +120,14 @@ void Background::toPPM(std::string filename)
             std::string line = "";
             for (int j = 0; j < this->height; j++)
             {
+                
                 Pixel *pixel = this->image[i][j];
+                auto p = pixel;
+                //std::cout << "( " << i <<  ", " << j << "): " << p->b << " " << p->g << " " << p->r <<  std::endl;
                 line += std::to_string(pixel->r) + " ";
                 line += std::to_string(pixel->g) + " ";
-                line += std::to_string(pixel->b) + " ";
+                line += std::to_string(pixel->b) + "\n";
             }
-            line += "\n";
             file << line;
         }
 
