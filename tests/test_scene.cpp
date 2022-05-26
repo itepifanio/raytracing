@@ -23,7 +23,7 @@ TEST_CASE("it can init scene") {
     Vector3 vup(0, 0, 0);
     Lookat lookat(lookFrom, lookAt, vup);
     Camera *camera = Camera::make(
-        "ortographic", 
+        "orthographic", 
         lookat, 
         std::make_tuple(-1.555, 1.555, -1, 1)
     );
