@@ -31,12 +31,12 @@ TEST_CASE("it can init scene") {
     Sphere *sphere = new Sphere(5, center);
 
     std::vector<Primitive*> objList;
-    objList.push_back(sphere);
+    objList.push_back(dynamic_cast<Primitive*>(sphere));
 
     Scene scene(camera, background, objList);
     CHECK_EQ(camera, scene.getCamera());
-    CHECK_EQ(background, scene.getBackground());
-    CHECK_EQ(sphere, scene.getPrimitive());
+    CHECK_EQ(background.bottomLeft, scene.getBackground().bottomLeft);
+    CHECK_EQ(objList, scene.getPrimitive());
 }
 
 TEST_CASE("it can render scene") {
