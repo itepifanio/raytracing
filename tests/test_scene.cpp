@@ -47,6 +47,7 @@ TEST_CASE("it can render scene") {
     points[3] = Point(153, 204, 255);
     Background background(600, 800, "image", points);
     background.interpolateAll();
+    background.toPPM("test_background.ppm");
     
     Vector3 lookFrom(0, 0, 0);
     Vector3 lookAt(0, 0, 10);

@@ -21,7 +21,7 @@ class Background {
         Point bottomRight;
         Point topLeft;
         Point topRight;
-        double interpolate(double x, double y);
+        Vector3 interpolate(double x, double y);
         void interpolateAll();
         void toPPM(std::string filename);
         std::vector<Pixel*> operator[](int k) const;
