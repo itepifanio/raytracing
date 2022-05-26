@@ -2,10 +2,12 @@
 #include "../include/vector3.h"
 #include "../include/point.h"
 #include "../include/background.h"
-#include "../include/camera.h"
 #include "../include/lookat.h"
 #include "../include/sphere.h"
+#include "../include/camera.h"
 #include "../include/scene.h"
+#include "../include/lookat.h"
+#include <memory.h>
 #include <vector>
 
 TEST_CASE("it can init scene") {
@@ -25,11 +27,13 @@ TEST_CASE("it can init scene") {
         lookat, 
         std::make_tuple(-1.555, 1.555, -1, 1)
     );
-    
     Point center(0, 1, 0);
     Sphere sphere(5, center);
 
-    Scene scene(camera, background, sphere);
+    std::vector<std::shared_ptr<Sphere>> objList;
+    objList.push_back(sphere);
+
+    Scene scene(camera, background, objList);
     CHECK_EQ(camera, scene.getCamera());
     CHECK_EQ(background, scene.getBackground());
     CHECK_EQ(sphere, scene.getPrimitive());
