@@ -40,5 +40,29 @@ TEST_CASE("it can init scene") {
 }
 
 TEST_CASE("it can render scene") {
-    // TODO::Check list of primitives
+    Point points[4];
+    points[0] = Point(153, 204, 255);
+    points[1] = Point(18, 10, 143);
+    points[2] = Point(18, 10, 143);
+    points[3] = Point(153, 204, 255);
+    Background background(800, 600, "image", points);
+    
+    Vector3 lookFrom(0, 0, 0);
+    Vector3 lookAt(0, 0, 10);
+    Vector3 vup(0, 1, 0);
+    Lookat lookat(lookFrom, lookAt, vup);
+    Camera *camera = Camera::make(
+        "orthographic", 
+        lookat, 
+        std::make_tuple(-4, 4, -3, 3)
+    );
+
+    Point center(-1, 0.5, 5);
+    Sphere *sphere = new Sphere(0.4, center);
+
+    std::vector<Primitive*> objList;
+    objList.push_back(dynamic_cast<Primitive*>(sphere));
+
+    Scene scene(camera, background, objList);
+    scene.render();
 }
