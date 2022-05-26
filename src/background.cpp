@@ -60,6 +60,36 @@ Background::Background(int width, int height, std::string type, Point points[4])
 void Background::interpolateAll()
 {
     std::vector<std::vector<Pixel *>> result;
+
+    for (int i = 0; i < (int)(this->width/3); i++)
+    {
+        //std::cout << "i " << i << std::endl;
+        std::vector<Pixel *> tmp;
+        for (int j = 0; j < (int)(this->height/3); j++)
+        {
+            //std::cout << "j " << j << std::endl;
+            Pixel p = this->interpolate(double(i) / double(this->width), double(j) / double(this->height)).toPixel();
+            std::cout << "( " << i <<  ", " << j << "): " << p.b << " " << p.g << " " << p.r <<  std::endl;
+            //tmp.push_back(&p);
+        }
+        //result.push_back(tmp);
+    }
+
+    //this->image = result;
+    /*
+    for (int i = 0; i < (int)(this->width/3); i++)
+    {
+        //std::vector<Pixel *> tmp;
+        for (int j = 0; j < (int)(this->height/3); j++)
+        {
+            auto p = this->image[i][j];
+            std::cout << "( " << i <<  ", " << j << "): " << p->b << " " << p->g << " " << p->r <<  std::endl;
+        }
+    }
+    */
+    /*
+    std::vector<std::vector<Pixel *>> result;
+    
     for (int i = 0; i < this->width; i++)
     {
         std::vector<Pixel *> tmp;
@@ -72,6 +102,7 @@ void Background::interpolateAll()
     }
 
     this->image = result;
+    */
 }
 
 void Background::toPPM(std::string filename)
@@ -104,7 +135,6 @@ void Background::toPPM(std::string filename)
 
 Vector3 Background::interpolate(double x, double y)
 {
-    // https://www.omnicalculator.com/math/bilinear-interpolation#:~:text=Bilinear%20interpolation%20formula,-The%20general%20idea&text=Start%20by%20performing%20two%20linear,point%20(x%2C%20y)%20
     std::array<int, 2> bl = {0, 1};
     std::array<int, 2> tl = {0, 0};
     std::array<int, 2> tr = {1, 0};
