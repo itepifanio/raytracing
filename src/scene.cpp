@@ -5,7 +5,7 @@
 Scene::Scene(
     Camera *camera, 
     Background background, 
-    std::vector<std::shared_ptr<Sphere>> objList
+    std::vector<Primitive*> objList
 )
 {
     this->camera = camera;
@@ -25,7 +25,7 @@ Background Scene::getBackground()
     return this->background;
 }
 
-std::vector<std::shared_ptr<Sphere>> Scene::getPrimitive()
+std::vector<Primitive*> Scene::getPrimitive()
 {
     return this->objList;
 }

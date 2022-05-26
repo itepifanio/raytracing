@@ -28,9 +28,9 @@ TEST_CASE("it can init scene") {
         std::make_tuple(-1.555, 1.555, -1, 1)
     );
     Point center(0, 1, 0);
-    Sphere sphere(5, center);
+    Sphere *sphere = new Sphere(5, center);
 
-    std::vector<std::shared_ptr<Sphere>> objList;
+    std::vector<Primitive*> objList;
     objList.push_back(sphere);
 
     Scene scene(camera, background, objList);

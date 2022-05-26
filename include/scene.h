@@ -10,18 +10,18 @@ class Scene {
     private:
         Camera *camera;
         Background background;
-        std::vector<std::shared_ptr<Sphere>> objList;
+        std::vector<Primitive*> objList;
     public:
         Scene(
             Camera *camera,
             Background background, 
-            std::vector<std::shared_ptr<Sphere>> objList
+            std::vector<Primitive*> objList
         );
         ~Scene();
         void render();
         Camera* getCamera();
         Background getBackground();
-        std::vector<std::shared_ptr<Sphere>> getPrimitive();
+        std::vector<Primitive*> getPrimitive();
 };
 
 #endif
