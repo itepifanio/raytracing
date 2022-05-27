@@ -32,8 +32,5 @@ TEST_CASE("it can interpolate background") {
     corners[3] = q22;
     Background background(4, 4, "image", corners);
     Vector3 result = background.interpolate(1, 2);
-    std::cout << "result: " << result[0] << std::endl;
-    std::cout << "result: " << result[1] << std::endl;
-    std::cout << "result: " << result[2] << std::endl;
-    //CHECK(int(result) == 5);
+    CHECK(int(result[1]) == 5);
 }

@@ -33,7 +33,6 @@ void Scene::render()
 {
     auto w = this->camera->film.getXRes();
     auto h = this->camera->film.getYRes();
-
     Pixel *red = new Pixel(255, 0, 0);
 
     for (int j = h - 1; j >= 0; j--)
@@ -45,8 +44,7 @@ void Scene::render()
             for (const Primitive* p : this->objList)
             {
                 if (p->intersectP(ray)){
-                    std::cout << "Intersect!!!!!" << std::endl;
-                    this->background[i][j] = red;
+                    this->background.image[i][j] = red;
                 }
             }
         }
