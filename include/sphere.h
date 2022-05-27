@@ -15,6 +15,7 @@ class Sphere : public Primitive {
         Sphere(double r, Point center);
         Sphere(double r, Vector3 center_vector, Material *material);
         ~Sphere();
+        double getR();
         bool intersectP(const Ray &r) const;
 };
 

@@ -3,9 +3,11 @@
 #include "../include/point.h"
 #include "../include/vector3.h"
 #include <vector>
-#include <iostream>
 #include <fstream>
 #include <sstream>
+#include <iostream>
+#include <algorithm>
+#include <array>
 
 Background::Background() {}
 
@@ -27,7 +29,7 @@ Background::Background(int width, int height, std::string type, Pixel color)
     }
 }
 
-std::vector<Pixel*> Background::operator[](int const k) const
+std::vector<Pixel *> Background::operator[](int const k) const
 {
     return this->image[k];
 }
@@ -57,22 +59,17 @@ Background::Background(int width, int height, std::string type, Point points[4])
 
 void Background::interpolateAll()
 {
-    std::vector<std::vector<Pixel *>> result;
-    for (int i = 0; i < this->width; i++)
+    for (int j = this->height - 1; j >= 0; j--)
     {
-        std::vector<Pixel *> tmp;
-        for (int j = 0; j < this->height; j++)
+        std::vector<Pixel *> tmp(this->height);
+        this->image.push_back(tmp);
+        for (int i = 0; i < this->width; i++)
         {
-            double r = this->interpolate(i, j);
-            double g = this->interpolate(i, j);
-            double b = this->interpolate(i, j);
-            Pixel *p = new Pixel(int(r), int(g), int(b));
-            tmp.push_back(p);
+            Vector3 v = this->interpolate(double(i) / double(this->width), double(j) / double(this->height));
+            Pixel *p = new Pixel(v[0], v[1], v[2]);
+            this->image[i][j] = p;
         }
-        result.push_back(tmp);
     }
-
-    this->image = result;
 }
 
 void Background::toPPM(std::string filename)
@@ -85,17 +82,17 @@ void Background::toPPM(std::string filename)
         file << this->width << " " << this->height << "\n";
         file << "255\n";
 
-        for (int i = 0; i < this->width; i++)
+        for (int j = this->height - 1; j >= 0; j--)
         {
             std::string line = "";
-            for (int j = 0; j < this->height; j++)
+            for (int i = 0; i < this->width; i++)
             {
                 Pixel *pixel = this->image[i][j];
+                auto p = pixel;
                 line += std::to_string(pixel->r) + " ";
                 line += std::to_string(pixel->g) + " ";
-                line += std::to_string(pixel->b) + " ";
+                line += std::to_string(pixel->b) + "\n";
             }
-            line += "\n";
             file << line;
         }
 
@@ -103,26 +100,12 @@ void Background::toPPM(std::string filename)
     }
 }
 
-double Background::interpolate(double x, double y)
+Vector3 Background::interpolate(double x, double y)
 {
-    // https://www.omnicalculator.com/math/bilinear-interpolation#:~:text=Bilinear%20interpolation%20formula,-The%20general%20idea&text=Start%20by%20performing%20two%20linear,point%20(x%2C%20y)%20
-    auto q11 = this->bottomLeft;
-    auto q12 = this->topLeft;
-    auto q21 = this->topRight;
-    auto q22 = this->bottomRight;
+    auto bl = this->bottomLeft.toVector3();
+    auto tl = this->topLeft.toVector3();
+    auto tr = this->topRight.toVector3();
+    auto br = this->bottomRight.toVector3();
 
-    double x1 = q11.i;
-    double x2 = q21.i;
-    double y1 = q21.j;
-    double y2 = q22.j;
-
-    double p1 = (x2-x1) * (y2 - y1);
-    double p2 = (x2-x) * (y2-y);
-    double p3 = (x-x1) * (y2-y);
-    double p4 = (x2-x) * (y-y1);
-    double p5 = (x-x1) * (y-y1);
-
-    double p = ((p2/(double)p1)*q11.value) + ((p3/(double)p1)*q12.value) + ((p4/(double)p1)*q21.value) + ((p5/(double)p1)*q22.value);
-
-    return p;
+    return (bl * (1 - x) * (-y) + br * (x - 0) * (-y) + tl * (1 - x) * (y - 1) + tr * (x) * (y - 1)) / -1;
 }

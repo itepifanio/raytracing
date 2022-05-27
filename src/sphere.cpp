@@ -33,3 +33,7 @@ bool Sphere::intersectP(const Ray &r) const
     return deltaBhaskara(a, b, c) > 0;
 }
 
+double Sphere::getR()
+{
+    return this->r;
+}
