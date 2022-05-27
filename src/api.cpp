@@ -27,11 +27,9 @@ void Api::createBackground(const ParamSet &ps)
 
     if (color.vector[0] != -1 && color.vector[1] != -1 && color.vector[2] != -1)
     {
-        std::cout << "flat bg" << std::endl;
         Background bg(this->camera->film.getXRes(), this->camera->film.getYRes(), type, color.toPixel());
         this->background = bg;
     } else {
-        std::cout << "interpolated bg" << std::endl;
         Point points[4];
         points[0] = bl.toPoint();
         points[1] = tl.toPoint();
@@ -41,16 +39,6 @@ void Api::createBackground(const ParamSet &ps)
         Background bg(this->camera->film.getXRes(), this->camera->film.getYRes(), type, points);
 
         bg.interpolateAll();
-        /*
-        for (int i = 0; i < (int)(this->camera->film.getXRes()/3); i++)
-    {
-        //std::vector<Pixel *> tmp;
-        for (int j = 0; j < (int)(this->camera->film.getYRes()/3); j++)
-        {
-            auto p = bg.image[i][j];
-            std::cout << "( " << i <<  ", " << j << "): " << p->b << " " << p->g << " " << p->r <<  std::endl;
-        }
-    }*/
 
         this->background = bg;
     }

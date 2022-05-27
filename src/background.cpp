@@ -89,7 +89,6 @@ void Background::toPPM(std::string filename)
             {
                 Pixel *pixel = this->image[i][j];
                 auto p = pixel;
-                // std::cout << "( " << i <<  ", " << j << "): " << p->b << " " << p->g << " " << p->r <<  std::endl;
                 line += std::to_string(pixel->r) + " ";
                 line += std::to_string(pixel->g) + " ";
                 line += std::to_string(pixel->b) + "\n";
@@ -103,17 +102,10 @@ void Background::toPPM(std::string filename)
 
 Vector3 Background::interpolate(double x, double y)
 {
-    std::array<int, 2> bl = {0, 1};
-    std::array<int, 2> tl = {0, 0};
-    std::array<int, 2> tr = {1, 0};
-    std::array<int, 2> br = {1, 1};
+    auto bl = this->bottomLeft.toVector3();
+    auto tl = this->topLeft.toVector3();
+    auto tr = this->topRight.toVector3();
+    auto br = this->bottomRight.toVector3();
 
-    auto val_bl = this->bottomLeft.toVector3();
-    auto val_tl = this->topLeft.toVector3();
-    auto val_tr = this->topRight.toVector3();
-    auto val_br = this->bottomRight.toVector3();
-
-    return (
-               val_bl * (tr[0] - x) * (tl[1] - y) + val_br * (x - bl[0]) * (tr[1] - y) + val_tl * (br[0] - x) * (y - br[1]) + val_tr * (x - bl[0]) * (y - br[1])) /
-           ((br[0] - bl[0]) * (tr[1] - br[1]));
+    return (bl * (1 - x) * (-y) + br * (x - 0) * (-y) + tl * (1 - x) * (y - 1) + tr * (x) * (y - 1)) / -1;
 }

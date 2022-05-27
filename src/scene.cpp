@@ -45,6 +45,7 @@ void Scene::render()
             for (const Primitive* p : this->objList)
             {
                 if (p->intersectP(ray)){
+                    std::cout << "Intersect!!!!!" << std::endl;
                     this->background[i][j] = red;
                 }
             }
