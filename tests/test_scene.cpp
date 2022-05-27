@@ -45,24 +45,41 @@ TEST_CASE("it can render scene") {
     points[1] = Point(18, 10, 143);
     points[2] = Point(18, 10, 143);
     points[3] = Point(153, 204, 255);
-    Background background(600, 800, "image", points);
+    Background background(800, 600, "image", points);
     background.interpolateAll();
     
     Vector3 lookFrom(0, 0, 0);
     Vector3 lookAt(0, 0, 10);
     Vector3 vup(0, 1, 0);
+
+    int xRes = 800;
+    int yRes = 600;
+    std::string type = "image";
+    std::string filenameOutput = "./circles.ppm";
+    
+    Film film(type, xRes, yRes, filenameOutput);
+
     Lookat lookat(lookFrom, lookAt, vup);
     Camera *camera = Camera::make(
-        "orthographic", 
-        lookat, 
+        "orthographic",
+        lookat,
         std::make_tuple(-4, 4, -3, 3)
     );
 
+    camera->film = film;
+
     Point center(-1, 0.5, 5);
     Sphere *sphere = new Sphere(0.4, center);
+    Point center2(-1, 0.5, 8);
+    Sphere *sphere2 = new Sphere(0.4, center2);
+    Point center3(-1, -1.5, 3.5);
+    Sphere *sphere3 = new Sphere(0.4, center3);
+    
 
     std::vector<Primitive*> objList;
     objList.push_back(dynamic_cast<Primitive*>(sphere));
+    objList.push_back(dynamic_cast<Primitive*>(sphere2));
+    objList.push_back(dynamic_cast<Primitive*>(sphere3));
 
     Scene scene(camera, background, objList);
     scene.render();

@@ -19,7 +19,7 @@ void Api::createFilm(const ParamSet &ps)
 void Api::createBackground(const ParamSet &ps)
 {
     std::string type = ps.find_one<string>("type", "colors");
-    Vector3 color = Vector3::string_to_vector(ps.find_one<string>("color", "-1 -1 -1"));
+    Vector3 color = Vector3::string_to_vector(ps.find_one<string>("colors", "-1 -1 -1"));
     Vector3 bl = Vector3::string_to_vector(ps.find_one<string>("bl", "0 0 0"));
     Vector3 br = Vector3::string_to_vector(ps.find_one<string>("br", "0 0 0"));
     Vector3 tl = Vector3::string_to_vector(ps.find_one<string>("tl", "0 0 0"));
@@ -29,19 +29,19 @@ void Api::createBackground(const ParamSet &ps)
     {
         Background bg(this->camera->film.getXRes(), this->camera->film.getYRes(), type, color.toPixel());
         this->background = bg;
+    } else {
+        Point points[4];
+        points[0] = bl.toPoint();
+        points[1] = tl.toPoint();
+        points[2] = tr.toPoint();
+        points[3] = br.toPoint();
+
+        Background bg(this->camera->film.getXRes(), this->camera->film.getYRes(), type, points);
+
+        bg.interpolateAll();
+
+        this->background = bg;
     }
-
-    Point points[4];
-    points[0] = bl.toPoint();
-    points[1] = tl.toPoint();
-    points[2] = tr.toPoint();
-    points[3] = br.toPoint();
-
-    Background bg(this->camera->film.getXRes(), this->camera->film.getYRes(), type, points);
-
-    bg.interpolateAll();
-
-    this->background = bg;
 }
 
 void Api::createLookat(const ParamSet &ps)
