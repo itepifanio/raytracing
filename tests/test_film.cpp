@@ -1,7 +1,7 @@
-#include "../include/doctest.h"
-#include "../include/film.h"
-#include "../include/ppmread.h"
-#include "../include/pixel.h"
+#include "../include/libs/doctest.h"
+#include "../include/core/film.h"
+#include "../include/helpers/ppmread.h"
+#include "../include/datatype/pixel.h"
 #include <vector>
 
 TEST_CASE("it can init film") {

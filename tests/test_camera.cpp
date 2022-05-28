@@ -1,7 +1,7 @@
-#include "../include/doctest.h"
-#include "../include/camera.h"
-#include "../include/ortographicCamera.h"
-#include "../include/perspectiveCamera.h"
+#include "../include/libs/doctest.h"
+#include "../include/cameras/camera.h"
+#include "../include/cameras/ortographicCamera.h"
+#include "../include/cameras/perspectiveCamera.h"
 #include <math.h>
 
 TEST_CASE("it can make orthographic camera") {

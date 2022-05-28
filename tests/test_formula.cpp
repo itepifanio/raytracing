@@ -1,6 +1,6 @@
 /*
 TODO::Check how to avoid the multiple definition of formula.inl
-#include "../include/doctest.h"
+#include "../include/libs/doctest.h"
 #include "../include/math/formula.inl"
 
 TEST_CASE("it can calculate delta")

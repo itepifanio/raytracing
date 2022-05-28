@@ -1,8 +1,8 @@
-#include "../include/doctest.h"
-#include "../include/background.h"
-#include "../include/film.h"
-#include "../include/api.h"
-#include "../include/rt3.h"
+#include "../include/libs/doctest.h"
+#include "../include/core/background.h"
+#include "../include/core/film.h"
+#include "../include/core/api.h"
+#include "../include/core/rt3.h"
 
 TEST_CASE("it can setup internal states with simple scene") {
     /*

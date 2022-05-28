@@ -1,4 +1,4 @@
-#include "../vector3.h"
+#include "../datatype/vector3.h"
 
 inline Vector3 cross(Vector3 u, Vector3 v) {
     double uvi, uvj, uvk;

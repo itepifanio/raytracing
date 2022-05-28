@@ -1,5 +1,5 @@
-#include "../include/doctest.h"
-#include "../include/pixel.h"
+#include "../include/libs/doctest.h"
+#include "../include/datatype/pixel.h"
 
 TEST_CASE("it can compare two pixels that are equals") 
 {

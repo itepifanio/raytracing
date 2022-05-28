@@ -1,7 +1,7 @@
-#include "../include/doctest.h"
-#include "../include/ray.h"
-#include "../include/point.h"
-#include "../include/vector3.h"
+#include "../include/libs/doctest.h"
+#include "../include/core/ray.h"
+#include "../include/datatype/point.h"
+#include "../include/datatype/vector3.h"
 
 TEST_CASE("it can init ray") {
     Point origin(0, 0, 0);

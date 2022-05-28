@@ -1,12 +1,12 @@
-#include "../include/doctest.h"
-#include "../include/vector3.h"
-#include "../include/point.h"
-#include "../include/background.h"
-#include "../include/lookat.h"
-#include "../include/sphere.h"
-#include "../include/camera.h"
-#include "../include/scene.h"
-#include "../include/lookat.h"
+#include "../include/libs/doctest.h"
+#include "../include/datatype/vector3.h"
+#include "../include/datatype/point.h"
+#include "../include/core/background.h"
+#include "../include/datatype/lookat.h"
+#include "../include/shapes/sphere.h"
+#include "../include/cameras/camera.h"
+#include "../include/core/scene.h"
+#include "../include/datatype/lookat.h"
 #include <memory.h>
 #include <vector>
 
@@ -75,6 +75,7 @@ TEST_CASE("it can render scene") {
     Point center3(-1, -1.5, 3.5);
     Sphere *sphere3 = new Sphere(0.4, center3);
     
+    CHECK_EQ(center3.j, -1.5);
 
     std::vector<Primitive*> objList;
     objList.push_back(dynamic_cast<Primitive*>(sphere));
