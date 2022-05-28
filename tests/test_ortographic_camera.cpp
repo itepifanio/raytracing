@@ -1,5 +1,5 @@
-#include "../include/doctest.h"
-#include "../include/ortographicCamera.h"
+#include "../include/libs/doctest.h"
+#include "../include/cameras/ortographicCamera.h"
 
 TEST_CASE("it can init ortographic camera with default screen windows") {
     OrtographicCamera camera;

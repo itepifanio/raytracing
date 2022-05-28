@@ -1,4 +1,4 @@
-#include "../include/doctest.h"
+#include "../include/libs/doctest.h"
 
 TEST_CASE("it can read params") {
     //TODO::

@@ -1,9 +1,9 @@
-#include "../include/doctest.h"
-#include "../include/surfel.h"
-#include "../include/point.h"
-#include "../include/vector3.h"
-#include "../include/primitive.h"
-#include "../include/sphere.h"
+#include "../include/libs/doctest.h"
+#include "../include/shapes/surfel.h"
+#include "../include/datatype/point.h"
+#include "../include/datatype/vector3.h"
+#include "../include/shapes/primitive.h"
+#include "../include/shapes/sphere.h"
 
 TEST_CASE("it can init surfel") {
     Point p(0, 0, 0);

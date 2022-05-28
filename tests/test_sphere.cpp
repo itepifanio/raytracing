@@ -1,5 +1,5 @@
-#include "../include/doctest.h"
-#include "../include/sphere.h"
+#include "../include/libs/doctest.h"
+#include "../include/shapes/sphere.h"
 
 TEST_CASE("it can init sphere") {
     Point center(0,1,0);

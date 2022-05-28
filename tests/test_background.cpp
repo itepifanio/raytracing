@@ -1,8 +1,8 @@
-#include "../include/doctest.h"
-#include "../include/background.h"
-#include "../include/ppmread.h"
-#include "../include/pixel.h"
-#include "../include/point.h"
+#include "../include/libs/doctest.h"
+#include "../include/core/background.h"
+#include "../include/helpers/ppmread.h"
+#include "../include/datatype/pixel.h"
+#include "../include/datatype/point.h"
 #include <vector>
 
 TEST_CASE("it can init background with a single color") {

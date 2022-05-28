@@ -1,5 +1,5 @@
-#include "../include/doctest.h"
-#include "../include/perspectiveCamera.h"
+#include "../include/libs/doctest.h"
+#include "../include/cameras/perspectiveCamera.h"
 
 TEST_CASE("it can init perspective camera with default screen windows") {
     PerspectiveCamera camera;

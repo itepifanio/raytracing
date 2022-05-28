@@ -1,6 +1,6 @@
-#include "../include/doctest.h"
-#include "../include/material.h"
-#include "../include/flatMaterial.h"
+#include "../include/libs/doctest.h"
+#include "../include/materials/material.h"
+#include "../include/materials/flatMaterial.h"
 
 TEST_CASE("it can make flat material") {
     std::string type = "flat";

@@ -1,6 +1,6 @@
-#include "../include/doctest.h"
-#include "../include/vector3.h"
-#include "../include/pixel.h"
+#include "../include/libs/doctest.h"
+#include "../include/datatype/vector3.h"
+#include "../include/datatype/pixel.h"
 
 TEST_CASE("it can init vector3 with pixel") {
     Pixel p(1,2,3);
