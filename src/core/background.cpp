@@ -88,7 +88,6 @@ void Background::toPPM(std::string filename)
             for (int i = 0; i < this->width; i++)
             {
                 Pixel *pixel = this->image[i][j];
-                auto p = pixel;
                 line += std::to_string(pixel->r) + " ";
                 line += std::to_string(pixel->g) + " ";
                 line += std::to_string(pixel->b) + "\n";

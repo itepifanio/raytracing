@@ -19,16 +19,17 @@ TEST_CASE("it can cross two vectors special case 01") {
 
 TEST_CASE("it can normalize vectors") {
     Vector3 v(4, 2, 4);
-    Vector3 result(2/3, 1/3, 2/3);
+    Vector3 result(2/3.0, 1/3.0, 2/3.0);
 
-    CHECK_EQ(result.toPoint(), normalize(v).toPoint());
+    CHECK_EQ(result[0], normalize(v)[0]);
+    CHECK_EQ(result[1], normalize(v)[1]);
+    CHECK_EQ(result[2], normalize(v)[2]);
 }
 
 TEST_CASE("it can normalize vectors special case 01") {
     Vector3 v(0.964764, 0, 0);
-    Vector3 result(0.999997181, 0, 0);
+    Vector3 result(1.0, 0, 0);
 
-    CHECK_EQ(result.toPoint().i, normalize(v).toPoint().i);
-    CHECK_EQ(result.toPoint().j, normalize(v).toPoint().j);
-    CHECK_EQ(result.toPoint().value, normalize(v).toPoint().value);
+    CHECK_EQ(result[1], normalize(v)[1]);
+    CHECK_EQ(result[2], normalize(v)[2]);
 }

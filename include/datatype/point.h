@@ -13,10 +13,10 @@ so it's on the 0..255 range.
 class Point {
     public:
         Point();
-        Point(int i, int j, int value);
-        int i;
-        int j;
-        int value;
+        Point(double i, double j, double value);
+        double i;
+        double j;
+        double value;
         Vector3 toVector3();
         friend bool operator==(const Point& lhs, const Point& rhs);
         friend bool operator!=(const Point& lhs, const Point& rhs);

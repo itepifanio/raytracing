@@ -2,7 +2,7 @@
 
 Point::Point() {}
 
-Point::Point(int i, int j, int value)
+Point::Point(double i, double j, double value)
 {
     this->i = i;
     this->j = j;
