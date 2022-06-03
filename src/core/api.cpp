@@ -68,9 +68,9 @@ void Api::createMaterial(const ParamSet &ps)
 {
     std::string type = ps.find_one<string>("type", "flat");
     Vector3 color = Vector3::string_to_vector(ps.find_one<string>("color", "0 0 0"));
-    this->material = Material::make(type, color.toPixel());
+    // TODO::Instanciate material type
+    //this->material = Material::make(type, color.toPixel());
 }
-
 
 void Api::addSphere(const ParamSet &ps)
 {
@@ -167,7 +167,7 @@ void Api::parser(std::string xmlFile)
                     }
                     else if(strcmp(tag, "material") == 0)
                     {
-                        this->createMaterial(this->getParams(e));
+                        //this->createMaterial(this->getParams(e));
                     }
                     else if(strcmp(tag, "object") == 0)
                     {

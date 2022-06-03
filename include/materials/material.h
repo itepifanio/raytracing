@@ -5,16 +5,11 @@
 #include <string>
 #include <iostream>
 
-class Material {
-    private: 
-        std::string type;
-        Pixel color;
+class Material
+{
     public:
-        Material(std::string type, Pixel color);
-        virtual ~Material();
-        static Material* make(std::string type, Pixel color);
-        std::string getType();
-        Pixel getColor();
+        Material() {}
+        virtual ~Material() = default;
 };
 
 #endif
