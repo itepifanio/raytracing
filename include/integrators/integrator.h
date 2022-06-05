@@ -6,8 +6,10 @@
 class Integrator
 {
 public:
-    virtual ~Integrator();
+    Integrator() {}
+    virtual ~Integrator() {};
     virtual void render(const Scene &scene) = 0;
+    virtual Color24 Li(Ray &ray, Scene &scene, Color24 color) = 0;
 };
 
 #endif

@@ -78,8 +78,9 @@ void Api::addSphere(const ParamSet &ps)
     double radius = ps.find_one<double>("radius", 0.0);
     Vector3 center = Vector3::string_to_vector(ps.find_one<string>("center", "0 0 0"));
 
-    Primitive * s = new Sphere(radius, center, this->material);
-    this->primitives.push_back(s);
+    Sphere *sphere = new Sphere(radius, center, this->material);
+    
+    this->primitives.push_back(dynamic_cast<Primitive*>(sphere));
 }
 
 ParamSet Api::getParams(XMLElement *e, int size_elements)

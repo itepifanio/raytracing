@@ -1,15 +1,16 @@
-#ifndef _INTEGRATOR_H_
-#define _INTEGRATOR_H_
+#ifndef _FLATINTEGRATOR_H_
+#define _FLATINTEGRATOR_H_
 
+#include "./integrator.h"
 #include "../core/scene.h"
-#include "../core/color.h"
+#include "../../include/datatype/color24.h"
 
-class FlatIntegrator
+class FlatIntegrator : public Integrator
 {
 public:
     ~FlatIntegrator() {};
-    void render(const Scene &scene) = 0;
-    Color24 Li(const Ray &ray, const Scene &scene, Color24 color) const = 0;
+    //void render(const Scene &scene) = 0;
+    Color24 Li(Ray &ray, Scene &scene, Color24 color);
 };
 
 #endif

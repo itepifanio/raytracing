@@ -19,7 +19,7 @@ Sphere::~Sphere()
 {
 }
 
-bool Sphere::intersectP(const Ray &r) const
+bool Sphere::intersectP(Ray &r)
 {
     Ray ray = r; // handles cont Ray &r
     Point center = this->center;

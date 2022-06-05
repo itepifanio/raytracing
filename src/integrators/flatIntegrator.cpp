@@ -1,12 +1,13 @@
 #include "../../include/integrators/flatIntegrator.h"
+#include "../../include/integrators/integrator.h"
 
+/*
 void FlatIntegrator::render(const Scene &scene)
-{
-    
-    
+{ 
 }
-    
-Color24 FlatIntegrator::Li(const Ray &ray, const Scene &scene, Color24 color)
+*/
+
+Color24 FlatIntegrator::Li(Ray &ray, Scene &scene, Color24 color)
 {
     Color24 result = color;
     std::vector<Primitive*> objects = scene.getPrimitive();
