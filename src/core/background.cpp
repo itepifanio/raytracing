@@ -108,3 +108,8 @@ Vector3 Background::interpolate(double x, double y)
 
     return (bl * (1 - x) * (-y) + br * (x - 0) * (-y) + tl * (1 - x) * (y - 1) + tr * (x) * (y - 1)) / -1;
 }
+
+Vector3 Background::sample(double x, double y)
+{
+    return this->interpolate(x, y);
+}
