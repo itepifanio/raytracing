@@ -15,7 +15,7 @@ Color24 FlatIntegrator::Li(Ray &ray, Scene &scene, Color24 color)
     for (int i = 0; i < (int)objects.size(); i++)
     {
         if(objects[i]->intersectP(ray)) {
-            // TODO::add the geometric primitive that contains a material to change the color here
+            // TODO::check if geometric primitive and get the material to change the color here
         }
     }
 

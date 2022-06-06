@@ -7,10 +7,15 @@
 
 class Shape;
 
-class GeometricPrimitive {
-    public:
+class GeometricPrimitive : public Primitive {
+    private:
         Material *material;
         Shape *shape;
+    public:
+        GeometricPrimitive(Shape* s, Material* m) : shape{s}, material{m}{}
+        ~GeometricPrimitive(){}
+        bool intersectP(Ray &r);
+        Material *getMaterial();
 };
 
 #endif
