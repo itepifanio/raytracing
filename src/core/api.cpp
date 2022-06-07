@@ -47,7 +47,6 @@ void Api::createBackground(const ParamSet &ps)
 
 void Api::createLookat(const ParamSet &ps)
 {
-    
     Vector3 look_from = Vector3::string_to_vector(ps.find_one<string>("look_from", "0 0 0"));
     Vector3 look_at = Vector3::string_to_vector(ps.find_one<string>("look_at", "0 0 0"));
     Vector3 vup = Vector3::string_to_vector(ps.find_one<string>("up", "0 0 0"));
@@ -70,9 +69,13 @@ void Api::createMaterial(const ParamSet &ps)
 {
     std::string type = ps.find_one<string>("type", "flat");
     Vector3 color = Vector3::string_to_vector(ps.find_one<string>("color", "0 0 0"));
-    this->material = Material::make(type, color.toPixel());
-}
 
+    if(type == "flat") {
+        Color24 flatColor(color[0], color[1], color[2]);
+        FlatMaterial *flatMaterial = new FlatMaterial(flatColor);
+        this->material = dynamic_cast<FlatMaterial*>(flatMaterial);
+    }
+}
 
 void Api::addSphere(const ParamSet &ps)
 {
@@ -80,8 +83,14 @@ void Api::addSphere(const ParamSet &ps)
     double radius = std::stod(ps.find_one<string>("radius", "0.4"));
     Vector3 center = Vector3::string_to_vector(ps.find_one<string>("center", "0 0 0"));
 
-    Primitive *s = new Sphere(radius, center.toPoint());
-    this->scene.setPrimitive(s);
+    Shape *shape = new Sphere(radius, center.toPoint());
+
+    Primitive *primitive = new GeometricPrimitive(
+        dynamic_cast<Shape*>(shape), 
+        dynamic_cast<Material*>(this->material)
+    );
+
+    this->scene.setPrimitive(primitive);
 }
 
 ParamSet Api::getParams(XMLElement *e, int size_elements)
@@ -169,7 +178,7 @@ void Api::parser(std::string xmlFile)
                     }
                     else if(strcmp(tag, "material") == 0)
                     {
-                        this->createMaterial(this->getParams(e));
+                        //this->createMaterial(this->getParams(e));
                     }
                     else if(strcmp(tag, "object") == 0)
                     {

@@ -1,9 +1,10 @@
 #ifndef _SCENE_H_
 #define _SCENE_H_
 
-#include "../include/shapes/sphere.h"
-#include "../include/cameras/camera.h"
-#include "../include/core/background.h"
+#include "../../include/shapes/sphere.h"
+#include "../../include/cameras/camera.h"
+#include "../../include/core/background.h"
+#include "../include/shapes/primitive.h"
 #include <memory>
 
 class Scene {

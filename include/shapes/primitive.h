@@ -8,7 +8,7 @@ class Primitive {
     public:
         //TODO::do the complicated function later
         //virtual bool intersect(const Ray &r, Surfel *sf) const = 0;
-        virtual bool intersectP(const Ray &r) const = 0;
+        virtual bool intersectP(Ray &r) = 0;
         virtual ~Primitive() {};
         
         //TODO::ommited for now. It may not be used right now.

@@ -140,6 +140,13 @@ Pixel Vector3::toPixel()
     return pixel;
 }
 
+Color24 Vector3::toColor24()
+{
+    Color24 color24(this->vector[0], this->vector[1], this->vector[2]);
+
+    return color24;
+}
+
 Point Vector3::toPoint()
 {
     Point point(this->vector[0], this->vector[1], this->vector[2]);

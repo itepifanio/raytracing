@@ -35,7 +35,6 @@ class Camera {
         );
         static std::tuple<double, double, double, double> string_to_tuple(std::string tuple);
         std::tuple<double, double> getUVPos(int i, int j);
-
         Film film;
 };
 
