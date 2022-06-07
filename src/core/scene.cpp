@@ -38,7 +38,7 @@ void Scene::setBackground(Background background)
 
 void Scene::setPrimitive(Primitive *primitive)
 {
-    this->objList.push_back(dynamic_cast<Primitive*>(primitive));
+    this->objList.push_back(dynamic_cast<Primitive *>(primitive));
 }
 
 std::vector<Primitive *> Scene::getPrimitive()
@@ -56,10 +56,17 @@ void Scene::render()
     {
         for (int i = 0; i < w; i++)
         {
+            auto colorVector = this->background.sample(
+                double(i) / double(this->camera->film.getXRes()),
+                double(j) / double(this->camera->film.getYRes()));
+            Color24 tmp(0, 0, 0);
+            this->camera->film.addSample(i, j, tmp);
+
             Ray ray = this->camera->generate_ray(i, j);
-            for (Primitive* p : this->objList)
+            for (Primitive *p : this->objList)
             {
-                if (p->intersectP(ray)){
+                if (p->intersectP(ray))
+                {
                     this->camera->film.addSample(i, j, red);
                 }
             }

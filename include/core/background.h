@@ -13,7 +13,6 @@ class Background {
     public:
         int height;
         int width;
-        std::vector<std::vector<Pixel*>> image;
         Background();
         Background(int width, int height, std::string type, Point points[4]);
         Background(int width, int height, std::string type, Pixel color);
@@ -23,9 +22,6 @@ class Background {
         Point topRight;
         Vector3 interpolate(double x, double y);
         Vector3 sample(double x, double y);
-        void interpolateAll();
-        void toPPM(std::string filename);
-        std::vector<Pixel*> operator[](int k) const;
 };
 
 #endif

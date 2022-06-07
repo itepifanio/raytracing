@@ -29,8 +29,11 @@ bool Sphere::intersectP(Ray &r)
     double a = ray.getDirection() * ray.getDirection();
     double b = (2.0*ray.getDirection())*originCenter;
     double c = (originCenter*originCenter) - (this->r*this->r);
+    auto v = deltaBhaskara(a, b, c);
 
-    return deltaBhaskara(a, b, c) > 0;
+    std::cout << "v" << v << std::endl;
+
+    return v > 0;
 }
 
 double Sphere::getR()

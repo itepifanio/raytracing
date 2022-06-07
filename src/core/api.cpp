@@ -37,9 +37,6 @@ void Api::createBackground(const ParamSet &ps)
         points[3] = br.toPoint();
 
         Background bg(this->camera->film.getXRes(), this->camera->film.getYRes(), type, points);
-
-        bg.interpolateAll();
-
         this->background = bg;
         this->scene.setBackground(bg);
     }
@@ -87,7 +84,7 @@ void Api::addSphere(const ParamSet &ps)
     
     GeometricPrimitive *primitive = new GeometricPrimitive(sphere, this->material);
 
-    this->primitives.push_back(dynamic_cast<Primitive*>(primitive));
+    this->scene.setPrimitive(dynamic_cast<Primitive*>(primitive));
 }
 
 ParamSet Api::getParams(XMLElement *e, int size_elements)
