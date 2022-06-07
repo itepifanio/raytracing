@@ -73,7 +73,9 @@ void Api::createMaterial(const ParamSet &ps)
     if(type == "flat") {
         Color24 flatColor(color[0], color[1], color[2]);
         FlatMaterial *flatMaterial = new FlatMaterial(flatColor);
+        // TODO::we may now be allowed to remove the material reference from api.h
         this->material = dynamic_cast<FlatMaterial*>(flatMaterial);
+        this->integrator = new FlatIntegrator();
     }
 }
 
@@ -178,7 +180,7 @@ void Api::parser(std::string xmlFile)
                     }
                     else if(strcmp(tag, "material") == 0)
                     {
-                        //this->createMaterial(this->getParams(e));
+                        this->createMaterial(this->getParams(e));
                     }
                     else if(strcmp(tag, "object") == 0)
                     {
@@ -196,14 +198,32 @@ void Api::parser(std::string xmlFile)
 
 void Api::render()
 {
-    // TODO::raytracking loop
+    auto w = this->camera->film.getXRes();
+    auto h = this->camera->film.getYRes();
+
+    for (int j = h - 1; j >= 0; j--)
+    {
+        for (int i = 0; i < w; i++)
+        {
+            Ray ray = this->camera->generate_ray(i, j);
+
+            Vector3 v = this->background.interpolate(
+                    double(i) / double(this->background.width),
+                    double(j) / double(this->background.height)
+            );
+
+            auto color = this->integrator->Li(ray, scene, v.toColor24());
+            this->camera->film.addSample(i, j, color);
+        }
+    }
+
+    this->camera->film.toPPM(this->camera->film.getFilenameOutput());
 }
 
 void Api::run()
 {
     this->parser(this->options.getSceneFile());
-    this->scene.render();
-    // this->background.toPPM(this->camera->film.getFilenameOutput());
+    this->render();
 }
 
 Background Api::getBackground()

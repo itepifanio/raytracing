@@ -47,6 +47,7 @@ std::vector<Primitive *> Scene::getPrimitive()
     return this->objList;
 }
 
+// TODO::Probably not necessary anymore
 void Scene::render()
 {
     auto w = this->camera->film.getXRes();
