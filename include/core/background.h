@@ -10,10 +10,9 @@
 class Background {
     private:
         std::string type;
-        
+    public:
         int height;
         int width;
-    public:
         std::vector<std::vector<Pixel*>> image;
         Background();
         Background(int width, int height, std::string type, Point points[4]);

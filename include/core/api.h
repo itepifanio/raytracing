@@ -10,6 +10,7 @@
 #include "../include/core/paramset.h"
 #include "../include/shapes/sphere.h"
 #include "../include/materials/material.h"
+#include "../include/materials/flatMaterial.h"
 #include "../include/libs/tinyxml2.h"
 
 using namespace tinyxml2;

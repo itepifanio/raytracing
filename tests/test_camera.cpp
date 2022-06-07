@@ -15,10 +15,9 @@ TEST_CASE("it can make orthographic camera") {
     Lookat look(lookfrom, lookat, vup);
 
     Camera *camera = Camera::make("orthographic", look, screenWindow);
-    
     Film film("image", 2800, 1800, "gcodex_matte_ortho.ppm");
     camera->film = film; // TODO::remove workaround
-    
+
     OrtographicCamera *ortoCamera = dynamic_cast<OrtographicCamera*>(camera);
     CHECK(ortoCamera != nullptr);
 

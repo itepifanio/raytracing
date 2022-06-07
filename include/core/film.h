@@ -12,8 +12,9 @@ class Film {
         int yRes;
         std::string filenameOutput;
         std::string type;
-        std::vector<std::vector<Pixel*>> image;
+        
     public:
+        std::vector<std::vector<Pixel*>> image;
         Film();
         Film(std::string type, int xRes, int yRes, std::string filenameOutput);
         int getXRes();

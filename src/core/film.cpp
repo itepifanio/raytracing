@@ -13,10 +13,14 @@ Film::Film(std::string type, int xRes, int yRes, std::string filenameOutput)
     this->xRes = xRes;
     this->yRes = yRes;
     this->filenameOutput = filenameOutput;
-    this->image.reserve(this->xRes);
     for (int i = 0; i < this->xRes; i++)
     {
-        this->image[i].reserve(yRes);
+        std::vector<Pixel *> tmp;
+        for(int j = 0; j < this->yRes; j++) {
+            Pixel *p = new Pixel();
+            tmp.push_back(p);
+        }
+        this->image.push_back(tmp);
     }
 }
 

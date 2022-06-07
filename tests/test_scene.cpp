@@ -7,6 +7,7 @@
 #include "../include/cameras/camera.h"
 #include "../include/core/scene.h"
 #include "../include/datatype/lookat.h"
+#include "../include/materials/flatMaterial.h"
 #include <memory.h>
 #include <vector>
 
@@ -56,7 +57,7 @@ TEST_CASE("it can render scene") {
     int yRes = 600;
     std::string type = "image";
     std::string filenameOutput = "./circles.ppm";
-    
+
     Film film(type, xRes, yRes, filenameOutput);
 
     Lookat lookat(lookFrom, lookAt, vup);
@@ -77,11 +78,28 @@ TEST_CASE("it can render scene") {
     
     CHECK_EQ(center3.j, -1.5);
 
+    Color24 red(255, 0, 0);
+    FlatMaterial *flatMaterial = new FlatMaterial(red);
+
     std::vector<Primitive*> objList;
-    objList.push_back(dynamic_cast<Primitive*>(sphere));
-    objList.push_back(dynamic_cast<Primitive*>(sphere2));
-    objList.push_back(dynamic_cast<Primitive*>(sphere3));
+    GeometricPrimitive *g1 = new GeometricPrimitive(
+        dynamic_cast<Shape*>(sphere), 
+        flatMaterial
+    );
+    GeometricPrimitive *g2 = new GeometricPrimitive(
+        dynamic_cast<Shape*>(sphere2),
+        flatMaterial
+    );
+    GeometricPrimitive *g3 = new GeometricPrimitive(
+        dynamic_cast<Shape*>(sphere3), 
+        flatMaterial
+    );
+
+    objList.push_back(dynamic_cast<Primitive*>(g1));
+    objList.push_back(dynamic_cast<Primitive*>(g2));
+    objList.push_back(dynamic_cast<Primitive*>(g3));
 
     Scene scene(camera, background, objList);
+
     scene.render();
 }

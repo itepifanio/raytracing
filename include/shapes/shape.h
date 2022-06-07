@@ -7,7 +7,7 @@
 #include "../core/ray.h"
 
 // TODO::Add GeometricPrimitive
-class Shape : public GeometricPrimitive {
+class Shape {
     public:
     // bool flip_normals;
 

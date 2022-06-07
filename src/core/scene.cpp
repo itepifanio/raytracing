@@ -33,22 +33,21 @@ void Scene::render()
 {
     auto w = this->camera->film.getXRes();
     auto h = this->camera->film.getYRes();
-    Pixel *red = new Pixel(255, 0, 0);
+    Color24 red(255, 0, 0);
 
     for (int j = h - 1; j >= 0; j--)
     {
         for (int i = 0; i < w; i++)
         {
             Ray ray = this->camera->generate_ray(i, j);
-
-            for (const Primitive* p : this->objList)
+            for (Primitive* p : this->objList)
             {
                 if (p->intersectP(ray)){
-                    this->background.image[i][j] = red;
+                    this->camera->film.addSample(i, j, red);
                 }
             }
         }
     }
 
-    this->background.toPPM("scene.ppm");
+    this->camera->film.toPPM("scene.ppm");
 }
