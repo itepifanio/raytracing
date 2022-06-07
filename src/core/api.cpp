@@ -87,7 +87,7 @@ void Api::addSphere(const ParamSet &ps)
     
     GeometricPrimitive *primitive = new GeometricPrimitive(sphere, this->material);
 
-    this->primitives.push_back(dynamic_cast<Primitive*>(primitive));
+    this->scene.setPrimitive(primitive);
 }
 
 ParamSet Api::getParams(XMLElement *e, int size_elements)
