@@ -5,6 +5,7 @@
 #include "../include/core/film.h"
 #include "../include/core/rt3.h"
 #include "../include/core/background.h"
+#include "../include/core/scene.h"
 #include "../include/datatype/lookat.h"
 #include "../include/cameras/camera.h"
 #include "../include/core/paramset.h"
@@ -34,12 +35,13 @@ class Api
         Lookat lookat;
         Camera * camera;
         Material * material;
-        std::vector<Primitive*> primitives;
+        Scene scene;
 
     public:
         Api(RunningOptions options);
         void run();
         Background getBackground();
         Camera * getCamera();
+        // Scene getScene();
 };
 #endif
