@@ -70,29 +70,34 @@ TEST_CASE("it can render scene") {
     camera->film = film;
 
     Point center(-1, 0.5, 5);
-    Sphere *sphere = new Sphere(0.4, center);
+    Shape *sphere = new Sphere(0.4, center);
     Point center2(-1, 0.5, 8);
-    Sphere *sphere2 = new Sphere(0.4, center2);
+    Shape *sphere2 = new Sphere(0.4, center2);
     Point center3(-1, -1.5, 3.5);
-    Sphere *sphere3 = new Sphere(0.4, center3);
-    
+    Shape *sphere3 = new Sphere(0.4, center3);
+
     CHECK_EQ(center3.j, -1.5);
 
     Color24 red(255, 0, 0);
-    FlatMaterial *flatMaterial = new FlatMaterial(red);
+    Color24 green(0,128,0);
+    Color24 blue(0,0,255);
+
+    Material *flatMaterial = new FlatMaterial(red);
+    Material *flatMaterial2 = new FlatMaterial(green);
+    Material *flatMaterial3 = new FlatMaterial(blue);
 
     std::vector<Primitive*> objList;
-    GeometricPrimitive *g1 = new GeometricPrimitive(
+    Primitive *g1 = new GeometricPrimitive(
         dynamic_cast<Shape*>(sphere), 
-        flatMaterial
+        dynamic_cast<Material*>(flatMaterial)
     );
-    GeometricPrimitive *g2 = new GeometricPrimitive(
+    Primitive *g2 = new GeometricPrimitive(
         dynamic_cast<Shape*>(sphere2),
-        flatMaterial
+        dynamic_cast<Material*>(flatMaterial2)
     );
-    GeometricPrimitive *g3 = new GeometricPrimitive(
+    Primitive *g3 = new GeometricPrimitive(
         dynamic_cast<Shape*>(sphere3), 
-        flatMaterial
+        dynamic_cast<Material*>(flatMaterial3)
     );
 
     objList.push_back(dynamic_cast<Primitive*>(g1));

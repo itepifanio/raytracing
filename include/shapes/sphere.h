@@ -15,7 +15,7 @@ class Sphere : public Shape {
         Material * material;
     public:
         Sphere(double r, Point center);
-        Sphere(double r, Vector3 center_vector, Material *material);
+        // Sphere(double r, Vector3 center_vector, Material *material);
         ~Sphere();
         double getR();
         bool intersectP(Ray &r);

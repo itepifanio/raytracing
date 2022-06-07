@@ -1,6 +1,7 @@
 #include "../include/core/scene.h"
 #include "../include/cameras/camera.h"
 #include "../include/core/background.h"
+#include "../include/datatype/vector3.h"
 
 Scene::Scene(
     Camera *camera,
@@ -51,17 +52,30 @@ void Scene::render()
     auto w = this->camera->film.getXRes();
     auto h = this->camera->film.getYRes();
     Color24 red(255, 0, 0);
+    bool intersect = false;
 
     for (int j = h - 1; j >= 0; j--)
     {
         for (int i = 0; i < w; i++)
         {
+            intersect = false;
             Ray ray = this->camera->generate_ray(i, j);
+
             for (Primitive* p : this->objList)
             {
                 if (p->intersectP(ray)){
                     this->camera->film.addSample(i, j, red);
+                    intersect = true;
                 }
+            }
+
+            if (!intersect)
+            {
+                Vector3 v = this->background.interpolate(
+                    double(i) / double(this->background.width),
+                    double(j) / double(this->background.height)
+                );
+                this->camera->film.addSample(i, j, v.toColor24());
             }
         }
     }

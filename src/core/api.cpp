@@ -83,9 +83,12 @@ void Api::addSphere(const ParamSet &ps)
     double radius = std::stod(ps.find_one<string>("radius", "0.4"));
     Vector3 center = Vector3::string_to_vector(ps.find_one<string>("center", "0 0 0"));
 
-    Sphere *sphere = new Sphere(radius, center, this->material);
-    
-    GeometricPrimitive *primitive = new GeometricPrimitive(sphere, this->material);
+    Shape *shape = new Sphere(radius, center.toPoint());
+
+    Primitive *primitive = new GeometricPrimitive(
+        dynamic_cast<Shape*>(shape), 
+        dynamic_cast<Material*>(this->material)
+    );
 
     this->scene.setPrimitive(primitive);
 }

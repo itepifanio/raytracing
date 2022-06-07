@@ -2,6 +2,7 @@
 #define VECTOR3_H
 
 #include "./datatype/pixel.h"
+#include "./datatype/color24.h"
 #include "../datatype/point.h"
 #include <cmath>
 #include <iostream>
@@ -58,6 +59,8 @@ public:
     double length();
 
     Pixel toPixel();
+
+    Color24 toColor24();
 
     Point toPoint();
 
