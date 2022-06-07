@@ -17,10 +17,14 @@ class Scene {
             Background background, 
             std::vector<Primitive*> objList
         );
+        Scene();
         ~Scene();
         void render();
+        void setCamera(Camera *camera);
         Camera* getCamera();
         Background getBackground();
+        void setBackground(Background background);
+        void setPrimitive(Primitive *primitive);
         std::vector<Primitive*> getPrimitive();
 };
 

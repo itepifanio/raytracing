@@ -6,7 +6,7 @@
 
 TEST_CASE("it can setup internal states with simple scene") {
     /*
-    std::string sceneFile = "./tests/fixtures/simple_scene.xml";
+    std::string sceneFile = "./scenes/simple_scene.xml";
     RunningOptions options(sceneFile);
     CHECK(options.getSceneFile() == sceneFile);
     Api api(options);
@@ -15,7 +15,7 @@ TEST_CASE("it can setup internal states with simple scene") {
 }
 
 TEST_CASE("it can setup internal states with interpolated scene") {
-    std::string sceneFile = "./tests/fixtures/interpolated_background.xml";
+    std::string sceneFile = "./scenes/interpolated_background.xml";
     RunningOptions options(sceneFile);
     CHECK(options.getSceneFile() == sceneFile);
     Api api(options);

@@ -41,6 +41,7 @@ void Api::createBackground(const ParamSet &ps)
         bg.interpolateAll();
 
         this->background = bg;
+        this->scene.setBackground(bg);
     }
 }
 
@@ -59,9 +60,10 @@ void Api::createCamera(const ParamSet &ps)
 {
     std::string type = ps.find_one<string>("type", "orthographic");
     std::tuple<double, double, double, double> screenWindow = Camera::string_to_tuple(
-        ps.find_one<string>("screen_window", "-1.555 1.555 -1 1")
+        ps.find_one<string>("screen_window", "-4 4 -3 3")
     );
     this->camera = Camera::make(type, this->lookat, screenWindow);
+    this->scene.setCamera(this->camera);
 }
 
 void Api::createMaterial(const ParamSet &ps)
@@ -75,11 +77,11 @@ void Api::createMaterial(const ParamSet &ps)
 void Api::addSphere(const ParamSet &ps)
 {
     std::string type = ps.find_one<string>("type", "sphere");
-    double radius = ps.find_one<double>("radius", 0.0);
+    double radius = std::stod(ps.find_one<string>("radius", "0.4"));
     Vector3 center = Vector3::string_to_vector(ps.find_one<string>("center", "0 0 0"));
 
-    Primitive * s = new Sphere(radius, center, this->material);
-    this->primitives.push_back(s);
+    Primitive *s = new Sphere(radius, center.toPoint());
+    this->scene.setPrimitive(s);
 }
 
 ParamSet Api::getParams(XMLElement *e, int size_elements)
@@ -191,7 +193,8 @@ void Api::render()
 void Api::run()
 {
     this->parser(this->options.getSceneFile());
-    this->background.toPPM(this->camera->film.getFilenameOutput());
+    this->scene.render();
+    // this->background.toPPM(this->camera->film.getFilenameOutput());
 }
 
 Background Api::getBackground()
@@ -203,3 +206,8 @@ Camera * Api::getCamera()
 {
     return this->camera;
 }
+
+// std::vector<Primitive*> Api::getPrimitives()
+// {
+//     return this->primitives;
+// }
