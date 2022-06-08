@@ -30,6 +30,7 @@ class Api
         void createCamera(const ParamSet &ps);
         void createMaterial(const ParamSet &ps);
         void addSphere(const ParamSet &ps);
+        void readInclude(const ParamSet &ps);
         void render();
 
         RunningOptions options;

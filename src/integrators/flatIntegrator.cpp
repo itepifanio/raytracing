@@ -33,6 +33,6 @@ Color24 FlatIntegrator::Li(Ray &ray, Scene &scene, Color24 color)
             }
         }
     }
-    
+
     return result;
 }

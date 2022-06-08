@@ -72,7 +72,7 @@ void Api::createMaterial(const ParamSet &ps)
 
     if(type == "flat") {
         // Color24 flatColor(color[0], color[1], color[2]);
-        FlatMaterial *flatMaterial = new FlatMaterial(color.toColor24(true));
+        FlatMaterial *flatMaterial = new FlatMaterial(color.toColor24());
         // TODO::we may now be allowed to remove the material reference from api.h
         this->material = dynamic_cast<FlatMaterial*>(flatMaterial);
         this->integrator = new FlatIntegrator();
@@ -93,6 +93,13 @@ void Api::addSphere(const ParamSet &ps)
     );
 
     this->scene.setPrimitive(primitive);
+}
+
+
+void Api::readInclude(const ParamSet &ps)
+{
+    std::string filename = ps.find_one<string>("filename", "");
+    this->parser(filename);
 }
 
 ParamSet Api::getParams(XMLElement *e, int size_elements)
@@ -165,6 +172,10 @@ void Api::parser(std::string xmlFile)
             else if (strcmp(tag, "film") == 0)
             {
                 this->createFilm(this->getParams(e));
+            }
+            else if(strcmp(tag, "include") == 0)
+            {
+                this->readInclude(this->getParams(e));
             }
             else if (strcmp(tag, "world_begin") == 0)
             {
