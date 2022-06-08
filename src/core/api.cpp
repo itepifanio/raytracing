@@ -71,8 +71,8 @@ void Api::createMaterial(const ParamSet &ps)
     Vector3 color = Vector3::string_to_vector(ps.find_one<string>("color", "0 0 0"));
 
     if(type == "flat") {
-        Color24 flatColor(color[0], color[1], color[2]);
-        FlatMaterial *flatMaterial = new FlatMaterial(flatColor);
+        // Color24 flatColor(color[0], color[1], color[2]);
+        FlatMaterial *flatMaterial = new FlatMaterial(color.toColor24(true));
         // TODO::we may now be allowed to remove the material reference from api.h
         this->material = dynamic_cast<FlatMaterial*>(flatMaterial);
         this->integrator = new FlatIntegrator();

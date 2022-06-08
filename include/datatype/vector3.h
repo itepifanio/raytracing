@@ -60,7 +60,7 @@ public:
 
     Pixel toPixel();
 
-    Color24 toColor24();
+    Color24 toColor24(bool convert = false);
 
     Point toPoint();
 

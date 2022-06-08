@@ -140,10 +140,18 @@ Pixel Vector3::toPixel()
     return pixel;
 }
 
-Color24 Vector3::toColor24()
+Color24 Vector3::toColor24(bool convert)
 {
-    Color24 color24(this->vector[0], this->vector[1], this->vector[2]);
+    if (convert)
+    {
+        int r = (int)(this->vector[0]*255.0);
+        int g = (int)(this->vector[1]*255.0);
+        int b = (int)(this->vector[2]*255.0);
+        Color24 color24(r, g, b);
+        return color24;
+    }
 
+    Color24 color24(this->vector[0], this->vector[1], this->vector[2]);
     return color24;
 }
 
