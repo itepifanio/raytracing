@@ -12,6 +12,8 @@
 #include "../include/shapes/sphere.h"
 #include "../include/materials/material.h"
 #include "../include/materials/flatMaterial.h"
+#include "../include/integrators/integrator.h"
+#include "../include/integrators/flatIntegrator.h"
 #include "../include/libs/tinyxml2.h"
 
 using namespace tinyxml2;
@@ -28,6 +30,7 @@ class Api
         void createCamera(const ParamSet &ps);
         void createMaterial(const ParamSet &ps);
         void addSphere(const ParamSet &ps);
+        void readInclude(const ParamSet &ps);
         void render();
 
         RunningOptions options;
@@ -36,6 +39,7 @@ class Api
         Camera * camera;
         Material * material;
         Scene scene;
+        Integrator *integrator;
 
     public:
         Api(RunningOptions options);
