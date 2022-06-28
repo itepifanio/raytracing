@@ -11,7 +11,7 @@
 
 # compiler flags and source directories can be changed here
 CXX		  := g++
-CXXFLAGS := -Wall -Wextra -std=c++17 -ggdb -pedantic -O0
+CXXFLAGS := -std=c++17
 
 TARGET_MAIN ?= main-driver
 TARGET_TEST ?= test-driver
