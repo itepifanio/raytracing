@@ -15,13 +15,15 @@ private:
     Point uv;       // parametric coordinate (u, v)
     Primitive *pri; // Pointer to the primitive
 public:
+    Surfel();
     Surfel(
         Point &p,
         Vector3 &n,
         Vector3 &wo,
         float time,
         Point &uv,
-        Primitive *pri);
+        Primitive *pri
+    );
 };
 
 #endif
