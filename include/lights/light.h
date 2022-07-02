@@ -1,7 +1,11 @@
 #ifndef _LIGHT_H_
 #define _LIGHT_H_
 
+#include "../shapes/surfel.h"
 #include "../helpers/visibilityTester.h"
+#include "../datatype/vector3.h"
+
+class VisibilityTester;
 
 class Light {  
 public:

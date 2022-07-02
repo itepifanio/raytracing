@@ -19,5 +19,5 @@ Color24 PointLight::sampleLi(
     l = normalize(l);
     *wi = i;
 
-    return l;
+    return l.toColor24();
 }

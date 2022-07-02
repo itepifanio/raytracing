@@ -1,6 +1,8 @@
 #ifndef _VISIBILITY_TEST_H
 #define _VISIBILITY_TEST_H
 
+class Scene;
+
 #include "../../include/core/scene.h"
 #include "../../include/shapes/surfel.h"
 

@@ -47,6 +47,17 @@ std::vector<Primitive *> Scene::getPrimitive()
     return this->objList;
 }
 
+std::vector<Light*> Scene::getLights()
+{
+    return this->lightList;
+}
+
+
+void Scene::setLights(Light *light)
+{
+    this->lightList.push_back(light);
+}
+
 // TODO::Probably not necessary anymore
 void Scene::render()
 {

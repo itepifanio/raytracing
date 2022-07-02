@@ -8,13 +8,13 @@
 class Surfel
 {
 private:
-    Point p;        // contact point
     Vector3 n;      // surface normal
     Vector3 wo;     // outgoing direction of light
     float time;     // time of contact
     Point uv;       // parametric coordinate (u, v)
     Primitive *pri; // Pointer to the primitive
 public:
+    Point p;        // contact point
     Surfel();
     Surfel(
         Point &p,
