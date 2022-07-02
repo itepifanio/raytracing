@@ -6,12 +6,11 @@
 class Light {  
 public:
     // light_flag_e flags; TODO::add enum
-    virtual ~Light();
     virtual Color24 sampleLi(
         Surfel &hit, 
         Vector3 *wi, 
         VisibilityTester visibilityTester
-    );
+    ) = 0;
 };
 
 #endif

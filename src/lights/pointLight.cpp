@@ -1,4 +1,5 @@
 #include "../../include/lights/pointLight.h"
+#include "../include/math/vectors.inl"
 
 PointLight::PointLight(Vector3 &i, Vector3 scale, Vector3 from)
 {
@@ -13,8 +14,10 @@ Color24 PointLight::sampleLi(
     VisibilityTester visibilityTester
 )
 {
-    // TODO::implement
-    Color24 color(255, 255, 255);
+    Vector3 contactPoint = hit.p.toVector3();
+    Vector3 l = this->from - contactPoint;
+    l = normalize(l);
+    *wi = i;
 
-    return color;
+    return l;
 }
