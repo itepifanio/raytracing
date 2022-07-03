@@ -95,12 +95,54 @@ void Api::addSphere(const ParamSet &ps)
     this->scene.setPrimitive(primitive);
 }
 
-
 void Api::readInclude(const ParamSet &ps)
 {
     std::string filename = ps.find_one<string>("filename", "");
     this->parser(filename);
 }
+
+void Api::addLight(const ParamSet &ps)
+{
+    Light *light;
+    std::string type = ps.find_one<string>("type", "point");
+
+    if (type.compare("ambient"))
+    {
+        Vector3 l = Vector3::string_to_vector(ps.find_one<string>("L", "0.2 0.2 0.2"));
+        light = new AmbientLight(l);
+    }
+    else if (type.compare("point"))
+    {
+        Vector3 i = Vector3::string_to_vector(ps.find_one<string>("I", "0.3 0.3 0.1"));
+        Vector3 scale = Vector3::string_to_vector(ps.find_one<string>("scale", "1.0 1.0 1.0"));
+        Vector3 from = Vector3::string_to_vector(ps.find_one<string>("from", "0 1.3 -1.7"));
+
+        light = new PointLight(i, scale, from);
+    }
+    else if (type.compare("directional"))
+    {
+        Vector3 i = Vector3::string_to_vector(ps.find_one<string>("I", "0.5 0.5 0.6"));
+        Vector3 scale = Vector3::string_to_vector(ps.find_one<string>("scale", "1.0 1.0 1.0"));
+        Vector3 from = Vector3::string_to_vector(ps.find_one<string>("from", "0 25 -14"));
+        Vector3 to = Vector3::string_to_vector(ps.find_one<string>("to", "0 0 1"));
+
+        light = new DirectionalLight(i, scale, from, to);
+    }
+    else if (type.compare("spot"))
+    {
+        Vector3 i = Vector3::string_to_vector(ps.find_one<string>("I", "0.5 0.5 0.6"));
+        Vector3 scale = Vector3::string_to_vector(ps.find_one<string>("scale", "1.0 1.0 1.0"));
+        Vector3 from = Vector3::string_to_vector(ps.find_one<string>("from", "0 25 -14"));
+        Vector3 to = Vector3::string_to_vector(ps.find_one<string>("to", "0 0 1"));
+
+        double cutoff = std::stod(ps.find_one<string>("cutoff", "30"));
+        double falloff = std::stod(ps.find_one<string>("falloff", "15"));
+        light = new SpotLight(i, scale, from, to, cutoff, falloff);
+    }
+
+    this->scene.setLights(light);
+}
+
 
 ParamSet Api::getParams(XMLElement *e, int size_elements)
 {
@@ -194,6 +236,10 @@ void Api::parser(std::string xmlFile)
                         this->createMaterial(this->getParams(e));
                     }
                     else if(strcmp(tag, "object") == 0)
+                    {
+                        this->addSphere(this->getParams(e));
+                    }
+                    else if(strcmp(tag, "light_source") == 0)
                     {
                         this->addSphere(this->getParams(e));
                     }

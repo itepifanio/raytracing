@@ -14,6 +14,11 @@
 #include "../include/materials/flatMaterial.h"
 #include "../include/integrators/integrator.h"
 #include "../include/integrators/flatIntegrator.h"
+#include "../include/lights/light.h"
+#include "../include/lights/ambientLight.h"
+#include "../include/lights/pointLight.h"
+#include "../include/lights/spotLight.h"
+#include "../include/lights/directionalLight.h"
 #include "../include/libs/tinyxml2.h"
 
 using namespace tinyxml2;
@@ -30,6 +35,7 @@ class Api
         void createCamera(const ParamSet &ps);
         void createMaterial(const ParamSet &ps);
         void addSphere(const ParamSet &ps);
+        void addLight(const ParamSet &ps);
         void readInclude(const ParamSet &ps);
         void render();
 

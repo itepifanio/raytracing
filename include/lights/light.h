@@ -26,15 +26,15 @@ class Light {
             VisibilityTester visibilityTester
         ) = 0;
 
-        static Light* make(
-            std::string type,
-            Vector3 i,
-            Vector3 scale,
-            Vector3 from,
-            Vector3 to,
-            double cutoff = 30,
-            double falloff = 15
-        );
+        // static Light* make(
+        //     std::string type,
+        //     Vector3 i,
+        //     Vector3 scale,
+        //     Vector3 from,
+        //     Vector3 to,
+        //     double cutoff = 30,
+        //     double falloff = 15
+        // );
 };
 
 #endif

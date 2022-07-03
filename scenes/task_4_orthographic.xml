@@ -4,6 +4,6 @@
 <integrator type="flat"/>
 <film type="image" x_res="800" y_res="600" filename="flat_spheres_orthographic.ppm" img_type="ppm"/> 
 
-<include filename="./scenes/geometry_spheres.xml" />
+<include filename="./scenes/world.xml" />
 <!-- <render_again /> -->
 </RT3>
