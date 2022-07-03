@@ -68,14 +68,45 @@ void Api::createCamera(const ParamSet &ps)
 void Api::createMaterial(const ParamSet &ps)
 {
     std::string type = ps.find_one<string>("type", "flat");
-    Vector3 color = Vector3::string_to_vector(ps.find_one<string>("color", "0 0 0"));
 
-    if(type == "flat") {
-        // Color24 flatColor(color[0], color[1], color[2]);
+    if(type.compare("flat") == 0) {
+        Vector3 color = Vector3::string_to_vector(ps.find_one<string>("color", "0 0 0"));
         FlatMaterial *flatMaterial = new FlatMaterial(color.toColor24());
         // TODO::we may now be allowed to remove the material reference from api.h
         this->material = dynamic_cast<FlatMaterial*>(flatMaterial);
+    }
+    else if(type.compare("blinn") == 0)
+    {
+        std::string name = ps.find_one<string>("name", "gold");
+        Vector3 ambient = Vector3::string_to_vector(ps.find_one<string>("ambient", "0.2 0.2 0.2"));
+        Vector3 diffuse = Vector3::string_to_vector(ps.find_one<string>("diffuse", "1.0 0.65 0.0"));
+        Vector3 specular = Vector3::string_to_vector(ps.find_one<string>("specular", "0.8 0.6 0.2"));
+        double glossiness = std::stod(ps.find_one<string>("glossiness", "256"));
+
+        BlinnPhongMaterial *blinnMaterial = new BlinnPhongMaterial(
+            name, ambient, diffuse,
+            specular, glossiness
+        );
+
+        std::string mirrorStr = ps.find_one<string>("mirror", "");
+        if (mirrorStr.compare("") != 0)
+        {
+            blinnMaterial->setMirror(Vector3::string_to_vector(mirrorStr));
+        }
+        this->material = dynamic_cast<BlinnPhongMaterial*>(blinnMaterial);
+    }
+}
+
+void Api::createIntegrator(const ParamSet &ps)
+{
+    std::string type = ps.find_one<string>("type", "flat");
+    if(type.compare("flat") == 0)
+    {
         this->integrator = new FlatIntegrator();
+    }
+    else if(type.compare("blinn_phong") == 0)
+    {
+        this->integrator = new BlinnPhongIntegrator();
     }
 }
 
@@ -105,13 +136,13 @@ void Api::addLight(const ParamSet &ps)
 {
     Light *light;
     std::string type = ps.find_one<string>("type", "point");
-
-    if (type.compare("ambient"))
+    
+    if (type.compare("ambient") == 0)
     {
         Vector3 l = Vector3::string_to_vector(ps.find_one<string>("L", "0.2 0.2 0.2"));
         light = new AmbientLight(l);
     }
-    else if (type.compare("point"))
+    else if (type.compare("point") == 0)
     {
         Vector3 i = Vector3::string_to_vector(ps.find_one<string>("I", "0.3 0.3 0.1"));
         Vector3 scale = Vector3::string_to_vector(ps.find_one<string>("scale", "1.0 1.0 1.0"));
@@ -119,7 +150,7 @@ void Api::addLight(const ParamSet &ps)
 
         light = new PointLight(i, scale, from);
     }
-    else if (type.compare("directional"))
+    else if (type.compare("directional") == 0)
     {
         Vector3 i = Vector3::string_to_vector(ps.find_one<string>("I", "0.5 0.5 0.6"));
         Vector3 scale = Vector3::string_to_vector(ps.find_one<string>("scale", "1.0 1.0 1.0"));
@@ -128,7 +159,7 @@ void Api::addLight(const ParamSet &ps)
 
         light = new DirectionalLight(i, scale, from, to);
     }
-    else if (type.compare("spot"))
+    else if (type.compare("spot") == 0)
     {
         Vector3 i = Vector3::string_to_vector(ps.find_one<string>("I", "0.5 0.5 0.6"));
         Vector3 scale = Vector3::string_to_vector(ps.find_one<string>("scale", "1.0 1.0 1.0"));
@@ -142,7 +173,6 @@ void Api::addLight(const ParamSet &ps)
 
     this->scene.setLights(light);
 }
-
 
 ParamSet Api::getParams(XMLElement *e, int size_elements)
 {
@@ -219,6 +249,10 @@ void Api::parser(std::string xmlFile)
             {
                 this->readInclude(this->getParams(e));
             }
+            else if(strcmp(tag, "integrator") == 0)
+            {
+                this->createIntegrator(this->getParams(e));
+            }
             else if (strcmp(tag, "world_begin") == 0)
             {
                 for (auto attr_world = e; strcmp(tag, "world_end") != 0; attr_world = attr_world->NextSiblingElement())
@@ -241,7 +275,7 @@ void Api::parser(std::string xmlFile)
                     }
                     else if(strcmp(tag, "light_source") == 0)
                     {
-                        this->addSphere(this->getParams(e));
+                        this->addLight(this->getParams(e));
                     }
                 }
             }
