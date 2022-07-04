@@ -1,4 +1,5 @@
 #include "../../include/integrators/blinnPhongIntegrator.h"
+#include "../include/math/vectors.inl"
 #include <optional>
 
 BlinnPhongIntegrator::BlinnPhongIntegrator()
@@ -46,6 +47,9 @@ Color24 BlinnPhongIntegrator::Li(Ray &ray, Scene &scene, Color24 color)
 
         // [4] INITIALIZE COMMON VARIABLES FOR BLINNPHONG INTEGRATOR
         // (COEFFICIENTS AND VECTORS L, N, V, ETC.)
+        
+        //!!!!!!!!!! TODO::WE NEED TO CREATE THE intersect() FUNCTION THAT INSTANCIATES THE SURFEL!!!!!!!!!!!!
+
         // [5] CALCULATE & ADD CONTRIBUTION FROM EACH LIGHT SOURCE
         // [6] ADD AMBIENT CONTRIBUTION HERE (if there is any).
         // [7] ADD MIRROR REFLECTION CONTRIBUTION
