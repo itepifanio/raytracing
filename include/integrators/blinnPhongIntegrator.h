@@ -1,6 +1,7 @@
 #ifndef _BLINN_PHONG_H_
 #define _BLINN_PHONG_H_
 
+#include "../materials/blinnPhongMaterial.h"
 #include "./integrator.h"
 
 class BlinnPhongIntegrator : public Integrator {

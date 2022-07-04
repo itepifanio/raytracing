@@ -2,7 +2,8 @@
 #define _PRIMITIVE_H_
 
 #include "../core/ray.h"
-// #include "../include/materials/material.h"
+#include "../../include/shapes/shape.h"
+#include "../materials/material.h"
 
 class Primitive {
     public:
@@ -10,9 +11,7 @@ class Primitive {
         //virtual bool intersect(const Ray &r, Surfel *sf) const = 0;
         virtual bool intersectP(Ray &r) = 0;
         virtual ~Primitive() {};
-        
-        //TODO::ommited for now. It may not be used right now.
-        //virtual const Material *getMaterial(void) const = { return material };
+        virtual Material *getMaterial() = 0;
         //std::shared_ptr<Material> material;
 };
 

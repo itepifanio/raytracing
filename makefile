@@ -90,6 +90,7 @@ $(BUILD_DIR)/%.cpp.o: %.cpp
 
 clean:
 	$(RM) -r $(BUILD_DIR) $(BIN_DIR) fixed-debugger
+	rm -f ./*.ppm
 
 # extra make targets to make debugging with ide.cs50.io easier
 # otherwise, you have to put breakpoints in the files
