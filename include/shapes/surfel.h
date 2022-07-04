@@ -2,7 +2,8 @@
 #define _SURFEL_H_
 
 #include "../datatype/point.h"
-#include "primitive.h"
+
+class Primitive;
 
 // TODO::add const back
 class Surfel

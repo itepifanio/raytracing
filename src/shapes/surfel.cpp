@@ -1,5 +1,4 @@
 #include "../include/shapes/surfel.h"
-#include "../include/shapes/primitive.h"
 
 Surfel::Surfel() {}
 
