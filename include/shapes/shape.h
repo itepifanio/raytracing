@@ -5,6 +5,7 @@
 #include "./geometric_primitive.h"
 #include "../materials/material.h"
 #include "../core/ray.h"
+#include "../../include/shapes/surfel.h"
 
 // TODO::Add GeometricPrimitive
 class Shape {
@@ -13,7 +14,7 @@ class Shape {
 
     // Shape(bool flip_n);
     //virtual Bounds3 world_bounds() = 0;
-    //virtual bool intersect(Ray& r, float * t_hit, Surfel * s) = 0;
+    virtual bool intersect(Ray& r, double * t_hit, Surfel * s) = 0;
     virtual bool intersectP(Ray & r) = 0;
     //virtual void printCenter() = 0;
 };

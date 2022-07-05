@@ -7,14 +7,6 @@ Sphere::Sphere(double r, Point center)
     this->center = center;
 }
 
-
-// Sphere::Sphere(double r, Vector3 center_vector, Material * material)
-// {
-//     this->r = r;
-//     this->center_vector = center_vector;
-//     this->material = material;
-// }
-
 Sphere::~Sphere()
 {
 }
@@ -36,4 +28,35 @@ bool Sphere::intersectP(Ray &r)
 double Sphere::getR()
 {
     return this->r;
+}
+
+bool Sphere::intersect(Ray& r, double * t_hit, Surfel * s)
+{
+    Point center = this->center;
+
+    Vector3 originCenter = r.getOrigin().toVector3() - center.toVector3();
+    
+    double a = r.getDirection() * r.getDirection();
+    double b = (2.0*r.getDirection())*originCenter;
+    double c = (originCenter*originCenter) - (this->r*this->r);
+
+    std::pair<double, double> roots = bhaskara(a, b, c);
+    double rmin = std::get<0>(roots);
+    double rmax = std::get<1>(roots);
+
+    if(rmin < rmax) {
+        *t_hit = rmin;
+        s->p = r(rmin);
+        s->n = s->p.toVector3() - center.toVector3();
+
+        return true;
+    } else {
+       *t_hit = rmax;
+        s->p = r(rmax);
+        s->n = s->p.toVector3() - center.toVector3(); 
+
+        return true;
+    }    
+
+    return false;
 }

@@ -18,6 +18,7 @@ class GeometricPrimitive : public Primitive
         ~GeometricPrimitive(){}
         bool intersectP(Ray &r);
         Material *getMaterial();
+        bool intersect(Ray &r, Surfel *sf);
 };
 
 #endif
