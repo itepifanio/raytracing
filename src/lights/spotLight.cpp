@@ -20,13 +20,29 @@ SpotLight::SpotLight(
 Color24 SpotLight::sampleLi(
     Surfel &hit, 
     Vector3 *wi,
-    VisibilityTester visibilityTester
+    VisibilityTester *visibilityTester
 )
 {
-    // Vector3 contactPoint = hit.p.toVector3();
-    // Vector3 l = this->from - contactPoint;
-    // l = normalize(l);
-    // *wi = i;
+    Color24 black(0, 0, 0);
+    Vector3 contactPoint = hit.p.toVector3();
+    Vector3 contactDirection = normalize(contactPoint - this->from);
+    double angleCos = acos(this->to * contactDirection); // radians
+    double angleDegree = angleCos*180/3.1415;
 
-    // return l.toColor24();
+    Color24 resultColor;
+
+    if(angleDegree > this->cutoff) {
+        resultColor = black;
+    } else if(angleDegree > this->falloff) {
+        resultColor = (this->i * pow(
+            1 - (
+                (angleDegree - this->falloff) / (this->cutoff - this->falloff)
+            ),
+            4
+        )).toColor24();
+    } else {
+        resultColor = this->i.toColor24();
+    }
+
+    return resultColor;
 }

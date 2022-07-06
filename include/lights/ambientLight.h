@@ -12,7 +12,7 @@ class AmbientLight : public Light {
         Color24 sampleLi(
             Surfel &hit, 
             Vector3 *wi,
-            VisibilityTester visibilityTester
+            VisibilityTester *visibilityTester
         );
 };
 
