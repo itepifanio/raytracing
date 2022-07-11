@@ -9,6 +9,11 @@ Color24::Color24(int r, int g, int b)
     this->b = b;
 }
 
+Vector3 Color24::toVector3()
+{
+    return Vector3(this->r, this->g, this->b);
+}
+
 Color24::~Color24()
 {
     

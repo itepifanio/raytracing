@@ -14,4 +14,9 @@ Color24 PointLight::sampleLi(
     VisibilityTester *visibilityTester
 )
 {
+    // std::cout << "Sample li" << std::endl;
+    Vector3 direction = normalize(hit.p.toVector3() - this->from);
+    *wi = i;
+    
+    return direction.toColor24();
 }

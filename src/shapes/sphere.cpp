@@ -1,5 +1,6 @@
-#include "../include/shapes/sphere.h"
-#include "../include/math/formula.inl"
+#include "../../include/shapes/sphere.h"
+#include "../../include/math/formula.inl"
+#include "../../include/math/vectors.inl"
 
 Sphere::Sphere(double r, Point center)
 {
@@ -40,23 +41,24 @@ bool Sphere::intersect(Ray& r, double * t_hit, Surfel * s)
     double b = (2.0*r.getDirection())*originCenter;
     double c = (originCenter*originCenter) - (this->r*this->r);
 
-    std::pair<double, double> roots = bhaskara(a, b, c);
-    double rmin = std::get<0>(roots);
-    double rmax = std::get<1>(roots);
+    double delta = deltaBhaskara(a, b, c);
+    double time = -1.0;
+    
+    if(delta > 0) {
+        std::pair<double, double> roots = bhaskara(a, b, c);
+        double r1 = std::get<0>(roots);
+        double r2 = std::get<1>(roots);
 
-    if(rmin < rmax) {
-        *t_hit = rmin;
-        s->p = r(rmin);
-        s->n = s->p.toVector3() - center.toVector3();
-
-        return true;
+        time = std::min(r1, r2);
     } else {
-       *t_hit = rmax;
-        s->p = r(rmax);
-        s->n = s->p.toVector3() - center.toVector3(); 
+        time = -b/(2*a);
+    }
 
-        return true;
-    }    
-
-    return false;
+    s->pri = this->primitive;
+    s->time = time;
+    s->wo = r.getOrigin().toVector3() - r.getDirection();
+    s->p = r(time);
+    s->n = normalize(s->p.toVector3() - center.toVector3());
+    
+    return delta >= 0;
 }

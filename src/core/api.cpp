@@ -123,6 +123,8 @@ void Api::addSphere(const ParamSet &ps)
         dynamic_cast<Material*>(this->material)
     );
 
+    shape->primitive = dynamic_cast<GeometricPrimitive*>(primitive);
+
     this->scene.setPrimitive(primitive);
 }
 

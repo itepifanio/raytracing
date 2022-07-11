@@ -1,5 +1,5 @@
 #include "../../include/lights/ambientLight.h"
-#include "../include/math/vectors.inl"
+// #include "../include/math/vectors.inl"
 
 AmbientLight::AmbientLight(Vector3 l)
 {

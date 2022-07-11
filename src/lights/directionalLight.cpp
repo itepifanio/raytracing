@@ -1,5 +1,5 @@
 #include "../../include/lights/directionalLight.h"
-#include "../include/math/vectors.inl"
+// #include "../include/math/vectors.inl"
 
 DirectionalLight::DirectionalLight(Vector3 l, Vector3 scale, Vector3 from, Vector3 to)
 {

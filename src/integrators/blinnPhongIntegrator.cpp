@@ -1,5 +1,4 @@
 #include "../../include/integrators/blinnPhongIntegrator.h"
-#include "../include/math/vectors.inl"
 #include <optional>
 
 BlinnPhongIntegrator::BlinnPhongIntegrator()
@@ -26,6 +25,7 @@ std::optional<Primitive *> getClosest(std::vector<Primitive *> primitives, Ray r
 
 Color24 BlinnPhongIntegrator::Li(Ray &ray, Scene &scene, Color24 color)
 {
+    //std::cout << "BlinnPhongIntegrator::Li" << std::endl;
     Surfel sf;
 
     // [0] FIRST STEP TO INITIATE `L` WITH THE COLOR VALUE TO
@@ -34,29 +34,31 @@ Color24 BlinnPhongIntegrator::Li(Ray &ray, Scene &scene, Color24 color)
 
     // [1] FIND CLOSEST RAY INTERSECTION OR RETURN BACKGROUND
     // RADIANCE
-    // std::optional<Primitive *> closest = getClosest(scene.getPrimitive(), ray);
-    for (int i = 0; i < (int)scene.getPrimitive().size(); i++)
+    Vector3 wi;
+    VisibilityTester visibilityTester;
+    for (int k = 0; k < (int)scene.getPrimitive().size(); k++)
     {
-        if (scene.getPrimitive()[i]->intersect(ray, &sf))
+        std::cout << "primitive " << k << std::endl;
+        if (scene.getPrimitive()[k]->intersect(ray, &sf))
         {
-            Vector3 c;
-            Vector3 wi;
-            Point origin = ray.getOrigin();
-            Vector3 *rayOrigin = new Vector3(origin.i, origin.j, origin.value);
+            //std::cout << "intersect " << k << std::endl;
+            //std::cout << "get material" << sf.pri->getMaterial() << std::endl;
             BlinnPhongMaterial *bm = dynamic_cast<BlinnPhongMaterial*>(sf.pri->getMaterial());
-            Vector3 n = normalize(sf.n);
-
+            //std::cout << "after *bm " << std::endl;
             for (int j = 0; j < (int)scene.getLights().size(); j++)
             {
-                VisibilityTester *visibilityTester;
+                //std::cout << "getting lights " << j << std::endl;
+                l = (l.toVector3() + scene.getLights()[j]->sampleLi(
+                    sf,
+                    &wi, 
+                    &visibilityTester
+                ).toVector3()).toColor24();
 
-                scene.getLights()[i]->sampleLi(
-                    sf, 
-                    rayOrigin, 
-                    visibilityTester
-                );
+                //std::cout << "scene.getLights().size() = " << scene.getLights().size() << std::endl;
             }
         }
+
+        //std::cout << "scene.getPrimitive().size() = " << scene.getPrimitive().size() << std::endl;
     }
 
     /*
