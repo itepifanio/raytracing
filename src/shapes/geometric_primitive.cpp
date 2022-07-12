@@ -23,5 +23,5 @@ bool GeometricPrimitive::intersect(Ray &r, Surfel *sf)
         }
     }
 
-    return true;
+    return false;
 }

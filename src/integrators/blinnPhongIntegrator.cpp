@@ -38,16 +38,15 @@ Color24 BlinnPhongIntegrator::Li(Ray &ray, Scene &scene, Color24 color)
     VisibilityTester visibilityTester;
     for (int k = 0; k < (int)scene.getPrimitive().size(); k++)
     {
-        std::cout << "primitive " << k << std::endl;
+        //std::cout << "primitive " << k << std::endl;
         if (scene.getPrimitive()[k]->intersect(ray, &sf))
         {
-            //std::cout << "intersect " << k << std::endl;
             //std::cout << "get material" << sf.pri->getMaterial() << std::endl;
             BlinnPhongMaterial *bm = dynamic_cast<BlinnPhongMaterial*>(sf.pri->getMaterial());
             //std::cout << "after *bm " << std::endl;
             for (int j = 0; j < (int)scene.getLights().size(); j++)
             {
-                //std::cout << "getting lights " << j << std::endl;
+                std::cout << "getting lights " << j << std::endl;
                 l = (l.toVector3() + scene.getLights()[j]->sampleLi(
                     sf,
                     &wi, 
