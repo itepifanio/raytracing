@@ -305,7 +305,7 @@ void Api::render()
                     double(j) / double(this->background.height)
             );
 
-            auto color = this->integrator->Li(ray, scene, v.toColor24());
+            auto color = this->integrator->Li(ray, scene, v);
             this->camera->film.addSample(i, j, color);
         }
     }

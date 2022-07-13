@@ -6,7 +6,7 @@ AmbientLight::AmbientLight(Vector3 l)
     this->l = l;
 }
 
-Color24 AmbientLight::sampleLi(
+Vector3 AmbientLight::sampleLi(
     Surfel &hit, 
     Vector3 *wi,
     VisibilityTester *visibilityTester

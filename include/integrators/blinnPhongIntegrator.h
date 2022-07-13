@@ -8,7 +8,7 @@ class BlinnPhongIntegrator : public Integrator {
 public:
     BlinnPhongIntegrator();
     ~BlinnPhongIntegrator();
-    Color24 Li(Ray &ray, Scene &scene, Color24 color);
+    Vector3 Li(Ray &ray, Scene &scene, Vector3 color);
 };
 
 #endif 

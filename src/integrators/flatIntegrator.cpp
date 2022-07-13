@@ -12,9 +12,9 @@ FlatIntegrator::FlatIntegrator()
 
 }
 
-Color24 FlatIntegrator::Li(Ray &ray, Scene &scene, Color24 color)
+Vector3 FlatIntegrator::Li(Ray &ray, Scene &scene, Vector3 color)
 {
-    Color24 result = color;
+    Vector3 result = color;
     //std::cout << "initial color is " << color.r << " " << color.g << " " << color.b << std::endl; 
     std::vector<Primitive*> objects = scene.getPrimitive();
 
@@ -28,7 +28,7 @@ Color24 FlatIntegrator::Li(Ray &ray, Scene &scene, Color24 color)
                 // and the material is flat
                 if(dynamic_cast<FlatMaterial*>(primitive->getMaterial())){
                     FlatMaterial *flatMaterial = dynamic_cast<FlatMaterial*>(primitive->getMaterial());
-                    result = flatMaterial->getColor();
+                    result = flatMaterial->getColor().toVector3();
                 }
             }
         }

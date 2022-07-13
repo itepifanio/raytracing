@@ -23,14 +23,14 @@ std::optional<Primitive *> getClosest(std::vector<Primitive *> primitives, Ray r
     return std::nullopt;
 }
 
-Color24 BlinnPhongIntegrator::Li(Ray &ray, Scene &scene, Color24 color)
+Vector3 BlinnPhongIntegrator::Li(Ray &ray, Scene &scene, Vector3 color)
 {
     //std::cout << "BlinnPhongIntegrator::Li" << std::endl;
     Surfel sf;
 
     // [0] FIRST STEP TO INITIATE `L` WITH THE COLOR VALUE TO
     // BE RETURNED.
-    Color24 l = color;
+    Vector3 l = color;
 
     // [1] FIND CLOSEST RAY INTERSECTION OR RETURN BACKGROUND
     // RADIANCE
@@ -41,17 +41,17 @@ Color24 BlinnPhongIntegrator::Li(Ray &ray, Scene &scene, Color24 color)
         //std::cout << "primitive " << k << std::endl;
         if (scene.getPrimitive()[k]->intersect(ray, &sf))
         {
+            l = Vector3(0, 0, 0);
             //std::cout << "get material" << sf.pri->getMaterial() << std::endl;
             BlinnPhongMaterial *bm = dynamic_cast<BlinnPhongMaterial*>(sf.pri->getMaterial());
             //std::cout << "after *bm " << std::endl;
             for (int j = 0; j < (int)scene.getLights().size(); j++)
             {
-                std::cout << "getting lights " << j << std::endl;
-                l = (l.toVector3() + scene.getLights()[j]->sampleLi(
+                l = l + (scene.getLights()[j]->sampleLi(
                     sf,
-                    &wi, 
+                    &wi,
                     &visibilityTester
-                ).toVector3()).toColor24();
+                )*100);
 
                 //std::cout << "scene.getLights().size() = " << scene.getLights().size() << std::endl;
             }
@@ -81,6 +81,6 @@ Color24 BlinnPhongIntegrator::Li(Ray &ray, Scene &scene, Color24 color)
         // [7] ADD MIRROR REFLECTION CONTRIBUTION
     }
     */
-
+    //std::cout << "BlinnPhongIntegrator::L(" << l.r << ", " << l.g << ", " << l.b << ")" << std::endl;
     return l;
 }

@@ -8,17 +8,38 @@ PointLight::PointLight(Vector3 &i, Vector3 scale, Vector3 from)
     this->from = from;
 }
 
-Color24 PointLight::sampleLi(
+Vector3 PointLight::sampleLi(
     Surfel &hit, 
     Vector3 *wi,
     VisibilityTester *visibilityTester
 )
 {
     auto p = hit.p.toVector3();
-    std::cout << "hit.p::" << p[0] << " " << p[1] << " " << p[2] << std::endl;
-    Vector3 direction = normalize(p - this->from);
-    *wi = i;
-    std::cout << "direction::" << direction[0] << " " << direction[1] << " " << direction[2] << std::endl;
+
+    Vector3 l = normalize(this->from - p);
+    Vector3 n = hit.n;
+    Vector3 v = hit.wo;
+    Vector3 h = normalize(v + l);
     
-    return direction.toColor24();
+    double dotNl = std::max(0.0, n * l);
+    BlinnPhongMaterial *bm = dynamic_cast<BlinnPhongMaterial*>(hit.pri->getMaterial());
+    double dotNh = std::pow(std::max(0.0, n * h), bm->glossiness);
+
+    Vector3 diffuse(
+        bm->diffuse[0] * this->i[0] * dotNl,
+        bm->diffuse[1] * this->i[1] * dotNl,
+        bm->diffuse[2] * this->i[2] * dotNl
+    );
+
+    Vector3 specular(
+        bm->ambient[0] * this->i[0] * dotNh,
+        bm->ambient[1] * this->i[1] * dotNh,
+        bm->ambient[2] * this->i[2] * dotNh
+    );
+
+    std::cout << (specular + diffuse)[0] << " ";
+    std::cout << (specular + diffuse)[1] << " ";
+    std::cout << (specular + diffuse)[2] << std::endl;
+
+    return (specular + diffuse);
 }

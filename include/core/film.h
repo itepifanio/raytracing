@@ -19,7 +19,7 @@ class Film {
         Film(std::string type, int xRes, int yRes, std::string filenameOutput);
         int getXRes();
         int getYRes();
-        void addSample(int i, int j, Color24 color);
+        void addSample(int i, int j, Vector3 color);
         std::string getType();
         std::string getFilenameOutput();
         void toPPM(std::string filename);

@@ -44,10 +44,10 @@ std::string Film::getFilenameOutput()
     return this->filenameOutput;
 }
 
-void Film::addSample(int i, int j, Color24 color)
+void Film::addSample(int i, int j, Vector3 color)
 {
     // TODO::change all images to a vector of color?
-    Pixel *pixel = new Pixel(color.r, color.g, color.b);
+    Pixel *pixel = new Pixel(color[0], color[1], color[2]);
     this->image[i][j] = pixel;
 }
 

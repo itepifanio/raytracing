@@ -9,7 +9,7 @@ DirectionalLight::DirectionalLight(Vector3 l, Vector3 scale, Vector3 from, Vecto
     this->to = to;
 }
 
-Color24 DirectionalLight::sampleLi(
+Vector3 DirectionalLight::sampleLi(
     Surfel &hit, 
     Vector3 *wi,
     VisibilityTester *visibilityTester
