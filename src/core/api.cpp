@@ -138,7 +138,7 @@ void Api::addLight(const ParamSet &ps)
 {
     Light *light;
     std::string type = ps.find_one<string>("type", "point");
-    
+
     if (type.compare("ambient") == 0)
     {
         Vector3 l = Vector3::string_to_vector(ps.find_one<string>("L", "0.2 0.2 0.2"));
@@ -278,6 +278,10 @@ void Api::parser(std::string xmlFile)
                     else if(strcmp(tag, "light_source") == 0)
                     {
                         this->addLight(this->getParams(e));
+                    }
+                    else if(strcmp(tag, "include") == 0)
+                    {
+                        this->readInclude(this->getParams(e));
                     }
                 }
             }

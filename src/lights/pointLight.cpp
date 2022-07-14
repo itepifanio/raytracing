@@ -37,9 +37,9 @@ Vector3 PointLight::sampleLi(
         bm->ambient[2] * this->i[2] * dotNh
     );
 
-    std::cout << (specular + diffuse)[0] << " ";
-    std::cout << (specular + diffuse)[1] << " ";
-    std::cout << (specular + diffuse)[2] << std::endl;
+    // std::cout << (specular + diffuse)[0] << " ";
+    // std::cout << (specular + diffuse)[1] << " ";
+    // std::cout << (specular + diffuse)[2] << std::endl;
 
     return (specular + diffuse);
 }
