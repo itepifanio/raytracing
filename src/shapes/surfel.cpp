@@ -3,7 +3,7 @@
 Surfel::Surfel() {}
 
 Surfel::Surfel(
-    Point &p,
+    Vector3 &p,
     Vector3 &n,
     Vector3 &wo,
     float time,

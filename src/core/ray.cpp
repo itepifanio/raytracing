@@ -2,7 +2,9 @@
 
 Ray::Ray(const Point &origin, const Vector3 &direction)
 {
+    //std::cout << "Before origin" << std::endl;
     this->origin = origin;
+    //std::cout << "After origin" << std::endl;
     this->direction = direction;
 }
 
@@ -16,10 +18,10 @@ Vector3 Ray::getDirection()
     return this->direction;
 }
 
-Point Ray::operator()(double t)
+Vector3 Ray::operator()(double t)
 {
     Vector3 origin = this->origin.toVector3();
     Vector3 result = origin + t * this->direction;
 
-    return result.toPoint();
+    return result;
 }

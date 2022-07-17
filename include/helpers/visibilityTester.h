@@ -8,9 +8,9 @@ class Scene;
 
 class VisibilityTester {
 public:
-    Surfel s0, s1;
+    Surfel *s0, *s1;
     VisibilityTester();
-    VisibilityTester(Surfel& s0, Surfel& s1);
+    VisibilityTester(Surfel *s0, Surfel *s1);
     bool unoccluded(Scene &scene);
 };
 

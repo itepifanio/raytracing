@@ -9,7 +9,7 @@ class Primitive;
 class Surfel
 {
 public:
-    Point p;        // contact point
+    Vector3 p;        // contact point
     Vector3 n;      // surface normal
     Vector3 wo;     // outgoing direction of light
     float time;     // time of contact
@@ -17,7 +17,7 @@ public:
     Primitive *pri; // Pointer to the primitive
     Surfel();
     Surfel(
-        Point &p,
+        Vector3 &p,
         Vector3 &n,
         Vector3 &wo,
         float time,

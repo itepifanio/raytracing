@@ -58,7 +58,7 @@ bool Sphere::intersect(Ray& r, double * t_hit, Surfel * s)
     s->time = time;
     s->wo = r.getOrigin().toVector3() - r.getDirection();
     s->p = r(time);
-    s->n = normalize(s->p.toVector3() - center.toVector3());
+    s->n = normalize(s->p - center.toVector3());
     
-    return delta >= 0;
+    return delta > 0;
 }

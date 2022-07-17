@@ -35,7 +35,7 @@ Vector3 BlinnPhongIntegrator::Li(Ray &ray, Scene &scene, Vector3 color)
     // [1] FIND CLOSEST RAY INTERSECTION OR RETURN BACKGROUND
     // RADIANCE
     Vector3 wi;
-    VisibilityTester visibilityTester;
+    VisibilityTester *visibilityTester;
     for (int k = 0; k < (int)scene.getPrimitive().size(); k++)
     {
         //std::cout << "primitive " << k << std::endl;
@@ -47,14 +47,19 @@ Vector3 BlinnPhongIntegrator::Li(Ray &ray, Scene &scene, Vector3 color)
             //std::cout << "after *bm " << std::endl;
             for (int j = 0; j < (int)scene.getLights().size(); j++)
             {
-                l = l + (scene.getLights()[j]->sampleLi(
+                Vector3 lightColor = (scene.getLights()[j]->sampleLi(
                     sf,
                     &wi,
-                    &visibilityTester
+                    visibilityTester
                 )*100);
+
+                if(visibilityTester->unoccluded(scene)){
+                    l = l + lightColor;
+                }
 
                 //std::cout << "scene.getLights().size() = " << scene.getLights().size() << std::endl;
             }
+            break;
         }
 
         //std::cout << "scene.getPrimitive().size() = " << scene.getPrimitive().size() << std::endl;

@@ -14,7 +14,7 @@ Vector3 PointLight::sampleLi(
     VisibilityTester *visibilityTester
 )
 {
-    auto p = hit.p.toVector3();
+    auto p = hit.p;
 
     Vector3 l = normalize(this->from - p);
     Vector3 n = hit.n;
@@ -37,9 +37,23 @@ Vector3 PointLight::sampleLi(
         bm->ambient[2] * this->i[2] * dotNh
     );
 
-    // std::cout << (specular + diffuse)[0] << " ";
-    // std::cout << (specular + diffuse)[1] << " ";
-    // std::cout << (specular + diffuse)[2] << std::endl;
+    /*
+    std::cout << "i" << pointLight.i << std::endl;
+    std::cout << "j" << pointLight.j << std::endl;
+    std::cout << "value" << pointLight.value << std::endl;
+*/
+    Surfel *lightSurfel = new Surfel(
+        this->from,
+        hit.n,
+        l,
+        sqrt(l[0]*l[0] + l[1]*l[1] + l[2]*l[2]),
+        hit.uv,
+        hit.pri
+    );
+
+    std::cout << "51: pointLight::sampleLi" << std::endl;
+
+    visibilityTester = new VisibilityTester(&hit, lightSurfel);
 
     return (specular + diffuse);
 }
