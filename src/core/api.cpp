@@ -58,56 +58,27 @@ void Api::createLookat(const ParamSet &ps)
 void Api::createCamera(const ParamSet &ps)
 {
     std::string type = ps.find_one<string>("type", "orthographic");
-    
+    Vector3 gaze = this->lookat.look_at - this->lookat.look_from;
+    Vector3 w = normalize(gaze);
+    Vector3 u = normalize(cross(lookat.vup, w));
+    Vector3 v = normalize(cross(u, w));
+    Point e = this->lookat.look_from.toPoint();
+
     if (type.compare("orthographic") == 0)
     {
         std::tuple<double, double, double, double> screenWindow = Camera::string_to_tuple(
             ps.find_one<string>("screen_window", "-4 4 -3 3")
         );
-        Vector3 gaze = lookat.look_at - lookat.look_from;
-
-        Vector3 w = normalize(gaze);
-        Vector3 u = normalize(cross(lookat.vup, w));
-        Vector3 v = normalize(cross(u, w));
-
-        Point e = lookat.look_from.toPoint();
         this->camera = new OrtographicCamera(e, u, v, w, screenWindow);
     }
     else
     {
         double fovy = std::stod(ps.find_one<string>("fovy", "45"));
         std::string tuple = ps.find_one<string>("screen_window", "-4 4 -3 3");
-        std::istringstream iss(tuple);
-        std::vector<std::string> splited(
-            (std::istream_iterator<std::string>(iss)),
-            std::istream_iterator<std::string>()
-        );
 
-        double e0, e1, e2, e3;
-        std::istringstream(splited[0]) >> e0;
-        std::istringstream(splited[1]) >> e1;
-        std::istringstream(splited[2]) >> e2;
-        std::istringstream(splited[3]) >> e3;
+        std::tuple<double, double, double, double> screenWindow = PerspectiveCamera::createScreenWindow(tuple, fovy);
 
-        double actual_aspect_ratio = 800/600;
-        double half_fovy_tan = tan((fovy/2.0)*3.14159265/180);
-        double half_height_screen_space = half_fovy_tan * 1.0;
-
-        e0 = -actual_aspect_ratio*half_height_screen_space;
-        e1 = actual_aspect_ratio*half_height_screen_space;
-        e2 = -half_height_screen_space;
-        e3 = half_height_screen_space;
-
-        std::tuple<double, double, double, double> screenWindow = std::make_tuple(e0, e1, e2, e3);
-        Vector3 gaze = lookat.look_at - lookat.look_from;
-
-        Vector3 w = normalize(gaze);
-        Vector3 u = normalize(cross(lookat.vup, w));
-        Vector3 v = normalize(cross(u, w));
-
-        Point e = lookat.look_from.toPoint();
         PerspectiveCamera *p = new PerspectiveCamera(e, u, v, w, screenWindow, fovy);
-        // p->set_lrbt_from_xres_yres_if_needed();
         this->camera = p;
     }
     this->scene.setCamera(this->camera);
@@ -148,13 +119,15 @@ void Api::createMaterial(const ParamSet &ps)
 void Api::createIntegrator(const ParamSet &ps)
 {
     std::string type = ps.find_one<string>("type", "flat");
+    int depth = std::stoi(ps.find_one<string>("depth", "1"));
+    
     if(type.compare("flat") == 0)
     {
         this->integrator = new FlatIntegrator();
     }
     else if(type.compare("blinn_phong") == 0)
     {
-        this->integrator = new BlinnPhongIntegrator();
+        this->integrator = new BlinnPhongIntegrator(depth);
     }
 }
 
@@ -357,7 +330,7 @@ void Api::render()
                     double(j) / double(this->background.height)
             );
 
-            auto color = this->integrator->Li(ray, scene, v);
+            auto color = this->integrator->Li(ray, scene, v, 0);
             this->camera->film.addSample(i, j, color);
         }
     }

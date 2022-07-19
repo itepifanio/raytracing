@@ -7,7 +7,7 @@
     <!-- <film type="image" x_res="800" y_res="600" filename="directional.ppm" img_type="ppm" gamma_corrected="no" />
     <include filename="../scenes/projects_references/proj_05_blinn_phong/lights_scene/geometry_directional.xml" /> -->
 
-    <film type="image" x_res="800" y_res="600" filename="point.ppm" img_type="ppm" gamma_corrected="no" />
+    <film type="image" x_res="800" y_res="600" filename="point_gerado.ppm" img_type="ppm" gamma_corrected="no" />
     <include filename="scenes/lights_scene/geometry_point.xml" />
 
     <!-- <film type="image" x_res="800" y_res="600" filename="ambient2.ppm" img_type="ppm" gamma_corrected="no" />

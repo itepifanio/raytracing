@@ -3,12 +3,15 @@
 
 #include "../materials/blinnPhongMaterial.h"
 #include "./integrator.h"
-
 class BlinnPhongIntegrator : public Integrator {
+private:
+    int depth;
+
 public:
     BlinnPhongIntegrator();
+    BlinnPhongIntegrator(int depth);
     ~BlinnPhongIntegrator();
-    Vector3 Li(Ray &ray, Scene &scene, Vector3 color);
+    Vector3 Li(Ray &ray, Scene &scene, Vector3 color, int curr_depth);
 };
 
 #endif 

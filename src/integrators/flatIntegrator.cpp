@@ -12,7 +12,7 @@ FlatIntegrator::FlatIntegrator()
 
 }
 
-Vector3 FlatIntegrator::Li(Ray &ray, Scene &scene, Vector3 color)
+Vector3 FlatIntegrator::Li(Ray &ray, Scene &scene, Vector3 color, int curr_depth)
 {
     Vector3 result = color;
     //std::cout << "initial color is " << color.r << " " << color.g << " " << color.b << std::endl; 
