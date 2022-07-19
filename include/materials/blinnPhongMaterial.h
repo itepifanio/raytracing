@@ -3,6 +3,7 @@
 
 #include "./material.h"
 #include "../include/datatype/vector3.h"
+#include "../include/datatype/vector3.h"
 
 class BlinnPhongMaterial : public Material{
     public:

@@ -1,8 +1,14 @@
 #include "../../include/integrators/blinnPhongIntegrator.h"
+#include "../include/math/vectors.inl"
 #include <optional>
 
 BlinnPhongIntegrator::BlinnPhongIntegrator()
 {
+}
+
+BlinnPhongIntegrator::BlinnPhongIntegrator(int depth)
+{
+    this->depth = depth;
 }
 
 BlinnPhongIntegrator::~BlinnPhongIntegrator()
@@ -23,7 +29,7 @@ std::optional<Primitive *> getClosest(std::vector<Primitive *> primitives, Ray r
     return std::nullopt;
 }
 
-Vector3 BlinnPhongIntegrator::Li(Ray &ray, Scene &scene, Vector3 color)
+Vector3 BlinnPhongIntegrator::Li(Ray &ray, Scene &scene, Vector3 color, int curr_depth)
 {
     //std::cout << "BlinnPhongIntegrator::Li" << std::endl;
     Surfel sf;
@@ -36,7 +42,7 @@ Vector3 BlinnPhongIntegrator::Li(Ray &ray, Scene &scene, Vector3 color)
     // RADIANCE
     Vector3 wi;
     VisibilityTester visibilityTester;
-
+    const float low_float = 1e-3;
     for (int k = 0; k < (int)scene.getPrimitive().size(); k++)
     {
         //std::cout << "primitive " << k << std::endl;
@@ -55,6 +61,16 @@ Vector3 BlinnPhongIntegrator::Li(Ray &ray, Scene &scene, Vector3 color)
                 )*100);
 
                 //std::cout << "scene.getLights().size() = " << scene.getLights().size() << std::endl;
+            }
+            if(curr_depth < this->depth) {
+                Vector3 newDir = normalize(ray.getDirection() + (sf.n * (-2 * Vector3::dot_vector3(ray.getDirection(), sf.n))));
+                Ray r = Ray((sf.p.toVector3() + newDir * low_float).toPoint(), newDir);
+                Vector3 v = this->Li(r, scene, color, curr_depth + 1);
+                v.vector[0] = v.vector[0] * bm->mirror[0];
+                v.vector[1] = v.vector[1] * bm->mirror[1];
+                v.vector[2] = v.vector[2] * bm->mirror[2];
+
+                l = l + v;
             }
         }
 

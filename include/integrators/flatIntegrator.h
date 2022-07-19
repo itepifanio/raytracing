@@ -12,7 +12,7 @@ public:
     FlatIntegrator();
     ~FlatIntegrator() {};
     //void render(const Scene &scene) = 0;
-    Vector3 Li(Ray &ray, Scene &scene, Vector3 color);
+    Vector3 Li(Ray &ray, Scene &scene, Vector3 color, int depth = 1);
 };
 
 #endif

@@ -17,8 +17,11 @@ class PerspectiveCamera : public Camera {
             double flav
         );
         Ray generate_ray(int x, int y);
+        static std::tuple<double, double, double, double> createScreenWindow(
+            std::string screen_window,
+            double fovy
+        );
         void print(Ray ray);
-        void set_lrbt_from_xres_yres_if_needed();
 };
 
 #endif

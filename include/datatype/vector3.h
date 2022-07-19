@@ -31,7 +31,7 @@ public:
 
     Vector3(double e0, double e1, double e2);
 
-
+    static double dot_vector3(const Vector3& vector1, const Vector3& vector2);
     static Vector3 string_to_vector(std::string str);
 
     double operator[](int k) const;
