@@ -9,7 +9,7 @@ public:
     Integrator() {}
     virtual ~Integrator() {};
     //virtual void render(const Scene &scene) = 0;
-    virtual Color24 Li(Ray &ray, Scene &scene, Color24 color) = 0;
+    virtual Vector3 Li(Ray &ray, Scene &scene, Vector3 color) = 0;
 };
 
 #endif

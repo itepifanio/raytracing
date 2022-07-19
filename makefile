@@ -11,7 +11,7 @@
 
 # compiler flags and source directories can be changed here
 CXX		  := g++
-CXXFLAGS := -Wall -Wextra -std=c++17 -ggdb -pedantic -O0
+CXXFLAGS := -std=c++17
 
 TARGET_MAIN ?= main-driver
 TARGET_TEST ?= test-driver
@@ -90,6 +90,7 @@ $(BUILD_DIR)/%.cpp.o: %.cpp
 
 clean:
 	$(RM) -r $(BUILD_DIR) $(BIN_DIR) fixed-debugger
+	rm -f ./*.ppm
 
 # extra make targets to make debugging with ide.cs50.io easier
 # otherwise, you have to put breakpoints in the files

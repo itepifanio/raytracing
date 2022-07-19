@@ -29,9 +29,9 @@ public:
                     double(j) / double(w)
                 );
 
-                Color24 pixelColor = this->Li(ray, scene, backgroundColor);
+                Vector3 pixelColor = this->Li(ray, scene, backgroundColor);
 
-                camera->film->addSample(i, j, pixelColor);
+                camera->film->addSample(i, j, pixelColor.toColor24());
             }
         }
 

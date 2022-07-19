@@ -8,8 +8,8 @@ Api::Api(RunningOptions options)
 void Api::createFilm(const ParamSet &ps)
 {
     std::string type = ps.find_one<string>("type", "image");
-    int xRes = ps.find_one<int>("x_res", 500);
-    int yRes = ps.find_one<int>("y_res", 500);
+    int xRes = ps.find_one<int>("x_res", 800);
+    int yRes = ps.find_one<int>("y_res", 600);
     std::string filename = ps.find_one<string>("filename", "out.ppm");
 
     Film film(type, xRes, yRes, filename);
@@ -58,24 +58,103 @@ void Api::createLookat(const ParamSet &ps)
 void Api::createCamera(const ParamSet &ps)
 {
     std::string type = ps.find_one<string>("type", "orthographic");
-    std::tuple<double, double, double, double> screenWindow = Camera::string_to_tuple(
-        ps.find_one<string>("screen_window", "-4 4 -3 3")
-    );
-    this->camera = Camera::make(type, this->lookat, screenWindow);
+    
+    if (type.compare("orthographic") == 0)
+    {
+        std::tuple<double, double, double, double> screenWindow = Camera::string_to_tuple(
+            ps.find_one<string>("screen_window", "-4 4 -3 3")
+        );
+        Vector3 gaze = lookat.look_at - lookat.look_from;
+
+        Vector3 w = normalize(gaze);
+        Vector3 u = normalize(cross(lookat.vup, w));
+        Vector3 v = normalize(cross(u, w));
+
+        Point e = lookat.look_from.toPoint();
+        this->camera = new OrtographicCamera(e, u, v, w, screenWindow);
+    }
+    else
+    {
+        double fovy = std::stod(ps.find_one<string>("fovy", "45"));
+        std::string tuple = ps.find_one<string>("screen_window", "-4 4 -3 3");
+        std::istringstream iss(tuple);
+        std::vector<std::string> splited(
+            (std::istream_iterator<std::string>(iss)),
+            std::istream_iterator<std::string>()
+        );
+
+        double e0, e1, e2, e3;
+        std::istringstream(splited[0]) >> e0;
+        std::istringstream(splited[1]) >> e1;
+        std::istringstream(splited[2]) >> e2;
+        std::istringstream(splited[3]) >> e3;
+
+        double actual_aspect_ratio = 800/600;
+        double half_fovy_tan = tan((fovy/2.0)*3.14159265/180);
+        double half_height_screen_space = half_fovy_tan * 1.0;
+
+        e0 = -actual_aspect_ratio*half_height_screen_space;
+        e1 = actual_aspect_ratio*half_height_screen_space;
+        e2 = -half_height_screen_space;
+        e3 = half_height_screen_space;
+
+        std::tuple<double, double, double, double> screenWindow = std::make_tuple(e0, e1, e2, e3);
+        Vector3 gaze = lookat.look_at - lookat.look_from;
+
+        Vector3 w = normalize(gaze);
+        Vector3 u = normalize(cross(lookat.vup, w));
+        Vector3 v = normalize(cross(u, w));
+
+        Point e = lookat.look_from.toPoint();
+        PerspectiveCamera *p = new PerspectiveCamera(e, u, v, w, screenWindow, fovy);
+        // p->set_lrbt_from_xres_yres_if_needed();
+        this->camera = p;
+    }
     this->scene.setCamera(this->camera);
 }
 
 void Api::createMaterial(const ParamSet &ps)
 {
     std::string type = ps.find_one<string>("type", "flat");
-    Vector3 color = Vector3::string_to_vector(ps.find_one<string>("color", "0 0 0"));
 
-    if(type == "flat") {
-        // Color24 flatColor(color[0], color[1], color[2]);
+    if(type.compare("flat") == 0) {
+        Vector3 color = Vector3::string_to_vector(ps.find_one<string>("color", "0 0 0"));
         FlatMaterial *flatMaterial = new FlatMaterial(color.toColor24());
         // TODO::we may now be allowed to remove the material reference from api.h
         this->material = dynamic_cast<FlatMaterial*>(flatMaterial);
+    }
+    else if(type.compare("blinn") == 0)
+    {
+        std::string name = ps.find_one<string>("name", "gold");
+        Vector3 ambient = Vector3::string_to_vector(ps.find_one<string>("ambient", "0.2 0.2 0.2"));
+        Vector3 diffuse = Vector3::string_to_vector(ps.find_one<string>("diffuse", "1.0 0.65 0.0"));
+        Vector3 specular = Vector3::string_to_vector(ps.find_one<string>("specular", "0.8 0.6 0.2"));
+        double glossiness = std::stod(ps.find_one<string>("glossiness", "256"));
+
+        BlinnPhongMaterial *blinnMaterial = new BlinnPhongMaterial(
+            name, ambient, diffuse,
+            specular, glossiness
+        );
+
+        std::string mirrorStr = ps.find_one<string>("mirror", "");
+        if (mirrorStr.compare("") != 0)
+        {
+            blinnMaterial->setMirror(Vector3::string_to_vector(mirrorStr));
+        }
+        this->material = dynamic_cast<BlinnPhongMaterial*>(blinnMaterial);
+    }
+}
+
+void Api::createIntegrator(const ParamSet &ps)
+{
+    std::string type = ps.find_one<string>("type", "flat");
+    if(type.compare("flat") == 0)
+    {
         this->integrator = new FlatIntegrator();
+    }
+    else if(type.compare("blinn_phong") == 0)
+    {
+        this->integrator = new BlinnPhongIntegrator();
     }
 }
 
@@ -92,14 +171,57 @@ void Api::addSphere(const ParamSet &ps)
         dynamic_cast<Material*>(this->material)
     );
 
+    shape->primitive = dynamic_cast<GeometricPrimitive*>(primitive);
+
     this->scene.setPrimitive(primitive);
 }
-
 
 void Api::readInclude(const ParamSet &ps)
 {
     std::string filename = ps.find_one<string>("filename", "");
     this->parser(filename);
+}
+
+void Api::addLight(const ParamSet &ps)
+{
+    Light *light;
+    std::string type = ps.find_one<string>("type", "point");
+
+    if (type.compare("ambient") == 0)
+    {
+        Vector3 l = Vector3::string_to_vector(ps.find_one<string>("L", "0.2 0.2 0.2"));
+        light = new AmbientLight(l);
+    }
+    else if (type.compare("point") == 0)
+    {
+        Vector3 i = Vector3::string_to_vector(ps.find_one<string>("I", "0.3 0.3 0.1"));
+        Vector3 scale = Vector3::string_to_vector(ps.find_one<string>("scale", "1.0 1.0 1.0"));
+        Vector3 from = Vector3::string_to_vector(ps.find_one<string>("from", "0 1.3 -1.7"));
+
+        light = new PointLight(i, scale, from);
+    }
+    else if (type.compare("directional") == 0)
+    {
+        Vector3 i = Vector3::string_to_vector(ps.find_one<string>("I", "0.5 0.5 0.6"));
+        Vector3 scale = Vector3::string_to_vector(ps.find_one<string>("scale", "1.0 1.0 1.0"));
+        Vector3 from = Vector3::string_to_vector(ps.find_one<string>("from", "0 25 -14"));
+        Vector3 to = Vector3::string_to_vector(ps.find_one<string>("to", "0 0 1"));
+
+        light = new DirectionalLight(i, scale, from, to);
+    }
+    else if (type.compare("spot") == 0)
+    {
+        Vector3 i = Vector3::string_to_vector(ps.find_one<string>("I", "0.5 0.5 0.6"));
+        Vector3 scale = Vector3::string_to_vector(ps.find_one<string>("scale", "1.0 1.0 1.0"));
+        Vector3 from = Vector3::string_to_vector(ps.find_one<string>("from", "0 25 -14"));
+        Vector3 to = Vector3::string_to_vector(ps.find_one<string>("to", "0 0 1"));
+
+        double cutoff = std::stod(ps.find_one<string>("cutoff", "30"));
+        double falloff = std::stod(ps.find_one<string>("falloff", "15"));
+        light = new SpotLight(i, scale, from, to, cutoff, falloff);
+    }
+
+    this->scene.setLights(light);
 }
 
 ParamSet Api::getParams(XMLElement *e, int size_elements)
@@ -177,6 +299,10 @@ void Api::parser(std::string xmlFile)
             {
                 this->readInclude(this->getParams(e));
             }
+            else if(strcmp(tag, "integrator") == 0)
+            {
+                this->createIntegrator(this->getParams(e));
+            }
             else if (strcmp(tag, "world_begin") == 0)
             {
                 for (auto attr_world = e; strcmp(tag, "world_end") != 0; attr_world = attr_world->NextSiblingElement())
@@ -196,6 +322,14 @@ void Api::parser(std::string xmlFile)
                     else if(strcmp(tag, "object") == 0)
                     {
                         this->addSphere(this->getParams(e));
+                    }
+                    else if(strcmp(tag, "light_source") == 0)
+                    {
+                        this->addLight(this->getParams(e));
+                    }
+                    else if(strcmp(tag, "include") == 0)
+                    {
+                        this->readInclude(this->getParams(e));
                     }
                 }
             }
@@ -223,7 +357,7 @@ void Api::render()
                     double(j) / double(this->background.height)
             );
 
-            auto color = this->integrator->Li(ray, scene, v.toColor24());
+            auto color = this->integrator->Li(ray, scene, v);
             this->camera->film.addSample(i, j, color);
         }
     }

@@ -47,39 +47,13 @@ std::vector<Primitive *> Scene::getPrimitive()
     return this->objList;
 }
 
-// TODO::Probably not necessary anymore
-void Scene::render()
+std::vector<Light*> Scene::getLights()
 {
-    auto w = this->camera->film.getXRes();
-    auto h = this->camera->film.getYRes();
-    Color24 red(255, 0, 0);
-    bool intersect = false;
+    return this->lightList;
+}
 
-    for (int j = h - 1; j >= 0; j--)
-    {
-        for (int i = 0; i < w; i++)
-        {
-            intersect = false;
-            Ray ray = this->camera->generate_ray(i, j);
 
-            for (Primitive* p : this->objList)
-            {
-                if (p->intersectP(ray)){
-                    this->camera->film.addSample(i, j, red);
-                    intersect = true;
-                }
-            }
-
-            if (!intersect)
-            {
-                Vector3 v = this->background.interpolate(
-                    double(i) / double(this->background.width),
-                    double(j) / double(this->background.height)
-                );
-                this->camera->film.addSample(i, j, v.toColor24());
-            }
-        }
-    }
-
-    this->camera->film.toPPM(this->camera->film.getFilenameOutput());
+void Scene::setLights(Light *light)
+{
+    this->lightList.push_back(light);
 }

@@ -44,10 +44,10 @@ std::string Film::getFilenameOutput()
     return this->filenameOutput;
 }
 
-void Film::addSample(int i, int j, Color24 color)
+void Film::addSample(int i, int j, Vector3 color)
 {
     // TODO::change all images to a vector of color?
-    Pixel *pixel = new Pixel(color.r, color.g, color.b);
+    Pixel *pixel = new Pixel(color[0], color[1], color[2]);
     this->image[i][j] = pixel;
 }
 
@@ -61,7 +61,7 @@ void Film::toPPM(std::string filename)
         file << this->getXRes() << " " << this->getYRes() << "\n";
         file << "255\n";
 
-        for (int j = this->getYRes() - 1; j >= 0; j--)
+        for (int j = 0; j < this->getYRes(); j++)
         {
             std::string line = "";
             for (int i = 0; i < this->getXRes(); i++)

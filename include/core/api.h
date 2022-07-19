@@ -12,9 +12,19 @@
 #include "../include/shapes/sphere.h"
 #include "../include/materials/material.h"
 #include "../include/materials/flatMaterial.h"
+#include "../include/materials/blinnPhongMaterial.h"
 #include "../include/integrators/integrator.h"
 #include "../include/integrators/flatIntegrator.h"
+#include "../include/integrators/blinnPhongIntegrator.h"
+#include "../include/lights/light.h"
+#include "../include/lights/ambientLight.h"
+#include "../include/lights/pointLight.h"
+#include "../include/lights/spotLight.h"
+#include "../include/lights/directionalLight.h"
 #include "../include/libs/tinyxml2.h"
+#include "../include/math/vectors.inl"
+#include "../include/cameras/ortographicCamera.h"
+#include "../include/cameras/perspectiveCamera.h"
 
 using namespace tinyxml2;
 
@@ -29,7 +39,9 @@ class Api
         void createLookat(const ParamSet &ps);
         void createCamera(const ParamSet &ps);
         void createMaterial(const ParamSet &ps);
+        void createIntegrator(const ParamSet &ps);
         void addSphere(const ParamSet &ps);
+        void addLight(const ParamSet &ps);
         void readInclude(const ParamSet &ps);
         void render();
 

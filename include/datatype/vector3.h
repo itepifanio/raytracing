@@ -12,6 +12,7 @@
 #include <vector>
 #include <iterator>
 
+class Color24;
 class Point; // avoiding cyclic definition by prototyping the class 'Point'
 
 /*
@@ -29,6 +30,7 @@ public:
     Vector3(Point point);
 
     Vector3(double e0, double e1, double e2);
+
 
     static Vector3 string_to_vector(std::string str);
 
