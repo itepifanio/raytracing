@@ -61,7 +61,7 @@ void Film::toPPM(std::string filename)
         file << this->getXRes() << " " << this->getYRes() << "\n";
         file << "255\n";
 
-        for (int j = this->getYRes() - 1; j >= 0; j--)
+        for (int j = 0; j < this->getYRes(); j++)
         {
             std::string line = "";
             for (int i = 0; i < this->getXRes(); i++)

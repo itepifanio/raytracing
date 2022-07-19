@@ -3,6 +3,7 @@
 
 #include "../../include/datatype/color24.h"
 #include "../../include/datatype/vector3.h"
+#include "../../include/materials/blinnPhongMaterial.h"
 #include "./light.h"
 
 class AmbientLight : public Light {

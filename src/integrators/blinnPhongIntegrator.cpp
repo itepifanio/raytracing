@@ -36,6 +36,7 @@ Vector3 BlinnPhongIntegrator::Li(Ray &ray, Scene &scene, Vector3 color)
     // RADIANCE
     Vector3 wi;
     VisibilityTester visibilityTester;
+
     for (int k = 0; k < (int)scene.getPrimitive().size(); k++)
     {
         //std::cout << "primitive " << k << std::endl;

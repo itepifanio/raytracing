@@ -14,6 +14,7 @@ class Camera {
         Point e;
         Vector3 u, v, w;
         std::tuple<double, double, double, double> screenWindow;
+        double fovy;
     public:
         Camera();
         Point getE();
@@ -23,6 +24,11 @@ class Camera {
         Camera(
             Point e, Vector3 u, Vector3 v, Vector3 w,
             std::tuple<double, double, double, double> screenWindow = std::make_tuple(-1.555, 1.555, -1, 1)
+        );
+        Camera(
+            Point e, Vector3 u, Vector3 v, Vector3 w,
+            std::tuple<double, double, double, double> screenWindow,
+            double fovy
         );
         virtual ~Camera();
         virtual Ray generate_ray(int x, int y) = 0;
