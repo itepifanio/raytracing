@@ -8,8 +8,8 @@ Api::Api(RunningOptions options)
 void Api::createFilm(const ParamSet &ps)
 {
     std::string type = ps.find_one<string>("type", "image");
-    int xRes = ps.find_one<int>("x_res", 500);
-    int yRes = ps.find_one<int>("y_res", 500);
+    int xRes = ps.find_one<int>("x_res", 800);
+    int yRes = ps.find_one<int>("y_res", 600);
     std::string filename = ps.find_one<string>("filename", "out.ppm");
 
     Film film(type, xRes, yRes, filename);
@@ -58,10 +58,58 @@ void Api::createLookat(const ParamSet &ps)
 void Api::createCamera(const ParamSet &ps)
 {
     std::string type = ps.find_one<string>("type", "orthographic");
-    std::tuple<double, double, double, double> screenWindow = Camera::string_to_tuple(
-        ps.find_one<string>("screen_window", "-4 4 -3 3")
-    );
-    this->camera = Camera::make(type, this->lookat, screenWindow);
+    
+    if (type.compare("orthographic") == 0)
+    {
+        std::tuple<double, double, double, double> screenWindow = Camera::string_to_tuple(
+            ps.find_one<string>("screen_window", "-4 4 -3 3")
+        );
+        Vector3 gaze = lookat.look_at - lookat.look_from;
+
+        Vector3 w = normalize(gaze);
+        Vector3 u = normalize(cross(lookat.vup, w));
+        Vector3 v = normalize(cross(u, w));
+
+        Point e = lookat.look_from.toPoint();
+        this->camera = new OrtographicCamera(e, u, v, w, screenWindow);
+    }
+    else
+    {
+        double fovy = std::stod(ps.find_one<string>("fovy", "45"));
+        std::string tuple = ps.find_one<string>("screen_window", "-4 4 -3 3");
+        std::istringstream iss(tuple);
+        std::vector<std::string> splited(
+            (std::istream_iterator<std::string>(iss)),
+            std::istream_iterator<std::string>()
+        );
+
+        double e0, e1, e2, e3;
+        std::istringstream(splited[0]) >> e0;
+        std::istringstream(splited[1]) >> e1;
+        std::istringstream(splited[2]) >> e2;
+        std::istringstream(splited[3]) >> e3;
+
+        double actual_aspect_ratio = 800/600;
+        double half_fovy_tan = tan((fovy/2.0)*3.14159265/180);
+        double half_height_screen_space = half_fovy_tan * 1.0;
+
+        e0 = -actual_aspect_ratio*half_height_screen_space;
+        e1 = actual_aspect_ratio*half_height_screen_space;
+        e2 = -half_height_screen_space;
+        e3 = half_height_screen_space;
+
+        std::tuple<double, double, double, double> screenWindow = std::make_tuple(e0, e1, e2, e3);
+        Vector3 gaze = lookat.look_at - lookat.look_from;
+
+        Vector3 w = normalize(gaze);
+        Vector3 u = normalize(cross(lookat.vup, w));
+        Vector3 v = normalize(cross(u, w));
+
+        Point e = lookat.look_from.toPoint();
+        PerspectiveCamera *p = new PerspectiveCamera(e, u, v, w, screenWindow, fovy);
+        // p->set_lrbt_from_xres_yres_if_needed();
+        this->camera = p;
+    }
     this->scene.setCamera(this->camera);
 }
 
@@ -123,6 +171,8 @@ void Api::addSphere(const ParamSet &ps)
         dynamic_cast<Material*>(this->material)
     );
 
+    shape->primitive = dynamic_cast<GeometricPrimitive*>(primitive);
+
     this->scene.setPrimitive(primitive);
 }
 
@@ -136,7 +186,7 @@ void Api::addLight(const ParamSet &ps)
 {
     Light *light;
     std::string type = ps.find_one<string>("type", "point");
-    
+
     if (type.compare("ambient") == 0)
     {
         Vector3 l = Vector3::string_to_vector(ps.find_one<string>("L", "0.2 0.2 0.2"));
@@ -277,6 +327,10 @@ void Api::parser(std::string xmlFile)
                     {
                         this->addLight(this->getParams(e));
                     }
+                    else if(strcmp(tag, "include") == 0)
+                    {
+                        this->readInclude(this->getParams(e));
+                    }
                 }
             }
         }
@@ -303,7 +357,7 @@ void Api::render()
                     double(j) / double(this->background.height)
             );
 
-            auto color = this->integrator->Li(ray, scene, v.toColor24());
+            auto color = this->integrator->Li(ray, scene, v);
             this->camera->film.addSample(i, j, color);
         }
     }

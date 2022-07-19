@@ -5,15 +5,13 @@
 #include "../include/datatype/vector3.h"
 
 class BlinnPhongMaterial : public Material{
-    private:
+    public:
         std::string name;
         Vector3 ambient;
         Vector3 diffuse;
         Vector3 specular;
         double glossiness;
         Vector3 mirror;
-
-    public:
         BlinnPhongMaterial(
             std::string name,
             Vector3 ambient,

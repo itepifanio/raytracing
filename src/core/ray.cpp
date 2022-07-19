@@ -18,8 +18,8 @@ Vector3 Ray::getDirection()
 
 Point Ray::operator()(double t)
 {
-    Vector3 origin(this->origin.i, this->origin.j, this->origin.value);
-    Vector3 result = origin + t*this->direction;
+    Vector3 origin = this->origin.toVector3();
+    Vector3 result = origin + t * this->direction;
 
     return result.toPoint();
 }

@@ -9,7 +9,7 @@ double deltaBhaskara(double a, double b, double c)
     return (b*b) - (4*a*c);
 }
 
-std::pair<int, int> bhaskara(double a, double b, double c)
+std::pair<double, double> bhaskara(double a, double b, double c)
 {
     double delta = deltaBhaskara(a, b, c);
 

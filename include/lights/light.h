@@ -20,10 +20,10 @@ enum class light_flag_e : int {
 class Light {  
     public:
         light_flag_e flags; 
-        virtual Color24 sampleLi(
+        virtual Vector3 sampleLi(
             Surfel &hit,
             Vector3 *wi,
-            VisibilityTester visibilityTester
+            VisibilityTester *visibilityTester
         ) = 0;
 
         // static Light* make(

@@ -17,16 +17,33 @@ SpotLight::SpotLight(
     this->falloff = falloff;
 }
 
-Color24 SpotLight::sampleLi(
+Vector3 SpotLight::sampleLi(
     Surfel &hit, 
     Vector3 *wi,
-    VisibilityTester visibilityTester
+    VisibilityTester *visibilityTester
 )
 {
-    // Vector3 contactPoint = hit.p.toVector3();
-    // Vector3 l = this->from - contactPoint;
-    // l = normalize(l);
-    // *wi = i;
+    std::cout << "SPOTLIGHT" << std::endl;
+    Vector3 black(0, 0, 0);
+    Vector3 contactPoint = hit.p.toVector3();
+    Vector3 contactDirection = normalize(contactPoint - this->from);
+    double angleCos = acos(this->to * contactDirection); // radians
+    double angleDegree = angleCos*180/3.1415;
 
-    // return l.toColor24();
+    Vector3 resultColor;
+
+    if(angleDegree > this->cutoff) {
+        resultColor = black;
+    } else if(angleDegree > this->falloff) {
+        resultColor = (this->i * pow(
+            1 - (
+                (angleDegree - this->falloff) / (this->cutoff - this->falloff)
+            ),
+            4
+        ));
+    } else {
+        resultColor = this->i;
+    }
+
+    return resultColor;
 }

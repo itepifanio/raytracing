@@ -24,10 +24,10 @@ public:
         double falloff = 15
     );
 
-    Color24 sampleLi(
+    Vector3 sampleLi(
         Surfel &hit, 
         Vector3 *wi,
-        VisibilityTester visibilityTester
+        VisibilityTester *visibilityTester
     );
 };
 

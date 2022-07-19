@@ -4,6 +4,7 @@
 #include "../../include/datatype/color24.h"
 #include "../../include/datatype/vector3.h"
 #include "../../include/datatype/point.h"
+#include "../../include/materials/blinnPhongMaterial.h"
 #include "./light.h"
 
 class PointLight : public Light{
@@ -13,10 +14,10 @@ public:
     Vector3 scale;
 
     PointLight(Vector3 &i, Vector3 scale, Vector3 from);
-    Color24 sampleLi(
+    Vector3 sampleLi(
         Surfel &hit, 
         Vector3 *wi,
-        VisibilityTester visibilityTester
+        VisibilityTester *visibilityTester
     );
 };
 

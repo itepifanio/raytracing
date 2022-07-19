@@ -14,10 +14,10 @@ public:
     Vector3 to;
 
     DirectionalLight(Vector3 l, Vector3 scale, Vector3 from, Vector3 to);
-    Color24 sampleLi(
+    Vector3 sampleLi(
         Surfel &hit, 
         Vector3 *wi,
-        VisibilityTester visibilityTester
+        VisibilityTester *visibilityTester
     );
 };
 
