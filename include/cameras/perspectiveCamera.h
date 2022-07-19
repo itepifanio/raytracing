@@ -11,8 +11,14 @@ class PerspectiveCamera : public Camera {
             Point e, Vector3 u, Vector3 v, Vector3 w,
             std::tuple<double, double, double, double> screenWindow
         );
+        PerspectiveCamera(
+            Point e, Vector3 u, Vector3 v, Vector3 w,
+            std::tuple<double, double, double, double> screenWindow,
+            double flav
+        );
         Ray generate_ray(int x, int y);
         void print(Ray ray);
+        void set_lrbt_from_xres_yres_if_needed();
 };
 
 #endif

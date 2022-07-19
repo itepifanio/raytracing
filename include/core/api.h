@@ -22,6 +22,9 @@
 #include "../include/lights/spotLight.h"
 #include "../include/lights/directionalLight.h"
 #include "../include/libs/tinyxml2.h"
+#include "../include/math/vectors.inl"
+#include "../include/cameras/ortographicCamera.h"
+#include "../include/cameras/perspectiveCamera.h"
 
 using namespace tinyxml2;
 

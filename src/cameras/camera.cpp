@@ -19,6 +19,19 @@ Camera::Camera(
     this->screenWindow = screenWindow;
 }
 
+Camera::Camera(
+    Point e, Vector3 u, Vector3 v, Vector3 w, 
+    std::tuple<double, double, double, double> screenWindow,
+    double fovy)
+{
+    this->e = e;
+    this->u = u;
+    this->v = v;
+    this->w = w;
+    this->screenWindow = screenWindow;
+    this->fovy = fovy;
+}
+
 Camera::~Camera() {}
 
 std::tuple<double, double, double, double> Camera::getScreenWindow()
