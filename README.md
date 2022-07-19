@@ -1,9 +1,8 @@
 # Raytracing
 
-### Executing Task 4
+### Executing Task 5
 * `make`
-* `./bin/main-driver scenes/task_4_orthographic.xml`
-* `./bin/main-driver scenes/task_4_perspctive.xml`
+* `./bin/main-driver scenes/lights_scene/bphong_scene_main.xml`
 
 ## Testing
 
